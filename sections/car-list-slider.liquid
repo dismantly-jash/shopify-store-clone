@@ -89,7 +89,6 @@
     {% if section.settings.btn_label != blank or section.settings.btn_link != blank %}
       <div class="center collection__view-all">
         <a
-          style="background-color: #white; color: #000;"
           href="{% if section.settings.btn_link != blank %}{{section.settings.btn_link}}{% else %}Javascript:void(0){% endif %}"
           class="btn button button--primary"
         >

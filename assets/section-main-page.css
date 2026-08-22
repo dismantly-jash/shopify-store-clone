@@ -51,7 +51,7 @@
   font-weight: 600;
   line-height: 1.25;
   text-transform: uppercase;
-  color: #B30D0D;
+  color: var(--brand-green);
 }
 .page-service-policy .custom-content-container .icon-heading svg{
   flex-shrink: 0; 

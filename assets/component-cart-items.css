@@ -115,7 +115,7 @@ cart-items .title-wrapper-with-link {
 }
 .cart-item cart-remove-button .cart-remove-button{
   font-size:14px;
-  color:#B30D0D;
+  color:var(--brand-green);
   line-height: 1.285711;;
 }
 
@@ -231,7 +231,7 @@ cart-remove-button .icon-remove {
   border:1px solid #0000001a;
 }
 .main-cart__items .icon-remove path{
-  fill:#b30d0d;
+  fill:var(--brand-green);
 }
 .main-cart__items .underlined-link{
   color:rgb(var(--color-foreground));
