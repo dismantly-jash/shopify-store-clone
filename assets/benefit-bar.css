@@ -1,5 +1,5 @@
 .section-benefit-bar {
-    background: #fff;
+    background: #f4f4f4;
     padding: 16px 0;
 }
 .section-benefit-bar .page-width {
@@ -20,7 +20,7 @@
     gap: 12px;
 }
 .section-benefit-bar .benefit-bar-wrapper .benefit-bar-item:not(:last-child) {
-    border-right: 1px solid #D8D8D8;
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
 }
 .section-benefit-bar .benefit-bar-item h4 {
     margin: 0;

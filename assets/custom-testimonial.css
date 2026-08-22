@@ -104,3 +104,43 @@
         min-height:315px;
     }
 }
+/* Total Spares rebrand: verified badge, round nav circles, dot pagination */
+.testimonial-section .customer-profile{
+    position:relative;
+}
+.customer-profile__verified{
+    position:absolute;
+    top:-2px;
+    right:-4px;
+    line-height:0;
+}
+.testimonial-section .swiper-button-prev,
+.testimonial-section .swiper-button-next{
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    background:#ffffff;
+    border:1px solid #eaeaea;
+    box-shadow:0 2px 6px rgba(0,0,0,0.08);
+}
+.testimonial-section .swiper-button-prev svg,
+.testimonial-section .swiper-button-next svg{
+    width:16px;
+    height:16px;
+}
+.testimonial-section .review-swiper-pagination{
+    position:static;
+    margin-top:24px;
+    display:flex;
+    justify-content:center;
+    gap:6px;
+}
+.testimonial-section .review-swiper-pagination .swiper-pagination-bullet{
+    width:8px;
+    height:8px;
+    background:#d8d8d8;
+    opacity:1;
+}
+.testimonial-section .review-swiper-pagination .swiper-pagination-bullet-active{
+    background:var(--brand-dark,#050708);
+}

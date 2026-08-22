@@ -47,7 +47,11 @@
     -%}
     {% if has_match %}
     .tabbed-product-grid  .main-{{ block.id }}{
+     {%- if block.settings.main_image_tab != blank -%}
      background-image:url({{ block.settings.main_image_tab | img_url: '800x' }});
+     {%- elsif block.settings.main_image_asset != blank -%}
+     background-image:url({{ block.settings.main_image_asset | asset_url }});
+     {%- endif -%}
     }
     {% endif %}
   {% endfor %}
@@ -373,6 +377,12 @@
             "type": "image_picker",
             "id": "main_image_tab",
             "label": "Main image"
+          },
+          {
+            "type": "text",
+            "id": "main_image_asset",
+            "label": "Theme asset filename",
+            "info": "Fallback banner when no image is picked, e.g. banner-engines.jpg"
           },
           {
             "type": "text",

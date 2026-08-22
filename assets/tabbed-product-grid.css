@@ -16,7 +16,7 @@
 }
 .tabbed-product-grid .tab-btn.active {
     color: #222530;
-    border-bottom: 2px solid var(--main-color);
+    border-bottom: 3px solid var(--accent-color, #d7fd10);
     font-weight:700;
 }
 

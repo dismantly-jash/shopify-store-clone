@@ -73,3 +73,11 @@
         padding-left: 3px;
     }
 }
+/* Total Spares rebrand: Swiper grid sizes slides as 50% of an undefined container height,
+   which doubles the row height — size rows by their content instead */
+.featured-collection-slider.swiper .swiper-slide {
+  height: auto !important;
+}
+.featured-collection-slider.swiper .swiper-wrapper {
+  align-items: stretch;
+}

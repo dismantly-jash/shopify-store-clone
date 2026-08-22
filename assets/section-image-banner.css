@@ -563,3 +563,33 @@
   }
 }
 
+
+/* Total Spares rebrand: hero brand logo + heading size */
+.banner__brand-logo {
+  max-width: 49.5rem;
+  margin: 0 auto 2.4rem;
+}
+.banner__brand-logo img {
+  width: 100%;
+  height: auto;
+}
+@media screen and (min-width: 990px) {
+  .banner__heading.h0 {
+    font-size: 6.4rem;
+  }
+}
+@media screen and (max-width: 749px) {
+  .banner__brand-logo {
+    max-width: 28rem;
+  }
+}
+
+/* Total Spares rebrand: breathing room below the Get Estimate CTA */
+.section-car-estimate {
+  padding-bottom: 60px;
+}
+@media screen and (max-width: 749px) {
+  .section-car-estimate {
+    padding-bottom: 36px;
+  }
+}

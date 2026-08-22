@@ -26,13 +26,13 @@
   line-height: 1.5;
 }
 .section-gallery-tabs .tab-btn.active {
-  border-color: var(--main-color);
-  color: var(--main-color);
-  font-weight: 600;
+  border-color: var(--accent-color, #d7fd10);
+  color: #000000;
+  font-weight: 700;
 }
 .section-gallery-tabs .tab-btn:hover{
   transform: scale(1.1);
-  color: var(--main-color);
+  color: #000000;
   font-weight: 600;
 }
 .section-gallery-tabs .tab-slide {
@@ -51,16 +51,16 @@
   margin: 0 auto;
 }
 .section-gallery-tabs .tab-slide-title {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 500;
-  color: #031F42;
+  color: #000000;
   padding-bottom: 35px;
 }
 .section-gallery-tabs .gallery-btn {
   display: inline-block;
   padding: 10px 20px;
-  background: #333;
-  color: #fff;
+  background: var(--primary-color);
+  color: var(--accent-color, #d7fd10);
   text-decoration: none;
 }
 .section-gallery-tabs .swiper-button-next,

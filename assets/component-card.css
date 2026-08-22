@@ -681,7 +681,7 @@
 .product-card-wrapper .quick-add .quick-add__submit,
 .product-card-wrapper .quick-add .vehicle-btns .vehicles_detail {
   font-weight: 600;
-  border: 1px solid #DDE5DC;
+  border: 1px solid #d8d8d8;
 }
 .product-card-wrapper .quick-add .vehicle-btns .vehicles_detail,
 .product-card-wrapper .quick-add .vehicle-btns .search__btn {
@@ -695,8 +695,8 @@
   z-index: 1;
 }
 .product-card-wrapper .card-product__badge .badge {
-  background: #FFB743;
-  border-color: #FFB743;
+  background: var(--badge-amber, #f9c543);
+  border-color: var(--badge-amber, #f9c543);
   border-radius: 4px;
   font-size: 14px;
   line-height: 1.5;
@@ -756,4 +756,52 @@
 }
 .template-search-vehicle .product-card-wrapper .quick-add .vehicle-btns .vehicles_detail {
   color: #fff;
+}
+
+/* Total Spares rebrand: Figma product card — white card, hairline border, dark title, grey desc, brand price */
+.product-card-wrapper .card--card,
+.product-card-wrapper .card--standard .card__inner {
+  background: #ffffff;
+  border: 1px solid #eaeaea;
+  border-radius: 0;
+}
+.product-card-wrapper .card__media {
+  position: relative;
+}
+.product-card-wrapper .card__media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.05);
+  pointer-events: none;
+}
+.product-grid .card__information .card__heading,
+.product-grid .card__information .card__heading a {
+  color: #222020;
+  font-weight: 600;
+}
+.product-grid .card__information .card-custom-description {
+  color: #585858;
+}
+.card-information .price,
+.card-information .price .price-item--regular,
+.card-information .price .price-item--sale {
+  color: var(--brand-green, #3d6601);
+  font-weight: 700;
+}
+
+/* Total Spares rebrand: Buy Now + Add to Cart share one row regardless of button variant */
+.product-card-wrapper .quick-add form {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 10px;
+}
+.product-card-wrapper .quick-add form .button {
+  flex: 1 1 calc(50% - 5px);
+  max-width: calc(50% - 5px);
+  min-width: 0;
+  width: auto;
+  padding-left: 8px;
+  padding-right: 8px;
 }

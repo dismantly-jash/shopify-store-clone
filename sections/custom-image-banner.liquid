@@ -185,7 +185,11 @@
             <div class="banner__text rte {{ block.settings.text_style }}" {{ block.shopify_attributes }}>
               <p>{{ block.settings.text }}</p>
             </div>
-          <img class="banner-image-custom" src="{{ section.settings.image | image_url: width: 1000 }}" alt="{{ section.settings.image.alt }}" />
+          {%- if section.settings.image != blank -%}
+            <img class="banner-image-custom" src="{{ section.settings.image | image_url: width: 1000 }}" alt="{{ section.settings.image.alt }}" />
+          {%- elsif section.settings.image_asset != blank -%}
+            <img class="banner-image-custom" src="{{ section.settings.image_asset | asset_url }}" alt="" loading="lazy" />
+          {%- endif -%}
           {%- when 'buttons' -%}
             <div
               class=""
@@ -239,6 +243,12 @@
       "type": "image_picker",
       "id": "image",
       "label": "t:sections.image-banner.settings.image.label"
+    },
+    {
+      "type": "text",
+      "id": "image_asset",
+      "label": "Theme asset filename",
+      "info": "Fallback image when no image is picked, e.g. we-buy-truck.png"
     },
     {
       "type": "html",
