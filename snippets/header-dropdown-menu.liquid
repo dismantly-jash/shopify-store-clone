@@ -22,6 +22,19 @@
       {%- endfor -%}
     {%- endif -%}
   {%- endfor -%}
+  {%- comment -%} search.filters is empty until Search & Discovery defines the
+      type filter, so also read the type straight from the request URL {%- endcomment -%}
+  {%- if part_filter_active == false and vehicle_filter_active == false -%}
+    {%- capture menu_url_probe -%}{{ content_for_header }}{%- endcapture -%}
+    {%- liquid
+      assign menu_page_url = menu_url_probe | split: '"pageurl":"' | last | split: '"' | first
+      if menu_page_url contains 'type=PART'
+        assign part_filter_active = true
+      elsif menu_page_url contains 'type=VEHICLE'
+        assign vehicle_filter_active = true
+      endif
+    -%}
+  {%- endif -%}
 {%- endif -%}
 
 <nav class="header__inline-menu">

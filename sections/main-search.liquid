@@ -60,20 +60,32 @@
   }
 </style>
 {% assign get_part_type = '' %}
-{%- for item in search.results -%}
-  {%- case item.object_type -%}
-    {%- when 'product' -%}
-      {% if item.metafields.custom.type != blank %}
-        {% if item.metafields.custom.type == 'VEHICLE' %}
-          {% assign get_part_type = 'vehicle' %}
-          {% break %}
-        {% elsif item.metafields.custom.type == 'PART' %}
-          {% assign get_part_type = 'part' %}
-          {% break %}
+{%- comment -%} Prefer the explicit type filter in the URL over sniffing results {%- endcomment -%}
+{%- capture type_url_probe -%}{{ content_for_header }}{%- endcapture -%}
+{%- liquid
+  assign type_page_url = type_url_probe | split: '"pageurl":"' | last | split: '"' | first
+  if type_page_url contains 'type=PART' or type_page_url contains 'type=Part' or type_page_url contains 'type=part'
+    assign get_part_type = 'part'
+  elsif type_page_url contains 'type=VEHICLE' or type_page_url contains 'type=Vehicle' or type_page_url contains 'type=vehicle'
+    assign get_part_type = 'vehicle'
+  endif
+-%}
+{% if get_part_type == '' %}
+  {%- for item in search.results -%}
+    {%- case item.object_type -%}
+      {%- when 'product' -%}
+        {% if item.metafields.custom.type != blank %}
+          {% if item.metafields.custom.type == 'VEHICLE' %}
+            {% assign get_part_type = 'vehicle' %}
+            {% break %}
+          {% elsif item.metafields.custom.type == 'PART' %}
+            {% assign get_part_type = 'part' %}
+            {% break %}
+          {% endif %}
         {% endif %}
-      {% endif %}
-  {% endcase %}
-{% endfor %}
+    {% endcase %}
+  {% endfor %}
+{% endif %}
 
 {%- liquid
   assign sort_by = search.sort_by | default: search.default_sort_by
@@ -94,29 +106,38 @@
     }
   }
 
-  {% if section.settings.image_banner != blank %}
-    .section-{{ section.id }} .banner-content {
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: center;
-      position: relative;
-    }
-    .section-{{ section.id }} .banner-content::before {
-      position: absolute;
-      content: '';
-      width: 100%;
-      height: 100%;
-      left: 0;
-      top: 0;
-      background: rgba(0, 0, 0, 0.6);
-    }
-  {% endif %}
+  .section-{{ section.id }} .banner-content {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+  .section-{{ section.id }} .banner-content::before {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: rgba(0, 0, 0, 0.6);
+  }
+  .section-{{ section.id }} .banner-content > * {
+    position: relative;
+  }
 
   .section-{{ section.id }} .banner-content{
     {% if get_part_type == 'part' %}
+      {% if section.settings.image_banner_part != blank %}
         background-image: url('{{ section.settings.image_banner_part | img_url: 'master' }}');
+      {% else %}
+        background-image: url('{{ 'hero-search-parts.jpg' | asset_url }}');
+      {% endif %}
     {% elsif get_part_type == 'vehicle' %}
-      background-image: url('{{ section.settings.image_banner_vehicle | img_url: 'master' }}');
+      {% if section.settings.image_banner_vehicle != blank %}
+        background-image: url('{{ section.settings.image_banner_vehicle | img_url: 'master' }}');
+      {% else %}
+        background-image: url('{{ 'hero-search-vehicles.jpg' | asset_url }}');
+      {% endif %}
     {% endif %}
     background-position: center;
   }
