@@ -1,0 +1,22 @@
+{% comment %}
+  Renders the Total Spares angled section-title banner (black parallelogram,
+  green + lime stripes at the left edge).
+
+  Accepts:
+  - title: {String} plain-text heading (required)
+  - heading_tag: {String} wrapping heading tag, defaults to 'h2'
+
+  Usage:
+  {% render 'section-title', title: section.settings.title %}
+{% endcomment %}
+
+{{ 'component-section-title.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign tag = heading_tag | default: 'h2'
+-%}
+<div class="section-title-banner-wrap">
+  <div class="section-title-banner">
+    <{{ tag }} class="section-title-banner__heading">{{ title }}</{{ tag }}>
+  </div>
+</div>

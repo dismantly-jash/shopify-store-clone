@@ -1562,3 +1562,9 @@ input.mobile-facets__checkbox {
 .details-for-hide-type {
     display: none !important;
 }
+/* Total Spares rebrand: active filter chips sit on the lime brand button background */
+span.active-facets__button-inner .icon,
+span.active-facets__button-inner svg {
+  color: #000000;
+  stroke: #000000;
+}

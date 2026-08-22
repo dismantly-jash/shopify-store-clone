@@ -43,7 +43,9 @@
   <div
     class="page-width"
   >
-    {% if section.settings['svg-icon'] != blank %}
+    {% if section.settings.banner_title != blank %}
+      {% render 'section-title', title: section.settings.banner_title %}
+    {% elsif section.settings['svg-icon'] != blank %}
       <div class="testimonial-svg-icon">
         {{ section.settings['svg-icon'] }}
       </div>
@@ -75,8 +77,11 @@
                         {% endif %}
                         {% if block.settings.customer_name != blank %}
                           <div class="customer_details">
-                              <div class="customer-profile" style="background:{{ block.settings.profile_background }}"> 
+                              <div class="customer-profile" style="background:{{ block.settings.profile_background }}">
                                 <p style="color:{{ block.settings.profile_text }}">  {{ block.settings.customer_name | strip | slice: 0, 1 | upcase }}</p>
+                                <span class="customer-profile__verified" aria-hidden="true">
+                                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 0L8.6 1.5L10.7 1L11.5 3L13.5 3.7L13.2 5.9L14 7L12.8 8.7L13 10.9L10.9 11.4L9.9 13.3L7.9 12.5L6 13.6L4.6 11.9L2.4 11.8L2.2 9.6L0.5 8.2L1.6 6.3L1 4.2L3 3.3L3.7 1.2L5.9 1.4L7 0Z" fill="#47c2ff"/><path d="M4.5 7L6.3 8.8L9.7 5.4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                </span>
                               </div>
                               <div class="customer_name">
                                   {{ block.settings.customer_name }}
@@ -87,6 +92,7 @@
                 </div>
             {% endfor %}
             </div>
+            <div class="swiper-pagination review-swiper-pagination"></div>
         </div>
         <div class="review_swiper-button-next swiper-button-next">
              {{ 'icon-next.svg' | inline_asset_content }}
@@ -105,6 +111,12 @@
       "type": "inline_richtext",
       "id": "heading",
       "label": "t:sections.image-with-text.blocks.heading.settings.heading.label"
+    },
+    {
+      "type": "text",
+      "id": "banner_title",
+      "label": "Banner title",
+      "info": "Shown as the angled section-title banner. Overrides SVG Icon."
     },
     {
       "type": "textarea",

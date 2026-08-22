@@ -1343,6 +1343,10 @@ var reviewSwiper = new Swiper(".review_slider", {
     nextEl: ".review_swiper-button-next",
     prevEl: ".review_swiper-button-prev",
   },
+  pagination: {
+    el: ".review-swiper-pagination",
+    clickable: true,
+  },
   breakpoints: {
     0: {
       slidesPerView: 1,
@@ -1483,28 +1487,28 @@ window.addEventListener('resize', () => {
 
 // Featured Collection Slider 
 const featuredCollectionSwiper = new Swiper(".featured-collection-slider", {
-  slidesPerView: 3.05,
+  slidesPerView: 3,
   spaceBetween: 32,
   navigation: {
     nextEl: ".collection-swiper-button-next",
     prevEl: ".collection-swiper-button-prev",
   },
   pagination: {
-    el: ".swiper-pagination",
+    el: ".featured-collection-slider .swiper-pagination",
     clickable: true,
   },
   breakpoints: {
     0: {
-      slidesPerView: 1.01,
+      slidesPerView: 1,
     },
     480: {
-      slidesPerView: 1.01,
+      slidesPerView: 1,
     },
     750: {
-      slidesPerView: 2.01,
+      slidesPerView: 2,
     },
     990: {
-      slidesPerView: 3.01,
+      slidesPerView: 3,
     }
   }
 });
@@ -1623,11 +1627,6 @@ $(document).on('click', '.custom-offer-btn a', function(){
   if ($(this).closest('.custom-offer-btn').hasClass("custom-get_a_quote-btn")) {
     $(this).parents('product-info').siblings('.product-detail__popup').addClass('this_is_sold_out_product');
   }
-});
-$(document).on('click', '#HeaderMenu-returns,#HeaderDrawer-returns', function(e){
-  e.preventDefault();
-  $('.onst-registration-form.SureCust-App').addClass('active');
-  $('body').addClass('overflow-hidden');
 });
 $(document).on('click', '.shopify-section .onst-registration-form,.shopify-section .onst-registration-form-container-box form.Submitting button.btn.close_btn', function () {
   $('.onst-registration-form.SureCust-App').removeClass('active');

@@ -33,6 +33,18 @@
                   fetchpriority: fetch_priority
               }}
             </a>
+          {% elsif block.settings.logo_asset != blank %}
+            <a
+              href="{% if block.settings.logo_link != blank %}{{ block.settings.logo_link }}{% else %}javascript:void(0){% endif %}"
+              rel="noopener"
+            >
+              <img
+                src="{{ block.settings.logo_asset | asset_url }}"
+                alt="{{ block.settings.logo_asset | split: '.' | first | replace: 'make-', '' | capitalize }}"
+                class="logo-image"
+                loading="lazy"
+              >
+            </a>
           {% endif %}
         </div>
       {% endfor %}
@@ -275,6 +287,12 @@
           "type": "image_picker",
           "id": "logo",
           "label": "Logo image"
+        },
+        {
+          "type": "text",
+          "id": "logo_asset",
+          "label": "Theme asset filename",
+          "info": "Fallback used when no logo image is picked, e.g. make-ford.png"
         },
         {
           "type": "url",

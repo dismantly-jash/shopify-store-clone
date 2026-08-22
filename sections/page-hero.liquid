@@ -1,0 +1,111 @@
+{% comment %}
+  Total Spares page hero: full-width photo strip with dark overlay and centered title.
+  Background comes from the image picker, else from a committed theme asset
+  named in "Theme asset filename", so templates work before any store upload.
+{% endcomment %}
+
+{%- liquid
+  assign hero_title = section.settings.title
+  if hero_title == blank
+    assign hero_title = page.title
+  endif
+-%}
+
+{%- style -%}
+  .page-hero-{{ section.id }} {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: {{ section.settings.height }}px;
+    padding: 40px;
+    background-color: #f3f3f3;
+    background-size: cover;
+    background-position: center;
+    {% if section.settings.image != blank %}
+      background-image: url('{{ section.settings.image | image_url: width: 2000 }}');
+    {% elsif section.settings.image_asset != blank %}
+      background-image: url('{{ section.settings.image_asset | asset_url }}');
+    {% endif %}
+  }
+  .page-hero-{{ section.id }}::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, {{ section.settings.overlay_opacity | divided_by: 100.0 }});
+  }
+  .page-hero-{{ section.id }} .page-hero__title {
+    position: relative;
+    margin: 0;
+    color: #ffffff;
+    font-size: 3.6rem;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.2;
+  }
+  @media screen and (max-width: 749px) {
+    .page-hero-{{ section.id }} {
+      min-height: {{ section.settings.height | times: 0.6 | round }}px;
+      padding: 24px;
+    }
+    .page-hero-{{ section.id }} .page-hero__title {
+      font-size: 2.4rem;
+    }
+  }
+{%- endstyle -%}
+
+<div class="page-hero page-hero-{{ section.id }}">
+  <h1 class="page-hero__title">{{ hero_title | escape }}</h1>
+</div>
+
+{% schema %}
+{
+  "name": "Page Hero",
+  "tag": "section",
+  "class": "section section-page-hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "info": "Leave blank to use the page title"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image"
+    },
+    {
+      "type": "text",
+      "id": "image_asset",
+      "label": "Theme asset filename",
+      "info": "Fallback background when no image is picked, e.g. hero-returns.png"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 90,
+      "step": 2,
+      "unit": "%",
+      "label": "Overlay opacity",
+      "default": 46
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "min": 120,
+      "max": 500,
+      "step": 10,
+      "unit": "px",
+      "label": "Desktop height",
+      "default": 300
+    }
+  ],
+  "presets": [
+    {
+      "name": "Page Hero"
+    }
+  ]
+}
+{% endschema %}

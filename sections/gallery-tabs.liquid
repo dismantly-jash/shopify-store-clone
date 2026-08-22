@@ -8,7 +8,9 @@
 
 <div class="gallery-tabs section-gallery-tabs section-{{ section.id }}-padding">
   <div class="page-width">
-    {% if section.settings.icon != blank %}
+    {% if section.settings.heading != blank %}
+      {% render 'section-title', title: section.settings.heading %}
+    {% elsif section.settings.icon != blank %}
       <div class="title-svg-icon-container" style="padding-bottom: 20px;">
         {{ section.settings.icon }}
       </div>

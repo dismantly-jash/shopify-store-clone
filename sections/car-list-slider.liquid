@@ -31,7 +31,9 @@
 
 <div class="section-{{ section.id }} product-card-list__slider">
   <div class="page-width section-{{ section.id }}-padding">
-    {% if section.settings.title_icon != blank %}
+    {% if section.settings.title != blank %}
+      {% render 'section-title', title: section.settings.title %}
+    {% elsif section.settings.title_icon != blank %}
       <div class="title-svg-icon-container" style="padding-bottom: 30px;">
         {{ section.settings.title_icon }}
       </div>

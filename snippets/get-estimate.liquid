@@ -12,8 +12,7 @@
       </div>
       <div class="product-popup-content">
         <div class="product-popup-form">
-        <div style="margin:0 auto;" class="pxFormGenerator" id="QwNgvkpgZ9tYlBOI-RAznw"></div>
-          {% comment %} {% capture form_id %}product-form--get-estimate{% endcapture %}
+          {% capture form_id %}product-form--get-estimate{% endcapture %}
           {% form 'contact', class: 'product-form', id: form_id %}
             {%- capture content_for_query_string -%}{{ content_for_header }}{%- endcapture -%}
           {%- liquid
@@ -203,7 +202,7 @@
                 {{- 'newsletter.product_form_success' | t }}
               </h3>
             {%- endif -%}
-          {% endform %} {% endcomment %}
+          {% endform %}
         </div>
       </div>
     </div>

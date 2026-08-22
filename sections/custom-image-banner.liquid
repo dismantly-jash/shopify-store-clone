@@ -161,7 +161,9 @@
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'heading' -%}
-            {% if section.settings.title_icon != blank %}
+            {% if block.settings.heading != blank %}
+              {% render 'section-title', title: block.settings.heading %}
+            {% elsif section.settings.title_icon != blank %}
               <div class="title-svg-icon-container" style="padding-bottom: 30px;">
                 {{ section.settings.title_icon }}
               </div>

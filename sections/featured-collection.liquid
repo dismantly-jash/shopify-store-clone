@@ -87,7 +87,9 @@
   >
     <div class="page-width">
       <div class="collection__title title-wrapper title-wrapper--no-top-margin">
-        {%- if section.settings.svg_icon != blank -%}
+        {%- if section.settings.title != blank -%}
+          {% render 'section-title', title: section.settings.title %}
+        {%- elsif section.settings.svg_icon != blank -%}
           <div class="title-icon">
             {{ section.settings.svg_icon }}
           </div>
