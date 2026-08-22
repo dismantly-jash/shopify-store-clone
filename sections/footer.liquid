@@ -184,7 +184,17 @@
                           >
                         </div>
                       {%- else -%}
-                        {{ 'image' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
+                        <div
+                          class="footer-block__image-wrapper"
+                          style="max-width: min(100%, {{ block.settings.image_width }}px);"
+                        >
+                          <img
+                            src="{{ 'tcs-logo.png' | asset_url }}"
+                            alt="{{ shop.name | escape }}"
+                            loading="lazy"
+                            width="{{ block.settings.image_width }}"
+                          >
+                        </div>
                       {%- endif -%}
                       <div class="powered-by__image extra-small-hide">
                         {%- if block.settings.powered_by_image != blank -%}
@@ -202,8 +212,13 @@
                               height="{{ block.settings.powered_by_image.height }}"
                             >
                           </div>
+                        {%- else -%}
+                          <div class="footer-block__image-wrapper powered-by__fallback">
+                            <img src="{{ 'badge-dismantly.svg' | asset_url }}" alt="" width="42" height="42" loading="lazy">
+                            <span class="powered-by__fallback-text">Powered by<br><strong>Dismantly</strong></span>
+                          </div>
                         {%- endif -%}
-                      </div>  
+                      </div>
                     </div>
                 {%- endcase -%}
               </div>

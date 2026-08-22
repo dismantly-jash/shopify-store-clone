@@ -9,8 +9,13 @@
 
 .header-search-wrapper .search__button {
   background: var(--main-color);
+  border: 2px solid var(--brand-dark, #050708);
   border-radius: 0 4px 4px 0;
   position: relative;
+}
+
+.header-search-wrapper .search__button .icon {
+  color: #000000;
 }
 
 .reset__button {

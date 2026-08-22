@@ -175,7 +175,14 @@
             }}
           </div>
         {%- else -%}
-          <span class="h2">{{ shop.name }}</span>
+          <div class="header__heading-logo-wrapper">
+            <img
+              src="{{ 'tcs-logo.png' | asset_url }}"
+              class="header__heading-logo"
+              width="{{ settings.logo_width }}"
+              alt="{{ shop.name | escape }}"
+            >
+          </div>
         {%- endif -%}
       </a>
       {%- if request.page_type == 'index' -%}
