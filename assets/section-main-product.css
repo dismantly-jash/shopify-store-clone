@@ -1711,11 +1711,11 @@ a.product__text {
   height: 18px;
 }
 .product-short-info .product-info-details .product-short-icon svg path{
-  fill: #C62934
+  fill: var(--brand-green, #3d6601)
 }
 
 .custom-request-part-btn .request_parts{
-  background-color: #2E5A3F;
+  background-color: var(--brand-dark, #050708);
   color: #fff;
   margin-top: 0;
 }
