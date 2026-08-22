@@ -4046,7 +4046,7 @@ line-height:normal;
 .thank-you__popup .thankyou__ok {
   width: 100%;
   background: var(--main-color);
-  color: #fff;
+  color: var(--text-on-main-color, #000);
   font-weight: 600;
   text-transform: capitalize;
   letter-spacing: 0;
@@ -4224,7 +4224,7 @@ line-height:normal;
   }
   .cart-count-bubble {
     background-color: var(--main-color);
-    color: #FFF;
+    color: var(--text-on-main-color, #000);
     right: -8px;
   }
 }
@@ -4404,7 +4404,7 @@ max-width: 100%;
 
 a.request_quote.button {
   background: var(--main-color);
-  color: #fff;
+  color: var(--text-on-main-color, #000);
   font-weight: 600;
 }
 .overflow-hidden .featured-collection-slider.swiper-initialized .swiper-wrapper {

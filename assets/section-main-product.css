@@ -1524,7 +1524,7 @@ a.product__text {
 }
 .product .product-form__buttons .custom-offer-btn.make_an_offer_btn .button {
   background: var(--main-color);
-  color: #fff;
+  color: var(--text-on-main-color, #000);
 }
 .product .product-form__buttons .custom-offer-btn a.button.button--secondary  {
   max-width: 100%;
@@ -1558,17 +1558,16 @@ a.product__text {
   line-height: 1.3;
   min-height: 52px;
   letter-spacing: .5px;
-  background: #C62934;
-  color: #fff;
+  background: var(--main-color);
+  color: var(--text-on-main-color, #000);
 }
 .product .product-form__buttons .custom-offer-btn.custom-request-part-btn {
   flex: 0 0 calc(220px - 10px);
   max-width: calc(220px - 10px);
 }
 .product .product-form__buttons .custom-offer-btn.custom-request-part-btn a {
-  background: var(--main-color);
+  background: var(--brand-dark, #050708);
   color: #fff;
-  /* border: 1px solid var(--main-color); */
   justify-content: center;
   font-size: 18px;
   font-weight: 500;

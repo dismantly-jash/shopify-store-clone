@@ -164,7 +164,7 @@ input::-webkit-search-decoration {
 }
 .template-search__search .field .search__button {
   background: var(--main-color);
-  color: #fff;
+  color: var(--text-on-main-color, #000);
   padding: 10px;
   min-width: 100px;
   font-weight: 500;
@@ -219,7 +219,7 @@ input::-webkit-search-decoration {
 }
 .empty-search-wrapper .custom-request-part-btn .request_parts {
   background: var(--main-color);
-  color: #fff;
+  color: var(--text-on-main-color, #000);
   font-size: 18px;
   font-weight: 500;
   text-transform: capitalize;

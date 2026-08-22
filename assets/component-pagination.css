@@ -94,7 +94,7 @@ a.pagination__item:hover::after {
 .pagination-wrapper .pagination__item.pagination__item--current {
   background: var(--main-color);
   border: 1px solid var(--main-color);
-  color: #fff;
+  color: var(--text-on-main-color, #000);
   opacity: 1;
 }
 .pagination-wrapper .pagination__item {
