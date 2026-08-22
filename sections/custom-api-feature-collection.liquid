@@ -1,0 +1,1066 @@
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+
+{{ 'component-slider.css' | asset_url | stylesheet_tag }}
+{{ 'template-collection.css' | asset_url | stylesheet_tag }}
+
+{% if section.settings.image_shape == 'blob' %}
+  {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+
+{%- unless section.settings.quick_add == 'none' -%}
+  {{ 'quick-add.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+{%- endunless -%}
+
+{%- if section.settings.quick_add == 'standard' -%}
+  <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{%- if section.settings.quick_add == 'bulk' -%}
+  <script src="{{ 'quick-add-bulk.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'quick-order-list.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+  .custom-api-feature .collection__title .inner-header{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .custom-api-feature .search-box{
+    flex: 1 1 auto;
+    max-width: 612px;
+  }
+  .custom-api-feature .search-box .field{
+    max-width:612px;
+  }
+  .custom-api-feature .field__button{
+    background:var(--main-color);
+    border-radius:0 4px 4px 0;
+  }
+  .custom-api-feature .search-box .field__input{
+    border: 1px solid rgba(46, 46, 46, .2);
+    border-radius: 4px 0 0 4px;
+    padding: 10px 24px;
+    font-size:18px;
+    color:#2E2E2E;
+    font-weight:500;
+    line-height:1.35;
+  }
+  .custom-api-feature .collection__title{
+    margin-bottom:40px;
+  }
+  .custom-api-feature .collection__title h2{
+    margin:0 !important;
+  }
+
+  @media screen and (max-width:940px){
+    .custom-api-feature .search-box, .custom-api-feature .search-box .field{
+      max-width: 100%;
+      width:100%;
+    }
+    .custom-api-feature .collection__title{
+      margin-bottom:30px;
+    }
+    .custom-api-feature .collection__title .inner-header{
+      flex-direction:column;
+      align-items:start;
+    }
+  }
+  @media screen and (max-width:749px){
+    .custom-api-feature .search-box .field__input{
+      font-size:15px;
+    }
+  }
+
+{%- endstyle -%}
+
+{%- liquid
+  assign products_to_display = section.settings.collection.all_products_count
+
+  if section.settings.collection.all_products_count > section.settings.products_to_show
+    assign products_to_display = section.settings.products_to_show
+  endif
+
+  assign columns_mobile_int = section.settings.columns_mobile | plus: 0
+  assign show_mobile_slider = false
+  if section.settings.swipe_on_mobile and products_to_display > columns_mobile_int
+    assign show_mobile_slider = true
+  endif
+
+  assign show_desktop_slider = false
+  if section.settings.enable_desktop_slider and products_to_display > section.settings.columns_desktop
+    assign show_desktop_slider = true
+  endif
+-%}
+
+{% comment %} <style>
+  .quick-add button.shopify-payment-button__button.shopify-payment-button__button--unbranded {
+    font-family: var(--font-body-family);
+    border-radius: 0;
+    font-size: 15px;
+    line-height: 1.3;
+    padding: 12px 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    width: 100%;
+    border: 1px solid #3B7D39;
+    background: #3B7D39;
+    color: #fff;
+    margin-top: 10px;
+  }
+  .shopify-payment-button__button--unbranded:after {
+    display: none;
+  }
+</style> {% endcomment %}
+
+
+<div
+  class="color-{{ section.settings.color_scheme }} gradient"
+>
+  <div
+    class="collection custom-api-feature {% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %} section-{{ section.id }}-padding{% if section.settings.full_width %} collection--full-width{% endif %}"
+    id="collection-{{ section.id }}"
+    data-id="{{ section.id }}"
+  >
+    <div class="collection__title custom_collection__title  title-wrapper--no-top-margin page-width{% if show_mobile_slider %} title-wrapper--self-padded-tablet-down{% endif %}{% if show_desktop_slider %} collection__title--desktop-slider{% endif %}">   
+      <div class="inner-header">
+        <h2 class="title inline-richtext {{ section.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} {% endif %}">
+          {%- if product.metafields.custom.type == 'VEHICLE' -%}
+            Available Parts
+          {% else %}
+            Similar Parts
+          {% endif %}
+        </h2>
+        {%- if product.metafields.custom.type == 'VEHICLE' -%}
+          <form
+            class="search-box part-search-form"
+            action="{{ routes.search_url }}"
+            method="get"
+            role="search"
+            onsubmit="if (!this.q.value.trim()) this.q.value='*'"
+          >
+            <div class="field">
+              <input type="hidden" name="options[prefix]" value="last">
+              <input type="hidden" name="type" value="product">
+              <input type="hidden" name="filter.p.m.custom.year" value="{{ product.metafields.custom.year | escape }}">
+              <input type="hidden" name="filter.p.m.custom.make" value="{{ product.metafields.custom.make | escape }}">
+              <input type="hidden" name="filter.p.m.custom.model" value="{{ product.metafields.custom.model | escape }}">
+              <input type="hidden" name="filter.p.m.custom.type" value="PART">
+              <input
+                type="search"
+                name="q"
+                placeholder="Search for parts..."
+                class="field__input part-search__field"
+                id="part-search__field"
+              >
+              <button type="submit" class="search__button field__button" aria-label="{{ 'general.search.search' | t }}">
+                  <span class="svg-wrapper">
+                      {% render 'icon-search' %}
+                  </span>
+              </button>
+            </div>
+          </form>
+  
+        {% endif %}
+
+      </div>
+      {%- if section.settings.description != blank
+        or section.settings.show_description
+        and section.settings.collection.description != empty
+      -%}
+        <div class="collection__description {{ section.settings.description_style }} rte{% if settings.animations_reveal_on_scroll %} {% endif %}">
+          {%- if section.settings.show_description -%}
+            {{ section.settings.collection.description }}
+          {%- else -%}
+            {{ section.settings.description -}}
+          {%- endif %}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <slider-component class="slider-mobile-gutter{% if section.settings.full_width %} slider-component-full-width{% endif %}{% if show_mobile_slider == false %} page-width{% endif %}{% if show_desktop_slider == false and section.settings.full_width == false %} page-width-desktop{% endif %}{% if show_desktop_slider %} slider-component-desktop{% endif %}{% if settings.animations_reveal_on_scroll %} {% endif %}">
+      <ul
+        id="Slider-{{ section.id }}"
+        data-id="{{ section.id }}"
+        class="grid product-grid contains-card contains-card--product{% if settings.card_style == 'standard' %} contains-card--standard{% endif %} grid--{{ section.settings.columns_desktop }}-col-desktop{% if section.settings.collection == blank %} grid--2-col-tablet-down{% else %} grid--{{ section.settings.columns_mobile }}-col-tablet-down{% endif %}"
+        role="list"
+        aria-label="{{ 'general.slider.name' | t }}"
+      >
+      <div class="loader_wrapper">
+        {%- render 'loading-spinner',class: "loading__spinner" -%}
+      </div>
+      </ul>
+    </slider-component>
+
+    {% if section.settings.image_shape == 'arch' %}
+      {{ 'mask-arch.svg' | inline_asset_content }}
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  {% comment %} (async () => {
+    try {
+      const sectionId = "{{ section.id }}"; 
+      const currentProductTitle = `{{ product.title | escape }}`;
+
+      const currentMeta = {
+        stock_id: '{{ product.metafields.custom.stock_id }}',
+        model: '{{ product.metafields.custom.model }}',
+        make: '{{ product.metafields.custom.make }}',
+        year: '{{ product.metafields.custom.year }}'
+      };
+
+      const sectionElement = document.querySelector(`#shopify-section-${sectionId}`);
+      
+      const stockListingElement = document.querySelector(`#Slider-${sectionId}`);
+      const loader = document.querySelector(`.loader_wrapper`);
+
+      const storefrontToken = "0c3bbdc24dcf6a551fb01ebb5e0163bf"; // replace
+      const endpoint = "/api/2026-01/graphql.json";
+
+      async function fetchProducts(cursor = null, allProducts = []) {
+        const query = `
+          query getProducts($cursor: String) {
+            products(first: 250, after: $cursor) {
+              edges {
+                node {
+                  id
+                  title
+                  handle
+                  images(first: 1) {
+                    edges {
+                      node { url altText }
+                    }
+                  }
+                  priceRange {
+                    minVariantPrice { amount currencyCode }
+                  }
+                  variants(first: 1) {
+                    edges {
+                      node {
+                        id
+                        availableForSale
+                        quantityAvailable
+                      }
+                    }
+                  }
+                  metafields(identifiers: [
+                    { namespace: "custom", key: "stock_id" }
+                    { namespace: "custom", key: "model" }
+                    { namespace: "custom", key: "make" }
+                    { namespace: "custom", key: "year" }
+                    { namespace: "custom", key: "description" }
+                    { namespace: "custom", key: "type" }
+                  ]) {
+                    key
+                    value
+                  }
+                }
+                cursor
+              }
+              pageInfo { hasNextPage endCursor }
+            }
+          }`;
+
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Shopify-Storefront-Access-Token": storefrontToken
+          },
+          body: JSON.stringify({ query, variables: { cursor } })
+        });
+
+        const data = await res.json();
+        if (!data.data || !data.data.products) return allProducts;
+
+        const edges = data.data.products.edges;
+        allProducts.push(...edges.map(e => e.node));
+
+        if (data.data.products.pageInfo.hasNextPage) {
+          return fetchProducts(data.data.products.pageInfo.endCursor, allProducts);
+        } else {
+          return allProducts;
+        }
+      }
+
+      function mapMeta(fields) {
+        const obj = {};
+        if (Array.isArray(fields)) {
+          fields.forEach(f => {
+            if (f && f.key && f.value) {
+              obj[f.key] = f.value;
+            }
+          });
+        }
+        return obj;
+      }
+
+      const products = await fetchProducts();
+      let count = 0;
+
+
+      products.forEach((product) => {
+        if (product.title === currentProductTitle) return;
+
+        const metaObj = mapMeta(product.metafields);
+
+        if (
+            metaObj.stock_id === currentMeta.stock_id &&  
+            metaObj.type !== "VEHICLE"
+        ) {
+          const imgSrc = product.images.edges[0]?.node?.url || "";
+          const imgAlt = product.images.edges[0]?.node?.altText || product.title;
+          const price = product.priceRange?.minVariantPrice?.amount || "0.0";
+          const currency = product.priceRange?.minVariantPrice?.currencyCode || "USD";
+
+          const firstVariant = product.variants.edges[0]?.node || null;
+          const fetchvariantId = firstVariant?.id || null;
+          const variantId = fetchvariantId ? fetchvariantId.replace("gid://shopify/ProductVariant/","") : null;
+          const isAvailable = firstVariant?.availableForSale || false;
+          const inventoryQuantityCount = firstVariant?.quantityAvailable ?? null;
+          const productId = product.id.replace("gid://shopify/Product/","") || false;
+          const productFormId = `quick-add-${productId}`;
+
+
+          let quickAddHTML = "";
+
+          if (isAvailable) {
+            if (metaObj.type !== "VEHICLE") {
+              quickAddHTML = `
+                <div class="quick-add no-js-hidden">
+                  <product-form data-section-id="${sectionId}">
+                    <form method="post" action="/cart/add" id="${productFormId}" accept-charset="UTF-8" class="form" enctype="multipart/form-data" novalidate data-type="add-to-cart-form">
+                      <input type="hidden" name="form_type" value="product">
+                      <input type="hidden" name="utf8" value="✓">
+                      <input type="hidden" name="id" value="${variantId}" class="product-variant-id">
+                      <a href="/cart/${variantId}:1" class="custom_buy_it_now_btn button">
+                        Buy it Now
+                      </a>
+                      <button
+                        id="${productFormId}-submit"
+                        type="submit"
+                        name="add"
+                        class="quick-add__submit button button--full-width button--secondary"
+                        aria-haspopup="dialog"
+                        aria-labelledby="${productFormId}-submit title-${sectionId}-${productId}"
+                        aria-live="polite"
+                        data-sold-out-message="true"
+                      >
+                        <span>
+                          ${isAvailable ? `{{ 'products.product.add_to_cart' | t }}` : `{{ 'products.product.sold_out' | t }}`}
+                        </span>
+                        <span class="sold-out-message hidden">
+                          {{ 'products.product.sold_out' | t }}
+                        </span>
+                        {%- render 'loading-spinner' -%}
+                      </button>    
+                      {% comment %} <div class="shopify-payment-button">
+                        <button 
+                          type="button" 
+                          class="shopify-payment-button__button shopify-payment-button__button--unbranded" 
+                          onclick="redirectCheckout(${variantId})"
+                        >
+                          Buy it now
+                        </button>                     
+                      </div> {% endcomment %}
+                    </form>
+                  </product-form>
+                </div>`;
+            } else {
+              quickAddHTML = `
+                <div class="quick-add no-js-hidden">
+                  <div class="vehicle-btns">
+                    <div class="btn-wrapper">
+                      <a href="/products/${product.handle}" class="vehicles_detail button">
+                        {{ 'templates.search.vehicle_details' | t }}
+                      </a>
+                    </div>
+                    <div class="btn-wrapper">
+                      <a href="/search?q=*&options%5Bprefix%5D=last&filter.p.m.custom.year=${metaObj.year}&filter.p.m.custom.make=${metaObj.make}&filter.p.m.custom.model=${metaObj.model}&filter.p.m.custom.type=PART&sort_by=relevance" class="search__btn button">
+                        {{ 'templates.search.search_part' | t }}
+                      </a>
+                    </div>
+                  </div>
+                </div>`;
+            }
+          } else {
+            quickAddHTML = `
+              <div class="quick-add no-js-hidden offer-quick__add">
+                <div class="vehicle-btns">
+                  <div class="btn-wrapper">
+                    ${metaObj.type === "VEHICLE" 
+                      ? `<a href="javascript:void(0)" class="request_quote button">Request Part</a>` 
+                      : `<a href="javascript:void(0)" class="request_quote button">Make An Offer</a>`}
+                  </div>
+                </div>
+              </div>`;
+          }
+
+          const productHTML = `
+            <li id="Slide-${sectionId}-${count}" class="grid__item parts__item" data-title="${product.title}">
+              <div class="card-wrapper product-card-wrapper">
+                <div class="card card--standard card--media" style="--ratio-percent: 66.625%;">
+                  <div class="card__inner color-scheme-2 gradient ratio">
+                    <div class="card__media">
+                      <div class="media media--transparent media--hover-effect">
+                        <img src="${imgSrc}" alt="${imgAlt}" loading="lazy">
+                      </div>
+                    </div>
+                    ${metaObj.type != "VEHICLE" 
+                      ? `<div class="card-product__badge qty-badge">
+                          ${inventoryQuantityCount !== null && inventoryQuantityCount == 1
+                            ? `<span class="badge">Only ${inventoryQuantityCount} left</span>`
+                            : ""}
+                      </div>` : ""
+                    }
+                  </div>
+                  <div class="card__content">
+                    <div class="card__information">  
+                      <h3 class="card__heading h5">
+                        <a href="/products/${product.handle}" class="full-unstyled-link">
+                          ${product.title}
+                        </a>
+                      </h3>
+                      ${metaObj.description ? `<div class="card-custom-description"><span>${metaObj.description}</span></div>` : ""}
+                      <div class="card-information">
+                        ${price === "0.0" ? "" : `
+                          <div class="price">
+                            <div class="price__container">
+                              <div class="price__regular">
+                                <span class="visually-hidden visually-hidden--inline">Regular price</span>
+                                <span class="price-item price-item--regular">$${price}</span>
+                              </div>
+                            </div> 
+                          </div>`}
+                      </div>
+                    </div>
+                    ${quickAddHTML}
+                    <div class="card__badge bottom left"></div>
+                  </div>
+                </div>
+              </div>
+            </li>`;
+
+          stockListingElement.insertAdjacentHTML("beforeend", productHTML);
+          count++;
+        }
+      });
+
+      if (count > 0) {
+        loader.remove();
+        sectionElement.style.display = "block";
+        if (document.querySelector(".product .product-form__buttons .custom-search-btn")) {
+          document.querySelector(".product .product-form__buttons .custom-search-btn").style.display = "block";
+        }
+      }else {
+        sectionElement.style.display = "none";
+      }
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  })();
+
+function redirectCheckout(id, quantity = 1) {
+  window.location.href = `/cart/${id}:${quantity}?checkout`;
+} {% endcomment %}
+
+(async () => {
+    const sectionId = "{{ section.id }}";
+    const currentProductTitle = `{{ product.title | escape }}`;
+    const sectionElement = document.querySelector(`#shopify-section-${sectionId}`);
+    const stockListingElement = document.querySelector(`#Slider-${sectionId}`);
+    const loader = document.querySelector(`.loader_wrapper`);
+
+    const currentMeta = {
+      model: "{{ product.metafields.custom.model }}",
+      make: "{{ product.metafields.custom.make }}",
+      year: "{{ product.metafields.custom.year }}",
+      stock_id: '{{ product.metafields.custom.stock_id }}'
+    };
+
+    const storefrontToken = "0c3bbdc24dcf6a551fb01ebb5e0163bf";
+    const endpoint = "/api/2026-01/graphql.json";
+    
+    let totalCount = 0;
+    const matchingParts = [];
+    const matchingPartHandles = new Set();
+
+    function updatePartSearchCache() {
+      const stockId = String(currentMeta.stock_id || "").trim();
+      window.findAPartPartsByStockId = window.findAPartPartsByStockId || {};
+      window.findAPartPartsByStockId[stockId] = matchingParts;
+      document.dispatchEvent(new CustomEvent("findapart:parts-loaded", {
+        detail: {
+          stockId,
+          parts: matchingParts
+        }
+      }));
+    }
+
+    function escapeAttribute(value) {
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/"/g, "&quot;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    }
+
+    function normalizeSearchText(values) {
+      return values
+        .filter(Boolean)
+        .map(value => String(value).replace(/<[^>]*>/g, " "))
+        .join(" ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function applyCurrentPartSearch() {
+      const input = sectionElement?.querySelector(".part-search__field");
+      if (input && typeof window.applyCustomApiPartSearch === "function") {
+        window.applyCustomApiPartSearch(input);
+      }
+    }
+
+    // પ્રોડક્ટને HTML માં રેન્ડર કરવાનું ફંક્શન
+    function renderProduct(product) {
+      if (product.title === currentProductTitle) return;
+
+      const metaObj = mapMeta(product.metafields);
+
+      if (metaObj.stock_id === currentMeta.stock_id && metaObj.type !== "VEHICLE") {
+        if (product.handle && !matchingPartHandles.has(product.handle)) {
+          matchingPartHandles.add(product.handle);
+          matchingParts.push({
+            title: product.title,
+            url: `/products/${product.handle}`,
+            description: metaObj.description || "",
+            stock_id: metaObj.stock_id || ""
+          });
+          updatePartSearchCache();
+        }
+
+        // પહેલી પ્રોડક્ટ મળતા જ લોડર કાઢી નાખવું
+        if (totalCount === 0 && loader) loader.remove();
+
+        const imgSrc = product.images.edges[0]?.node?.url || "{{ settings.logo | img_url: 'master' }}";
+        const imgAlt = product.images.edges[0]?.node?.altText || product.title;
+        const price = product.priceRange?.minVariantPrice?.amount || "0.0";
+        const firstVariant = product.variants.edges[0]?.node || null;
+        const variantId = firstVariant?.id ? firstVariant.id.replace("gid://shopify/ProductVariant/", "") : null;
+        const isAvailable = firstVariant?.availableForSale || false;
+        const productId = product.id.replace("gid://shopify/Product/", "");
+        const productFormId = `quick-add-${productId}`;
+        const searchableText = normalizeSearchText([
+          product.title,
+          metaObj.description,
+          metaObj.stock_id
+        ]);
+
+        let quickAddHTML = "";
+
+          if (isAvailable) {
+            if (metaObj.type !== "VEHICLE") {
+              quickAddHTML = `
+                <div class="quick-add no-js-hidden">
+                  <product-form data-section-id="${sectionId}">
+                    <form method="post" action="/cart/add" id="${productFormId}" accept-charset="UTF-8" class="form" enctype="multipart/form-data" novalidate data-type="add-to-cart-form">
+                      <input type="hidden" name="form_type" value="product">
+                      <input type="hidden" name="utf8" value="✓">
+                      <input type="hidden" name="id" value="${variantId}" class="product-variant-id">
+                      <a href="/cart/${variantId}:1" class="custom_buy_it_now_btn button">
+                        Buy it Now
+                      </a>
+                      <button
+                        id="${productFormId}-submit"
+                        type="submit"
+                        name="add"
+                        class="quick-add__submit button button--full-width button--secondary"
+                        aria-haspopup="dialog"
+                        aria-labelledby="${productFormId}-submit title-${sectionId}-${productId}"
+                        aria-live="polite"
+                        data-sold-out-message="true"
+                      >
+                        <span>
+                          ${isAvailable ? `{{ 'products.product.add_to_cart' | t }}` : `{{ 'products.product.sold_out' | t }}`}
+                        </span>
+                        <span class="sold-out-message hidden">
+                          {{ 'products.product.sold_out' | t }}
+                        </span>
+                        {%- render 'loading-spinner' -%}
+                      </button>    
+                    </form>
+                  </product-form>
+                </div>`;
+            } else {
+              quickAddHTML = `
+                <div class="quick-add no-js-hidden">
+                  <div class="vehicle-btns">
+                    <div class="btn-wrapper">
+                      <a href="/products/${product.handle}" class="vehicles_detail button">
+                        {{ 'templates.search.vehicle_details' | t }}
+                      </a>
+                    </div>
+                    <div class="btn-wrapper">
+                      <a href="/search?q=*&options%5Bprefix%5D=last&filter.p.m.custom.year=${metaObj.year}&filter.p.m.custom.make=${metaObj.make}&filter.p.m.custom.model=${metaObj.model}&filter.p.m.custom.type=PART&sort_by=relevance" class="search__btn button">
+                        {{ 'templates.search.search_part' | t }}
+                      </a>
+                    </div>
+                  </div>
+                </div>`;
+            }
+          } else {
+            quickAddHTML = `
+              <div class="quick-add no-js-hidden offer-quick__add">
+                <div class="vehicle-btns">
+                  <div class="btn-wrapper">
+                    ${metaObj.type === "VEHICLE" 
+                      ? `<a href="javascript:void(0)" class="request_quote button">Request Part</a>` 
+                      : `<a href="javascript:void(0)" class="request_quote button">Make An Offer</a>`}
+                  </div>
+                </div>
+              </div>`;
+          }
+
+        const productHTML = `
+          <li
+            id="Slide-${sectionId}-${totalCount}"
+            class="grid__item parts__item"
+            data-title="${escapeAttribute(product.title)}"
+            data-search="${escapeAttribute(searchableText)}"
+          >
+              <div class="card-wrapper product-card-wrapper">
+                <div class="card card--standard card--media" style="--ratio-percent: 66.625%;">
+                  <div class="card__inner color-scheme-2 gradient ratio">
+                    <div class="card__media">
+                      <div class="media media--transparent media--hover-effect">
+                        <img src="${imgSrc}" alt="${imgAlt}" loading="lazy">
+                      </div>
+                    </div>
+                    
+                  </div>
+                  <div class="card__content">
+                    <div class="card__information">  
+                      <h3 class="card__heading h5">
+                        <a href="/products/${product.handle}" class="full-unstyled-link">
+                          ${product.title}
+                        </a>
+                      </h3>
+                      ${metaObj.description ? `<div class="card-custom-description"><span>${metaObj.description}</span></div>` : ""}
+                      <div class="card-information">
+                        ${price === "0.0" ? "" : `
+                          <div class="price">
+                            <div class="price__container">
+                              <div class="price__regular">
+                                <span class="visually-hidden visually-hidden--inline">Regular price</span>
+                                <span class="price-item price-item--regular">$${price}</span>
+                              </div>
+                            </div> 
+                          </div>`}
+                      </div>
+                    </div>
+                    ${quickAddHTML}
+                    <div class="card__badge bottom left"></div>
+                  </div>
+                </div>
+              </div>
+            </li>`;
+
+        stockListingElement.insertAdjacentHTML("beforeend", productHTML);
+        totalCount++;
+        applyCurrentPartSearch();
+      }
+    }
+
+    async function fetchAndAppendProducts(cursor = null) {
+      const query = `query getProducts($cursor: String) {
+        products(first: 250, after: $cursor) {
+          edges {
+            node {
+              id title handle
+              images(first: 1) { edges { node { url altText } } }
+              priceRange { minVariantPrice { amount currencyCode } }
+              variants(first: 1) { edges { node { id availableForSale } } }
+              metafields(identifiers: [
+                { namespace: "custom", key: "stock_id" }
+                { namespace: "custom", key: "description" }
+                { namespace: "custom", key: "type" }
+              ]) { key value }
+            }
+          }
+          pageInfo { hasNextPage endCursor }
+        }
+      }`;
+
+      try {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Shopify-Storefront-Access-Token": storefrontToken
+          },
+          body: JSON.stringify({ query, variables: { cursor } })
+        });
+
+        const data = await res.json();
+        const edges = data.data.products.edges;
+
+        // પ્રોડક્ટ્સ મળતા જ તેને લૂપમાં રેન્ડર કરવી
+        edges.forEach(edge => renderProduct(edge.node));
+
+        // જો હજુ વધુ પ્રોડક્ટ્સ હોય, તો ફરીથી ફેચ કરો (Recursive call)
+        if (data.data.products.pageInfo.hasNextPage) {
+          await fetchAndAppendProducts(data.data.products.pageInfo.endCursor);
+        } else {
+          // જ્યારે બધી જ પ્રોડક્ટ્સ પ્રોસેસ થઈ જાય ત્યારે:
+          updatePartSearchCache();
+          if (totalCount === 0) {
+            sectionElement.style.display = "none";
+          } else {
+            if (loader) loader.remove();
+            sectionElement.style.display = "block";
+            if (typeof equalizeCardInfoHeight === 'function') equalizeCardInfoHeight();
+          }
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        if (loader) loader.remove();
+        updatePartSearchCache();
+      }
+    }
+
+    function mapMeta(fields) {
+      const obj = {};
+      if (Array.isArray(fields)) {
+        fields.forEach(f => { if (f) obj[f.key] = f.value; });
+      }
+      return obj;
+    }
+
+    // સ્ટાર્ટ ફેચિંગ
+    await fetchAndAppendProducts();
+  })();
+
+function redirectCheckout(id, quantity = 1) {
+  window.location.href = `/cart/${id}:${quantity}?checkout`;
+}
+</script>
+
+
+{% schema %}
+{
+  "name": "Custom api Feature",
+  "tag": "section",
+  "class": "section featured_collection",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__3.label"
+        },
+        {
+          "value": "hxl",
+          "label": "t:sections.all.heading_size.options__4.label"
+        },
+        {
+          "value": "hxxl",
+          "label": "t:sections.all.heading_size.options__5.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "t:sections.featured-collection.settings.description.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "t:sections.featured-collection.settings.show_description.label",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "description_style",
+      "label": "t:sections.featured-collection.settings.description_style.label",
+      "options": [
+        {
+          "value": "body",
+          "label": "t:sections.featured-collection.settings.description_style.options__1.label"
+        },
+        {
+          "value": "subtitle",
+          "label": "t:sections.featured-collection.settings.description_style.options__2.label"
+        },
+        {
+          "value": "uppercase",
+          "label": "t:sections.featured-collection.settings.description_style.options__3.label"
+        }
+      ],
+      "default": "body"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 25,
+      "step": 1,
+      "default": 4,
+      "label": "t:sections.featured-collection.settings.products_to_show.label"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4,
+      "label": "t:sections.featured-collection.settings.columns_desktop.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "t:sections.featured-collection.settings.full_width.label",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "default": true,
+      "label": "t:sections.featured-collection.settings.show_view_all.label"
+    },
+    {
+      "type": "select",
+      "id": "view_all_style",
+      "label": "t:sections.featured-collection.settings.view_all_style.label",
+      "options": [
+        {
+          "value": "link",
+          "label": "t:sections.featured-collection.settings.view_all_style.options__1.label"
+        },
+        {
+          "value": "outline",
+          "label": "t:sections.featured-collection.settings.view_all_style.options__2.label"
+        },
+        {
+          "value": "solid",
+          "label": "t:sections.featured-collection.settings.view_all_style.options__3.label"
+        }
+      ],
+      "default": "solid"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_desktop_slider",
+      "label": "t:sections.featured-collection.settings.enable_desktop_slider.label",
+      "default": false
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "info": "t:sections.all.colors.has_cards_info",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.featured-collection.settings.header.content"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:sections.featured-collection.settings.image_ratio.options__1.label"
+        },
+        {
+          "value": "portrait",
+          "label": "t:sections.featured-collection.settings.image_ratio.options__2.label"
+        },
+        {
+          "value": "square",
+          "label": "t:sections.featured-collection.settings.image_ratio.options__3.label"
+        }
+      ],
+      "default": "adapt",
+      "label": "t:sections.featured-collection.settings.image_ratio.label"
+    },
+    {
+      "type": "select",
+      "id": "image_shape",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:sections.all.image_shape.options__1.label"
+        },
+        {
+          "value": "arch",
+          "label": "t:sections.all.image_shape.options__2.label"
+        },
+        {
+          "value": "blob",
+          "label": "t:sections.all.image_shape.options__3.label"
+        },
+        {
+          "value": "chevronleft",
+          "label": "t:sections.all.image_shape.options__4.label"
+        },
+        {
+          "value": "chevronright",
+          "label": "t:sections.all.image_shape.options__5.label"
+        },
+        {
+          "value": "diamond",
+          "label": "t:sections.all.image_shape.options__6.label"
+        },
+        {
+          "value": "parallelogram",
+          "label": "t:sections.all.image_shape.options__7.label"
+        },
+        {
+          "value": "round",
+          "label": "t:sections.all.image_shape.options__8.label"
+        }
+      ],
+      "default": "default",
+      "label": "t:sections.all.image_shape.label",
+      "info": "t:sections.all.image_shape.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "default": false,
+      "label": "t:sections.featured-collection.settings.show_secondary_image.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "default": false,
+      "label": "t:sections.featured-collection.settings.show_vendor.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "default": false,
+      "label": "t:sections.featured-collection.settings.show_rating.label",
+      "info": "t:sections.featured-collection.settings.show_rating.info"
+    },
+    {
+      "type": "select",
+      "id": "quick_add",
+      "default": "none",
+      "label": "t:sections.main-collection-product-grid.settings.quick_add.label",
+      "info": "t:sections.main-collection-product-grid.settings.quick_add.info",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_1"
+        },
+        {
+          "value": "standard",
+          "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_2"
+        },
+        {
+          "value": "bulk",
+          "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_3"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "t:sections.featured-collection.settings.header_mobile.content"
+    },
+    {
+      "type": "text",
+      "id": "buy_btn",
+      "label": "Buy Button"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "default": "2",
+      "label": "t:sections.featured-collection.settings.columns_mobile.label",
+      "options": [
+        {
+          "value": "1",
+          "label": "t:sections.featured-collection.settings.columns_mobile.options__1.label"
+        },
+        {
+          "value": "2",
+          "label": "t:sections.featured-collection.settings.columns_mobile.options__2.label"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "swipe_on_mobile",
+      "default": false,
+      "label": "t:sections.featured-collection.settings.swipe_on_mobile.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom api Featured"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,152 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "image_banner_pMeLLe": {
+      "type": "image-banner",
+      "blocks": {
+        "heading_JixNW3": {
+          "type": "heading",
+          "settings": {
+            "heading": "Guarantee &amp; After-Sales Service",
+            "heading_size": "h1"
+          }
+        }
+      },
+      "block_order": [
+        "heading_JixNW3"
+      ],
+      "name": "t:sections.image-banner.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/xo-parallax-1.png",
+        "heading_color": "#ffffff",
+        "heading_secondary_color": "#ff5722",
+        "banner_button_color": "#ff5722",
+        "banner_button_text_color": "#ffffff",
+        "image_overlay_opacity": 46,
+        "image_height": "small",
+        "image_behavior": "none",
+        "desktop_content_position": "middle-center",
+        "desktop_content_alignment": "center",
+        "show_text_box": false,
+        "color_scheme": "scheme-3",
+        "stack_images_on_mobile": true,
+        "mobile_content_alignment": "center",
+        "show_text_below": false
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "divider_top_service_policy": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<div class=\"page-width\" style=\"max-width:1280px;margin:0 auto;\"><div style=\"height:1px;background-color:#E9EAEA;\"></div></div>",
+        "color_scheme": "scheme-1",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "rich_text_service_policy": {
+      "type": "rich-text",
+      "blocks": {
+        "text_service_policy": {
+          "type": "text",
+          "settings": {
+            "text": "<h3>Warranty Terms</h3><p>Our used parts come with a 3-month warranty covering both parts and labor. This warranty applies to all parts sold under normal purchase conditions. The warranty is limited to the original purchaser and is non-transferable. It covers defects in materials and workmanship under normal use. In the event of a valid warranty claim, we will repair or replace the defective part, or refund the purchase price, at our discretion.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "text_service_policy"
+      ],
+      "settings": {
+        "desktop_content_position": "left",
+        "content_alignment": "left",
+        "color_scheme": "scheme-1",
+        "full_width": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "divider_bottom_service_policy": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<div class=\"page-width\" style=\"max-width:1280px;margin:0 auto;\"><div style=\"height:1px;background-color:#E9EAEA;\"></div></div>",
+        "color_scheme": "scheme-1",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "image_with_text_dAdKcw": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_7iiQMx": {
+          "type": "heading",
+          "settings": {
+            "heading": "Quality Parts, Ready When You Are!",
+            "heading_size": "h1"
+          }
+        },
+        "text_eitjUC": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Get the right part, the first time, every time. Browse our extensive inventory of quality-tested, recycled auto parts and order with confidence.</p>",
+            "text_style": "body"
+          }
+        },
+        "button_VzqjhU": {
+          "type": "button",
+          "settings": {
+            "button_label": "Shop Now",
+            "button_link": "/search?q=*&options%5Bprefix%5D=last&filter.p.m.custom.type=PART",
+            "button_style_secondary": false,
+            "button_color": "#000000",
+            "button_text_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "heading_7iiQMx",
+        "text_eitjUC",
+        "button_VzqjhU"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/Small_banner.png",
+        "height": "small",
+        "desktop_image_width": "medium",
+        "layout": "text_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "center",
+        "section_color_scheme": "scheme-1",
+        "color_scheme": "scheme-3",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    }
+  },
+  "order": [
+    "image_banner_pMeLLe",
+    "main",
+    "divider_top_service_policy",
+    "rich_text_service_policy",
+    "divider_bottom_service_policy",
+    "image_with_text_dAdKcw"
+  ]
+}

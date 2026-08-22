@@ -1,0 +1,364 @@
+{{ 'contact-info.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+  .desc-text {
+    padding: 20px 20px;
+    text-align: center;
+  }
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.mobile_padding_top }}px;
+      padding-bottom: {{ section.settings.mobile_padding_bottom  }}px;
+    }
+
+    @media screen and (min-width: 768px) {
+      .desc-text {
+        padding: 40px 160px;
+      }
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+{%- endstyle -%}
+<section class="contact-info-section section-{{ section.id }}-padding">
+  <div class="page-width">
+    <div class="contact-info-wrapper grid grid--2-col-desktop grid--1-col-tablet-down color-{{ section.settings.color_scheme }} gradient">
+      <!-- Left Column -->
+      <div class="contact-info grid__item">
+        {% if section.settings.contact_heading != blank %}
+          <h4 class="contact-heading">{{ section.settings.contact_heading }}</h4>
+        {% endif %}
+
+        <!-- Address -->
+        {% if section.settings.address != blank %}
+          <div class="contact-item">
+            <div class="icon">
+              <svg width="26" height="27" viewBox="0 0 26 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13 0.25C7.95986 0.25 3.85938 4.35048 3.85938 9.39062C3.85938 11.0935 4.33108 12.7554 5.22382 14.1972L12.4797 25.8899C12.6187 26.1139 12.8636 26.25 13.1269 26.25C13.1289 26.25 13.1309 26.25 13.1329 26.25C13.3986 26.2479 13.644 26.1076 13.7804 25.8797L20.8513 14.0737C21.6948 12.6624 22.1406 11.043 22.1406 9.39062C22.1406 4.35048 18.0401 0.25 13 0.25ZM19.544 13.2915L13.1154 24.0251L6.51864 13.3945C5.77555 12.1945 5.37266 10.81 5.37266 9.39062C5.37266 5.19051 8.79988 1.76328 13 1.76328C17.2001 1.76328 20.6223 5.19051 20.6223 9.39062C20.6223 10.7679 20.2459 12.117 19.544 13.2915Z" fill="black"/>
+                <path d="M13 4.82031C10.4799 4.82031 8.42969 6.87055 8.42969 9.39062C8.42969 11.8946 10.4466 13.9609 13 13.9609C15.5849 13.9609 17.5703 11.8671 17.5703 9.39062C17.5703 6.87055 15.5201 4.82031 13 4.82031ZM13 12.4477C11.3112 12.4477 9.94297 11.0749 9.94297 9.39062C9.94297 7.71058 11.32 6.33359 13 6.33359C14.68 6.33359 16.052 7.71058 16.052 9.39062C16.052 11.0503 14.7156 12.4477 13 12.4477Z" fill="black"/>
+              </svg>
+            </div>
+            <div class="text">
+              <h5>Address</h5>
+              <p>{{ section.settings.address | escape }}</p>
+            </div>
+          </div>
+        {% endif %}
+
+        <!-- Phone -->
+        {% if section.settings.phone != blank %}
+          <div class="contact-item">
+            <div class="icon">
+              <svg width="26" height="27" viewBox="0 0 26 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21.1403 12.9914L17.4609 9.31194V2.9751C17.4609 1.71506 16.4358 0.689941 15.1758 0.689941H5.22266C3.96262 0.689941 2.9375 1.71506 2.9375 2.9751V24.4048C2.9375 25.6648 3.96262 26.6899 5.22266 26.6899H20.7617C21.1246 26.6899 21.4371 26.434 21.5085 26.0782L22.928 19.0122C23.3714 16.8049 22.7031 14.5542 21.1403 12.9914ZM5.22266 2.21338H15.1758C15.5958 2.21338 15.9375 2.55509 15.9375 2.9751V12.8002C15.0032 11.8787 13.5023 11.8838 12.5744 12.8117C11.6445 13.74 11.64 15.247 12.5682 16.1815L15.4859 19.2148C14.8533 19.6869 14.0339 20.5108 13.4455 21.8657H4.46094V2.9751C4.46094 2.55509 4.80259 2.21338 5.22266 2.21338ZM4.46094 24.4048V23.3892H12.953C12.8323 23.9233 12.7469 24.5139 12.7092 25.1665H5.22266C4.80259 25.1665 4.46094 24.8248 4.46094 24.4048ZM21.4344 18.7121L20.1378 25.1665C18.9129 25.1665 15.4938 25.1665 14.2362 25.1665C14.3461 23.5486 14.8118 22.1927 15.5995 21.2139C16.2525 20.4025 16.9175 20.1116 16.9704 20.0893C17.4689 19.9109 17.647 19.264 17.2482 18.8494C13.6466 15.105 13.6577 15.1164 13.6512 15.11C13.3166 14.7754 13.3113 14.2287 13.6512 13.8894C13.987 13.5536 14.5328 13.5527 14.8698 13.8869C16.4801 15.534 15.697 14.7436 18.5151 17.5616C18.8125 17.8591 19.2949 17.8591 19.5923 17.5616C19.8898 17.2641 19.8898 16.7819 19.5923 16.4844L17.4609 14.353V11.4664L20.0631 14.0686C21.2645 15.27 21.7772 17.0059 21.4344 18.7121Z" fill="black"/>
+              </svg>
+            </div>
+            <div class="text">
+              <h5>Phone</h5>
+              <a href="tel:{{ section.settings.phone | escape }}">{{ section.settings.phone }}</a>
+            </div>
+          </div>
+        {% endif %}
+
+        <!-- Email -->
+        {% if section.settings.email != blank %}
+          <div class="contact-item">
+            <div class="icon">
+              <svg width="26" height="20" viewBox="0 0 26 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M25.0714 0.84436H0.928589C0.415735 0.84436 0 1.2601 0 1.77289V18.4872C0 19 0.415735 19.4158 0.928589 19.4158H25.0714C25.5843 19.4158 26 19 26 18.4872V1.77289C26 1.2601 25.5843 0.84436 25.0714 0.84436ZM23.5486 2.70148L13 10.8154L2.45143 2.70148H23.5486ZM24.1428 17.5586H1.85712V4.58739L12.4345 12.7235C12.768 12.9796 13.232 12.9796 13.5655 12.7235L24.1428 4.58739V17.5586Z" fill="black"/>
+              </svg>
+            </div>
+            <div class="text">
+              <h5>For Part Sales</h5>
+              <a href="mailto:{{ section.settings.email | escape }}">{{ section.settings.email }}</a>
+            </div>
+          </div>
+        {% endif %}
+        {% comment %} {% if section.settings.email_2 != blank %}
+          <div class="contact-item">
+            <div class="icon">
+              <svg width="26" height="20" viewBox="0 0 26 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M25.0714 0.84436H0.928589C0.415735 0.84436 0 1.2601 0 1.77289V18.4872C0 19 0.415735 19.4158 0.928589 19.4158H25.0714C25.5843 19.4158 26 19 26 18.4872V1.77289C26 1.2601 25.5843 0.84436 25.0714 0.84436ZM23.5486 2.70148L13 10.8154L2.45143 2.70148H23.5486ZM24.1428 17.5586H1.85712V4.58739L12.4345 12.7235C12.768 12.9796 13.232 12.9796 13.5655 12.7235L24.1428 4.58739V17.5586Z" fill="black"/>
+              </svg>
+            </div>
+            <div class="text">
+              <h5>For Truck Purchasing</h5>
+              <a href="mailto:{{ section.settings.email_2 | escape }}">{{ section.settings.email_2 }}</a>
+            </div>
+          </div>
+        {% endif %} {% endcomment %}
+
+        <!-- Open Hours -->
+        {% if section.settings.open_hours != blank %}
+          <div class="contact-item">
+            <div class="icon">
+              <svg width="26" height="27" viewBox="0 0 26 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13 0.570068C5.83197 0.570068 0 6.40174 0 13.5701C0 20.7384 5.83197 26.5701 13 26.5701C20.1683 26.5701 26 20.7384 26 13.5701C26 6.40174 20.168 0.570068 13 0.570068ZM13 24.6723C6.87832 24.6723 1.8978 19.6917 1.8978 13.5701C1.8978 7.44839 6.87832 2.46787 13 2.46787C19.1217 2.46787 24.1022 7.44834 24.1022 13.5698C24.1022 19.6917 19.1217 24.6723 13 24.6723Z" fill="black"/>
+                <path d="M17.4284 13.5701H13.3165V7.87663C13.3165 7.35252 12.8917 6.92773 12.3676 6.92773C11.8435 6.92773 11.4187 7.35252 11.4187 7.87663V14.519C11.4187 15.0431 11.8435 15.4679 12.3676 15.4679H17.4284C17.9525 15.4679 18.3773 15.0431 18.3773 14.519C18.3773 13.9949 17.9525 13.5701 17.4284 13.5701Z" fill="black"/>
+              </svg>
+            </div>
+            <div class="text">
+              <h5>Open Hours</h5>
+              <p>{{ section.settings.open_hours | newline_to_br }}</p>
+            </div>
+          </div>
+        {% endif %}
+
+        <!-- Social -->
+        <div class="social-links">
+          <p class="follow-us">{{ section.settings.follow_label }}</p>
+          {% render 'social-icons' %}
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="contact-map grid__item">
+        {% if section.settings.map_image != blank %}
+          {% liquid
+            assign full_width = '100vw'
+            assign widths = '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
+            assign sizes = full_width
+          %}
+          {{
+            section.settings.map_image
+            | image_url: width: 3840
+            | image_tag: width: section.settings.map_image.width, sizes: sizes, widths: widths, fetchpriority: 'high'
+          }}
+        {% else %}
+          {{ section.settings.map_embed }}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <p class="desc-text">
+    {{ section.settings.company_description }}
+  </p>
+  {% if section.settings.sales_heading != blank
+    or section.settings.sales_body != blank
+    or section.settings.sales_contact_phone_1 != blank
+    or section.settings.sales_contact_phone_2 != blank
+  %}
+    <div class="contact-sales-team">
+      <div class="page-width contact-sales-team__inner">
+        {% if section.settings.sales_heading != blank %}
+          <div class="contact-sales-team__title">
+            <span class="contact-sales-team__badge" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="10" cy="10" r="10" fill="#036434"/>
+                <path d="M6.815 5.91667C6.85 6.43583 6.9375 6.94333 7.0775 7.4275L6.3775 8.1275C6.13833 7.4275 5.98667 6.68667 5.93417 5.91667H6.815ZM12.5667 12.9283C13.0625 13.0683 13.57 13.1558 14.0833 13.1908V14.06C13.3133 14.0075 12.5725 13.8558 11.8667 13.6225L12.5667 12.9283ZM7.375 4.75H5.33333C5.0125 4.75 4.75 5.0125 4.75 5.33333C4.75 10.8108 9.18917 15.25 14.6667 15.25C14.9875 15.25 15.25 14.9875 15.25 14.6667V12.6308C15.25 12.31 14.9875 12.0475 14.6667 12.0475C13.9433 12.0475 13.2375 11.9308 12.5842 11.715C12.5258 11.6917 12.4617 11.6858 12.4033 11.6858C12.2517 11.6858 12.1058 11.7442 11.9892 11.855L10.7058 13.1383C9.055 12.2925 7.70167 10.945 6.86167 9.29417L8.145 8.01083C8.30833 7.8475 8.355 7.62 8.29083 7.41583C8.075 6.7625 7.95833 6.0625 7.95833 5.33333C7.95833 5.0125 7.69583 4.75 7.375 4.75Z" fill="white"/>
+              </svg>
+            </span>
+            <h2 class="contact-sales-team__heading">{{ section.settings.sales_heading | escape }}</h2>
+          </div>
+        {% endif %}
+        {% if section.settings.sales_body != blank %}
+          <div class="contact-sales-team__body">
+            {{ section.settings.sales_body | newline_to_br }}
+          </div>
+        {% endif %}
+        <div class="contact-sales-team__contacts">
+          {% if section.settings.sales_contact_label_1 != blank or section.settings.sales_contact_phone_1 != blank %}
+            {%- assign sales_phone_1 = section.settings.sales_contact_phone_1 | strip -%}
+            <div class="contact-sales-team__contact">
+              {% if section.settings.sales_contact_label_1 != blank %}
+                <p class="contact-sales-team__label">{{ section.settings.sales_contact_label_1 | escape }}</p>
+              {% endif %}
+              {% if section.settings.sales_contact_phone_1 != blank %}
+                <a class="contact-sales-team__phone" href="tel:{{ sales_phone_1 | escape }}">
+                  <span class="contact-sales-team__phone-icon" aria-hidden="true">
+                    <svg viewBox="0 0 16.2 16.2" role="img" aria-hidden="true" focusable="false">
+                      <path d="M16.2 12.078V15.2604C16.2001 15.4883 16.1138 15.7077 15.9584 15.8744C15.8031 16.0411 15.5903 16.1427 15.363 16.1586C14.9697 16.1856 14.6484 16.2 14.4 16.2C6.4467 16.2 0 9.7533 0 1.8C0 1.5516 0.0135 1.2303 0.0414 0.837C0.0573502 0.6097 0.158923 0.39691 0.325623 0.241568C0.492323 0.0862261 0.711741 -0.00010299 0.9396 2.30922e-07H4.122C4.23363 -0.000112801 4.34133 0.0412731 4.42416 0.116118C4.50698 0.190964 4.55904 0.293925 4.5702 0.405C4.5909 0.612 4.6098 0.7767 4.6278 0.9018C4.80666 2.15003 5.1732 3.36405 5.715 4.5027C5.8005 4.6827 5.7447 4.8978 5.5827 5.013L3.6405 6.4008C4.82801 9.16781 7.03309 11.3729 9.8001 12.5604L11.1861 10.6218C11.2428 10.5426 11.3254 10.4858 11.4196 10.4613C11.5139 10.4368 11.6137 10.4461 11.7018 10.4877C12.8403 11.0285 14.054 11.3941 15.3018 11.5722C15.4269 11.5902 15.5916 11.61 15.7968 11.6298C15.9077 11.6412 16.0105 11.6933 16.0851 11.7761C16.1598 11.8589 16.201 11.9665 16.2009 12.078H16.2Z" fill="currentColor"></path>
+                    </svg>
+                  </span>
+                  <span class="contact-sales-team__phone-text">{{ section.settings.sales_contact_phone_1 }}</span>
+                </a>
+              {% endif %}
+            </div>
+          {% endif %}
+          {% if section.settings.sales_contact_label_2 != blank or section.settings.sales_contact_phone_2 != blank %}
+            {%- assign sales_phone_2 = section.settings.sales_contact_phone_2 | strip -%}
+            <div class="contact-sales-team__contact">
+              {% if section.settings.sales_contact_label_2 != blank %}
+                <p class="contact-sales-team__label">{{ section.settings.sales_contact_label_2 | escape }}</p>
+              {% endif %}
+              {% if section.settings.sales_contact_phone_2 != blank %}
+                <a class="contact-sales-team__phone" href="tel:{{ sales_phone_2 | escape }}">
+                  <span class="contact-sales-team__phone-icon" aria-hidden="true">
+                    <svg viewBox="0 0 16.2 16.2" role="img" aria-hidden="true" focusable="false">
+                      <path d="M16.2 12.078V15.2604C16.2001 15.4883 16.1138 15.7077 15.9584 15.8744C15.8031 16.0411 15.5903 16.1427 15.363 16.1586C14.9697 16.1856 14.6484 16.2 14.4 16.2C6.4467 16.2 0 9.7533 0 1.8C0 1.5516 0.0135 1.2303 0.0414 0.837C0.0573502 0.6097 0.158923 0.39691 0.325623 0.241568C0.492323 0.0862261 0.711741 -0.00010299 0.9396 2.30922e-07H4.122C4.23363 -0.000112801 4.34133 0.0412731 4.42416 0.116118C4.50698 0.190964 4.55904 0.293925 4.5702 0.405C4.5909 0.612 4.6098 0.7767 4.6278 0.9018C4.80666 2.15003 5.1732 3.36405 5.715 4.5027C5.8005 4.6827 5.7447 4.8978 5.5827 5.013L3.6405 6.4008C4.82801 9.16781 7.03309 11.3729 9.8001 12.5604L11.1861 10.6218C11.2428 10.5426 11.3254 10.4858 11.4196 10.4613C11.5139 10.4368 11.6137 10.4461 11.7018 10.4877C12.8403 11.0285 14.054 11.3941 15.3018 11.5722C15.4269 11.5902 15.5916 11.61 15.7968 11.6298C15.9077 11.6412 16.0105 11.6933 16.0851 11.7761C16.1598 11.8589 16.201 11.9665 16.2009 12.078H16.2Z" fill="currentColor"></path>
+                    </svg>
+                  </span>
+                  <span class="contact-sales-team__phone-text">{{ section.settings.sales_contact_phone_2 }}</span>
+                </a>
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</section>
+
+<style></style>
+
+{% schema %}
+{
+  "name": "Contact Info & Map",
+  "settings": [
+    {
+      "type": "text",
+      "id": "contact_heading",
+      "label": "Heading",
+      "default": "CONTACT INFORMATION"
+    },
+    {
+      "type": "textarea",
+      "id": "address",
+      "label": "Address",
+      "default": "31A Atkinson Avenue, Otahuhu, Auckland 1062, New Zealand"
+    },
+    {
+      "type": "richtext",
+      "id": "phone",
+      "label": "Phone"
+    },
+    {
+      "type": "richtext",
+      "id": "email",
+      "label": "Email"
+    },
+    {
+      "type": "richtext",
+      "id": "email_2",
+      "label": "Email 2"
+    },
+    {
+      "type": "textarea",
+      "id": "open_hours",
+      "label": "Open Hours",
+      "default": "Trading hours 9-5:30 Monday - Friday\nSaturday 9-3:00"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "follow_label",
+      "label": "Follow Us Label",
+      "default": "FOLLOW US"
+    },
+    {
+      "type": "image_picker",
+      "id": "map_image",
+      "label": "Map Image"
+    },
+    {
+      "type": "html",
+      "id": "map_embed",
+      "label": "Map Embed URL (leave blank to use image)"
+    },
+    {
+      "type": "text",
+      "id": "company_description",
+      "label": "Company Description",
+      "default": "Welcome to Lorryland, New Zealand's premier destination for both new and second-hand aftermarket truck parts. As one of the largest stockists in the country, we pride ourselves on offering an extensive selection of quality parts to meet all your trucking needs. Whether you're searching for reliable used components or the latest aftermarket innovations, Lorryland has you covered. Explore our online store to discover the exceptional range of products we provide, ensuring your trucks are always road-ready."
+    },
+    {
+      "type": "header",
+      "content": "Sales Team Banner"
+    },
+    {
+      "type": "text",
+      "id": "sales_heading",
+      "label": "Sales Heading",
+      "default": "Our Sales team would love to meet you"
+    },
+    {
+      "type": "textarea",
+      "id": "sales_body",
+      "label": "Sales Description",
+      "default": "We believe communication between customer and company is the key success factor in any business relationship.\nIf you wish to make an enquiry, or require clarification regarding our products, solutions or any other issue, please contact us."
+    },
+    {
+      "type": "text",
+      "id": "sales_contact_label_1",
+      "label": "Contact 1 Label",
+      "default": "Contact Andre"
+    },
+    {
+      "type": "text",
+      "id": "sales_contact_phone_1",
+      "label": "Contact 1 Phone",
+      "default": "027-217-4811"
+    },
+    {
+      "type": "text",
+      "id": "sales_contact_label_2",
+      "label": "Contact 2 Label",
+      "default": "Contact Brad"
+    },
+    {
+      "type": "text",
+      "id": "sales_contact_phone_2",
+      "label": "Contact 2 Phone",
+      "default": "027-643-3464"
+    },
+    {
+      "type": "header",
+      "content": "Section Desktop View padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Desktop Padding Top",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Desktop Padding Bottom",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Section Mobile View padding"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile Padding Top",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 10
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact Info & Map",
+      "category": "Contact"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,357 @@
+/* tab main css */
+.product-tab-view .tab {
+    display: none;
+}
+.product-tab-view .tab.active {
+    display: block;
+}
+.product-tab-view  .tab-button.active{
+    border-bottom:2px solid #0097CD;
+    color:#0097CD;
+}
+/* ------ */
+.product-tab-view .tab-menu{
+    display:flex;
+    gap:28px;
+    padding:0;
+    border-bottom: 1px solid #0000001a;
+    margin:0 0 20px 0;
+}
+.product-tab-view .tab-menu li{
+    list-style:none;
+    flex: 0 0 auto;
+}
+.product-tab-view .tab-button{
+    font-size:20px;
+    font-weight:500;
+    line-height: 1.61;
+    letter-spacing: 0;
+    border:none;
+    background: transparent;
+    padding:0 0 10px 0;
+    color:#585858;
+    font-family: var(--font-body-family);
+    cursor:pointer;
+}
+.product-tab-view .product-view-details p{
+    font-weight:400;
+    line-height:1.8;
+    letter-spacing:normal;
+    margin:10px 0;
+}
+.product-tab-view .product-view-details .rte ul {
+    padding-left: 0;
+}
+.product-tab-view .product-view-details .rte p strong {
+    font-size: 20px;
+    color: #000000;
+    line-height: 1.3;
+}
+.product-tab-view .product-view-details .rte ul li,
+.product-tab-view .product-view-details .rte p {
+    font-size: 18px;
+    color: #535353;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+/* ========= table css ========= */
+.product-tab-view .table_layout{
+    display:flex;
+    gap:24px;
+}
+.product-tab-view .table-grid{
+    flex: 0 0 calc(50% - 12px);
+    max-width: calc(50% - 12px);
+    width: 100%;
+}
+.product-tab-view .table_style {
+    width:100%;
+    max-width:100%;
+}
+.product-tab-view .table_style td{
+    font-size:16px;
+    font-weight:400;
+    line-height: 1.8;
+    letter-spacing:normal;
+    padding:10px 0 6px 0;
+    border-left: none;
+    border-right: none;
+    border-top:none;
+    border-bottom:1px solid #ddd;
+    max-width:50%;
+    width:100%;
+}
+.product-tab-view .product_description_style .condition-description{
+    margin:24px 0 8px 0 !important;
+}
+.product-tab-view .product_description_style .condition-description strong{
+    font-weight:600;
+}
+.product-tab-view .product_description_style p{
+    margin:0;
+}
+.product-tab-view .tabel_heading{
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: normal;
+    color:#0097CD;
+}
+.product-tab-view .table_style td strong{
+    font-weight:600;
+}
+
+/* ========= fitment contents css ========= */
+.product-tab-view .fitment_contents{
+    margin:0;
+}
+.product-tab-view  .fitment_contents_heading{
+    padding-bottom:8px;
+}
+.fitment_contents_heading h3{
+    font-size:20px;
+    font-weight:700;
+    line-height:26px;
+    margin-bottom:20px;
+    margin-top:0;
+}
+.product-tab-view  .fitment_contents_heading p{
+    font-size: 16px;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: normal;
+    margin:0;
+    color:#525866;
+}
+.product-tab-view  .fitment_contents_heading p strong{
+    font-weight:600;
+    color:#000;
+}
+.product-tab-view .fitment_contents .product-tab_flex{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:12px 20px;
+    background:#F5F7FA;
+    border:1px solid #E9EAEB;
+    border-left: 2px solid #145DA0;
+    margin-top:12px;
+    gap:15px;
+}
+.product-tab-view .fitment_contents .product-tab_details{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content:left;
+    column-gap: 24px;
+    row-gap: 18px;
+}
+.product-tab-view .fitment_contents .product-details_flex{
+   flex: 0 0 auto;
+}
+.product-tab-view .fitment_contents .product_details_heading{
+    font-size: 12px;
+    font-weight:500;
+    line-height: 1;
+    letter-spacing: 0.32px;
+    margin:0;
+    color:#525866;
+}
+.product-tab-view .fitment_contents .product_details_text{
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: normal;
+    margin: 4px 0 0 0;
+    color:#222530;
+}
+.product-tab-view .fitment_contents .donor_vehicle_label{
+    font-size: 12px;
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: normal;
+    padding:2px 8px;
+    background:#CAC0FF;
+    border-radius: 10px;
+    flex: 0 0 auto;
+}
+.product-tab-view .fitment_contents .note{
+    font-weight: 400;
+    line-height: 1.65;
+    letter-spacing: normal;
+    margin:20px 0 0 0;
+}
+
+/* Grading Tab  */
+
+.grade-table {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top:12px;
+}
+
+.grade-row {
+  display: grid;
+  grid-template-columns: 75px repeat(3, 1fr);
+  overflow: hidden;
+  border:1px solid #E9EAEB;
+  border-left:0;
+}
+
+.grade-col {
+  padding: 0 20px;
+  margin:12px 0;
+  /* border-left: 1px solid #e5e5e5; */
+}
+.grade-a .grade-col{
+    border-left:1px solid #D3EFDE;
+}
+.grade-b .grade-col{
+    border-left:1px solid #F2DFC9;
+}
+.grade-c .grade-col{
+    border-left:1px solid #F2C8CA;
+}
+
+.grade-col:first-child {
+  border-left: none;
+}
+
+.grade-label {
+  display: flex;
+  flex-direction: column;
+}
+
+.grade-label .grade, .grade-col h4 {
+  font-size: 12px;
+  font-weight:500;
+  line-height:1;
+  letter-spacing:0.02px;
+  color: #525866;
+  margin:0;
+}
+.grade-label strong, .product-tab-view .product-view-details .grade-col p {
+    font-size: 16px;
+    font-weight:600;
+    letter-spacing:0;
+    line-height:1.65;
+    margin-top: 4px;
+}
+.grade-row.grade-a .grade-label strong{
+    color:#03913C;
+}
+.grade-row.grade-b .grade-label strong{
+    color:#D87300;
+}
+.grade-row.grade-c .grade-label strong{
+    color:#CC0C0F;
+}
+.product-tab-view .product-view-details .grade-col p{
+    color:#222530;
+    margin:0;
+    line-height:1.5;
+}
+.grade-col h4 {
+    margin-bottom:4px;
+}
+.grade-a {
+  background: #F5FFF9;
+  box-shadow:-2px 0 0 0 #03913C;
+}
+
+.grade-b {
+ background: #FFF8F0;
+ box-shadow:-2px 0 0 0 #D87300;
+}
+
+.grade-c {
+  background: #FFEFF0;
+   box-shadow:-2px 0 0 0 #CC0C0F;
+}
+
+
+
+
+/* responsive */
+@media screen and (max-width: 1024px){
+    .product-tab-view .table_style td{
+        letter-spacing: normal;
+    }
+}
+@media screen and (max-width: 749px){
+    .product-tab-view .tab-menu {
+        flex-wrap: nowrap;
+        overflow: hidden;
+        overflow-x: scroll;
+        gap: 28px;
+    }
+    .product-tab-view .product-view-details p{
+        margin:7px 0;
+    }
+    /* tabel css */
+    .product-tab-view .table_layout{
+        display:block;
+    }
+    .product-tab-view .table-grid{
+        flex:0 0 100%;
+        max-width:100%;
+        width:100%;
+    }
+    .product-tab-view .table_style td{
+        line-height: 1;
+        padding: 10px 0;
+    }
+
+    /* fitment contents css */
+    .product-tab-view .fitment_contents .product-tab_flex{
+        padding: 12px;
+    }
+    .product-tab-view .fitment_contents .donor_vehicle_label{
+        font-size:11px;
+    }
+    .grade-row{
+        grid-template-columns:1fr;
+        gap: 12px;
+        padding: 12px 0;
+    }
+     .grade-col{
+        border-left:0;
+        margin:0;
+    }
+    .grade-a .grade-label{
+        border-bottom:1px solid #D3EFDE;
+        margin-bottom:0;
+        padding-bottom:12px;
+    }
+    .grade-b .grade-label{
+        border-bottom:1px solid #F2DFC9;
+         margin-bottom:0;
+        padding-bottom:12px;
+    }
+    .grade-c .grade-label{
+        border-bottom:1px solid #F2C8CA;
+         margin-bottom:0;
+        padding-bottom:12px;
+    }
+    .grade-label strong, .product-tab-view .product-view-details .grade-col p{
+        font-size:14px;
+    }
+    .fitment_contents_heading h3, .product-tab-view .tab-button{
+        font-size:18px;
+    }
+    .product-tab-view .product-view-details .rte ul li, 
+    .product-tab-view .product-view-details .rte p {
+        font-size: 16px;
+        line-height: 1.6;
+    }
+}
+@media screen and (max-width: 475px){
+    .product-tab-view .table_style tr td:nth-child(2){
+        padding-left:20px;
+    }
+    .product-tab-view .tab-menu {
+        margin-right: -10px;
+    }
+}

@@ -1,0 +1,137 @@
+{% comment %}
+  Renders a standard dropdown style menu for the header.
+
+  Usage:
+  {% render 'header-dropdown-menu' %}
+{% endcomment %}
+
+<script>
+</script>
+
+{%- assign part_filter_active = false -%}
+{%- assign vehicle_filter_active = false -%}
+{%- if request.page_type == 'search' and search != blank -%}
+  {%- for filter in search.filters -%}
+    {%- if filter.param_name == 'filter.p.m.custom.type' -%}
+      {%- for value in filter.active_values -%}
+        {%- if value.value == 'PART' -%}
+          {%- assign part_filter_active = true -%}
+        {%- elsif value.value == 'VEHICLE' -%}
+          {%- assign vehicle_filter_active = true -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+
+<nav class="header__inline-menu">
+  <ul class="list-menu list-menu--inline" role="list">
+    {%- for link in section.settings.menu.links -%}
+      {%- assign is_part_link = false -%}
+      {%- assign is_vehicle_link = false -%}
+      {%- if link.url contains 'filter.p.m.custom.type=PART' -%}
+        {%- assign is_part_link = true -%}
+      {%- elsif link.url contains 'filter.p.m.custom.type=VEHICLE' -%}
+        {%- assign is_vehicle_link = true -%}
+      {%- endif -%}
+      <li>
+        {%- if link.links != blank -%}
+          <header-menu>
+            <details id="Details-HeaderMenu-{{ forloop.index }}">
+              <summary
+                id="HeaderMenu-{{ link.handle }}"
+                class="header__menu-item list-menu__item link focus-inset"
+                style="color: {{ section.settings.menu_text_color }};"
+              >
+                <span
+                  {%- if link.child_active or is_part_link and part_filter_active or is_vehicle_link and vehicle_filter_active %}
+                    class="header__active-menu-item"
+                  {% endif %}
+                >
+                  {{- link.title | escape -}}
+                </span>
+                {{- 'icon-caret.svg' | inline_asset_content -}}
+              </summary>
+              <ul
+                id="HeaderMenu-MenuList-{{ forloop.index }}"
+                class="header__submenu list-menu list-menu--disclosure color-{{ section.settings.menu_color_scheme }} gradient caption-large motion-reduce global-settings-popup"
+                role="list"
+                tabindex="-1"
+              >
+                {%- for childlink in link.links -%}
+                  <li>
+                    {%- if childlink.links == blank -%}
+                      <a
+                        id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
+                        href="{{ childlink.url }}"
+                        class="header__menu-item list-menu__item link link--text focus-inset caption-large{% if childlink.current or is_part_link and part_filter_active or is_vehicle_link and vehicle_filter_active %} list-menu__item--active{% endif %}"
+                        {% if childlink.current %}
+                          aria-current="page"
+                        {% endif %}
+                      >
+                        {{ childlink.title | escape }}
+                      </a>
+                    {%- else -%}
+                      <details id="Details-HeaderSubMenu-{{ link.handle }}-{{ childlink.handle }}">
+                        <summary
+                          id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
+                          class="header__menu-item link link--text list-menu__item focus-inset caption-large"
+                        >
+                          <span>{{ childlink.title | escape }}</span>
+                          {{- 'icon-caret.svg' | inline_asset_content -}}
+                        </summary>
+                        <ul
+                          id="HeaderMenu-SubMenuList-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
+                          class="header__submenu list-menu motion-reduce"
+                        >
+                          {%- for grandchildlink in childlink.links -%}
+                            <li>
+                              <a
+                                id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
+                                href="{{ grandchildlink.url }}"
+                                class="header__menu-item list-menu__item link link--text focus-inset caption-large{% if grandchildlink.current %} list-menu__item--active{% endif %}"
+                                {% if grandchildlink.current %}
+                                  aria-current="page"
+                                {% endif %}
+                              >
+                                {{ grandchildlink.title | escape }}
+                              </a>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                      </details>
+                    {%- endif -%}
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </details>
+          </header-menu>
+        {%- else -%}
+          <a
+            id="HeaderMenu-{{ link.handle }}"
+            href="{{ link.url }}"
+            class="header__menu-item list-menu__item link link--text focus-inset"
+            {% if link.current or is_part_link and part_filter_active %}
+              aria-current="page"
+            {% endif %}
+            {% if link.current or is_vehicle_link and vehicle_filter_active %}
+              aria-current="page"
+            {% endif %}
+            style="color: {{ section.settings.menu_text_color }};"
+          >
+            <span
+              {%- if link.current or is_part_link and part_filter_active %}
+                class="header__active-menu-item"
+              {% endif %}
+              {%- if link.current or is_vehicle_link and vehicle_filter_active %}
+                class="header__active-menu-item"
+              {% endif %}
+            >
+              {{- link.title | escape -}}
+            </span>
+          </a>
+        {%- endif -%}
+      </li>
+    {%- endfor -%}
+  </ul>
+</nav>

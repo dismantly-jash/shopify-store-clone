@@ -1,0 +1,303 @@
+<section class="logo-list-section center section-{{ section.id }}-padding section-{{ section.id }}">
+  <div class="page-width">
+    {% if section.settings.logo_text != blank %}
+      <p class="logo-list-text" style="color: {{ section.settings.logo_text_color }};">{{ section.settings.logo_text }}</p>
+    {% endif %}
+    <div class="logo-list-logos">
+      {% for block in section.blocks %}
+        <div class="logo-list-logo-item">
+          {% if block.settings.logo != blank %}
+            <a
+              href="{% if block.settings.logo_link != blank %}{{ block.settings.logo_link }}{% else %}javascript:void(0){% endif %}"
+              rel="noopener"
+            >
+              {%- liquid
+                assign image_height = block.settings.logo.width | divided_by: block.settings.logo.aspect_ratio
+                assign image_class = 'logo-image'
+                assign sizes = '100vw'
+                assign widths = '300, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
+                assign fetch_priority = 'auto'
+                if forloop.first
+                  assign fetch_priority = 'high'
+                endif
+              -%}
+              {{
+                block.settings.logo
+                | image_url: width: 300
+                | image_tag:
+                  width: block.settings.logo.width,
+                  height: image_height,
+                  class: image_class,
+                  sizes: sizes,
+                  widths: widths,
+                  fetchpriority: fetch_priority
+              }}
+            </a>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<style>
+  .logo-list-text {
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+    margin: 0px;
+  }
+  .logo-list-section .page-width {
+    max-width: 1290px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+  .logo-list-logos {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+  }
+  .logo-list-logos .logo-list-logo-item {
+    flex: 0 0 {{ section.settings.logo_item_width }}px;
+    max-width: {{ section.settings.logo_item_width }}px;
+    background: #fff;
+    height: {{ section.settings.logo_item_height }}px;
+    border: 1px solid #ededed;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 16px;
+  }
+  .logo-list-logo-item img {
+    cursor: pointer;
+    max-width: 100%;
+    max-height: {{ section.settings.logo_max_height }}px;
+    height: auto;
+    width: auto;
+    object-fit: contain;
+  }
+  .logo-list-logos .logo-list-logo-item a {
+    line-height: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.mobile_padding_top }}px;
+      padding-bottom: {{ section.settings.mobile_padding_bottom }}px;
+    }
+
+    {% if section.settings.background_color != blank %}
+      .section-{{ section.id }} {
+        background-color: {{ section.settings.background_color }}
+      }
+    {% endif %}
+
+
+  /* Responsive Design */
+
+  @media screen and (max-width:680px){
+    .logo-list-section .page-width {
+      padding-left: 12px;
+      padding-right: 12px;
+      gap: 0px;
+      flex-direction: column;
+    }
+    .logo-list-logos {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 12px;
+      row-gap: 12px;
+      overflow: hidden;
+      padding: 0;
+      width: 100%;
+    }
+    .logo-list-logos .logo-list-logo-item {
+      flex: 0 0 auto;
+      max-width: none;
+      width: 100%;
+    }
+    .logo-list-container.page-width{
+      padding:0;
+    }
+    .logo-list-container .logo-list-header{
+      padding-left:24px;
+      padding-right:24px;
+    }
+  }
+  @media (max-width: 480px) {
+    .logo-list-logos {
+      column-gap: 10px;
+      row-gap: 10px;
+    }
+    .logo-list-logos .logo-list-logo-item {
+      width: 100%;
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+      .section-{{ section.id }}-padding {
+          padding-top: {{ section.settings.padding_top }}px;
+          padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+  }
+
+  @media (max-width: 1200px) {
+    .logo-list-section .page-width {
+      max-width: 100%;
+    }
+    .logo-list-logos {
+      gap: 16px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Logo list",
+  "tag": "section",
+  "class": "logo-list",
+  "settings": [
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo Side Text",
+      "default": "We specialise in Ford and Holden cars"
+    },
+    {
+      "type": "color",
+      "id": "logo_text_color",
+      "label": "Logo Text Color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#272727"
+    },
+    {
+      "type": "header",
+      "content": "Logo Size"
+    },
+    {
+      "type": "range",
+      "id": "logo_item_width",
+      "min": 80,
+      "max": 240,
+      "step": 4,
+      "unit": "px",
+      "label": "Logo Item Width",
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "logo_item_height",
+      "min": 40,
+      "max": 140,
+      "step": 2,
+      "unit": "px",
+      "label": "Logo Item Height",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "logo_max_height",
+      "min": 20,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Logo Image Max Height",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Section Desktop View padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "label": "Desktop Padding Top",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "label": "Desktop Padding Bottom",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Section Mobile View padding"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile Padding Top",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 20
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo image"
+        },
+        {
+          "type": "url",
+          "id": "logo_link",
+          "label": "Logo link"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "Logo list",
+      "category": "Logo list",
+      "blocks": [
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,231 @@
+{{ 'section-main-product.css' | asset_url | stylesheet_tag }}
+<div class="product-detail__popup" id="product-detail__popup">
+  <div class="product-popup-wrapper">
+    <div class="product-popup-wrapper__inner">
+        <div class="product-popup-header">
+          <div class="title-line">
+                <h2
+                  class="section-main-title inline-richtext h2"
+                >
+                  Request  Part
+                </h2>
+          </div>
+          <div class="popup-close">
+            <button class="btn close_btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" class="icon icon-close-small" viewBox="0 0 12 13">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M8.486 9.33 2.828 3.67M2.885 9.385l5.544-5.77"></path>
+                </svg>
+            </button>
+            </div>
+        </div>
+      <div class="product-popup-content">
+        <div class="product-popup-form">
+          <div style="margin:0 auto;" class="pxFormGenerator" id="9arv1G5o4FL5U-1wPSb1fA"></div>
+          {% comment %} {% form 'customer', class: 'product-form' %}
+            {%- unless form.posted_successfully? -%}
+            <input type="hidden" name="contact[tags]" value="Product Detail">
+            <div class="product-form__field-wrapper">
+              <input type="hidden" name="contact[Product Name]" value="{{ product.title | escape }}">
+              <div class="field one-half">
+                <label class="field__label" for="productForm--custom-request-name"> Name<span>*</span> </label>
+                <input
+                  class="field__input"
+                  type="text"
+                  id="productForm--custom-request-name"
+                  name="contact[Name]"
+                  value=""
+                  placeholder="Name"
+                  required=""
+                >
+              </div>
+              <div class="field one-half">
+                <label class="field__label" for="productForm--custom-request-email"> Email<span>*</span> </label>
+                <input
+                  id="productForm--custom-request-email"
+                  type="email"
+                  name="contact[email]"
+                  class="field__input"
+                  value=""
+                  aria-required="true"
+                  autocorrect="off"
+                  autocapitalize="off"
+                  placeholder="you@company.com"
+                  pattern="[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}"
+                  title="Please enter a valid email address."
+                  required=""
+                >
+              </div>
+              <div class="field">
+                <label class="field__label" for="productForm--custom-request-phone"> Phone number </label>
+                <div class="feild-input_wrapper">
+                  <div class="input-group-btn">
+                    <button
+                      type="button"
+                      class="btn btn-default dropdown-toggle"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      <span class="emoji">NZ</span>
+                      <span class="caret">
+                        <span class="svg-wrapper">
+                          <svg height="512" viewBox="0 0 24 24" width="512" xmlns="http://www.w3.org/2000/svg">
+                            <g id="_16" data-name="16"><path d="m12 16a1 1 0 0 1 -.71-.29l-6-6a1 1 0 0 1 1.42-1.42l5.29 5.3 5.29-5.29a1 1 0 0 1 1.41 1.41l-6 6a1 1 0 0 1 -.7.29z"></path></g>
+                          </svg>
+                        </span>
+                      </span>
+                    </button>
+                    <ul class="dropdown-menu scrollable-menu">
+                      {% render 'country-code-list' %}
+                    </ul>
+                  </div>
+                  <input
+                    type="tel"
+                    id="productForm--custom-request-phone"
+                    class="field__input phone__input"
+                    autocomplete="tel"
+                    inputmode="numeric"
+                    name="contact[Phone number]"
+                    pattern="[0-9]*"
+                    value=""
+                    placeholder="5550000000"
+                    title="Please enter numbers only."
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="product-form__field-wrapper product-part__field-wrapper">
+              <div class="field one-half">
+                <label class="field__label" for="ProductForm-custom-request-stock"> Stock # </label>
+                <input
+                  type="text"
+                  id="ProductForm-custom-request-stock"
+                  class="field__input"
+                  name="contact[Stock #]"
+                  value="{{ product.metafields.custom.stock_id.value | escape }}"
+                  placeholder="Stock #"
+                  readonly
+                >
+              </div>
+
+              <div class="field one-half">
+                <label class="field__label" for="ProductForm-custom-request-year"> Year </label>
+                <input
+                  type="text"
+                  id="ProductForm-custom-request-year"
+                  class="field__input"
+                  name="contact[Year]"
+                  value="{{ product.metafields.custom.year.value | escape }}"
+                  placeholder="Year"
+                  readonly
+                >
+              </div>
+
+              <div class="field one-half">
+                <label class="field__label" for="ProductForm-custom-request-make"> Make </label>
+                <input
+                  type="text"
+                  id="ProductForm-custom-request-make"
+                  class="field__input"
+                  name="contact[Make]"
+                  value="{{ product.metafields.custom.make.value | escape }}"
+                  placeholder="Make"
+                  readonly
+                >
+              </div>
+
+              <div class="field one-half">
+                <label class="field__label" for="ProductForm-custom-request-model"> Model </label>
+                <input
+                  type="text"
+                  id="ProductForm-custom-request-model"
+                  class="field__input"
+                  name="contact[Model]"
+                  value="{{ product.metafields.custom.model.value | escape }}"
+                  placeholder="Model"
+                  readonly
+                >
+              </div>
+
+              <div class="field one-half">
+                <label class="field__label" for="ProductForm-custom-request-series"> Series </label>
+                <input
+                  type="text"
+                  id="ProductForm-custom-request-series"
+                  class="field__input"
+                  name="contact[Series]"
+                  value="{{ product.metafields.custom.series.value | escape }}"
+                  placeholder="Series"
+                  readonly
+                >
+              </div>
+
+              <div class="field one-half">
+                <label class="field__label" for="ProductForm-custom-request-vin"> VIN </label>
+                <input
+                  type="text"
+                  id="ProductForm-custom-request-vin"
+                  class="field__input"
+                  name="contact[VIN]"
+                  value="{{ product.metafields.custom.vin.value | escape }}"
+                  placeholder="VIN"
+                  readonly
+                >
+              </div>
+            </div>
+            <div class="">
+              <label class="field__label" for="ProductForm-custom-request-part-type"> Part Type </label>
+              <input
+                type="text"
+                id="ProductForm-custom-request-part-type"
+                class="custom_field__input"
+                name="contact[Part Type]"
+                value="{{ product.metafields.custom.part_type.value | escape }}"
+                placeholder="Part Type"
+                required
+              >
+            </div>
+            <div class="field form-btn">
+              <button
+                type="submit"
+                class="product-form__button button button--primary"
+                name="commit"
+                id="Subscribe"
+                aria-label="Subscribe"
+              >
+                Submit Part Request
+              </button>
+            </div>
+            {% endunless %}
+            {%- if form.posted_successfully? -%}
+              <div class="success-wrapper">
+                <svg width="66" height="66" viewBox="0 0 66 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M0 16.5C0 7.3873 7.3873 0 16.5 0H49.5C58.6127 0 66 7.3873 66 16.5V49.5C66 58.6127 58.6127 66 49.5 66H16.5C7.3873 66 0 58.6127 0 49.5V16.5Z" fill="#EBFBF8"/>
+                  <path d="M32.9984 47.8504C24.7968 47.8504 18.1484 41.202 18.1484 33.0004C18.1484 24.7987 24.7968 18.1504 32.9984 18.1504C41.2001 18.1504 47.8484 24.7987 47.8484 33.0004C47.8484 41.202 41.2001 47.8504 32.9984 47.8504ZM31.5179 38.9404L42.0168 28.44L39.9171 26.3402L31.5179 34.7408L27.3168 30.5397L25.217 32.6395L31.5179 38.9404Z" fill="#16A085"/>
+                  </svg>
+                  
+                <h3>Submission sent</h3>
+                <div class="rte">
+                  <p>
+                    Your form has been sent successfully. Our team will review the information and contact you if any
+                    additional details are required.
+                  </p>
+                </div>
+              </div>
+            {% endif %}
+          {% endform %} {% endcomment %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (async () => {
+    const requestPhoneInput = document.getElementById('productForm--custom-request-phone');
+
+    requestPhoneInput?.addEventListener('input', () => {
+      requestPhoneInput.value = requestPhoneInput.value.replace(/\D/g, '');
+    });
+  })();
+</script>

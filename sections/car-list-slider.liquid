@@ -1,0 +1,234 @@
+{{ 'car-list-slider.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  {% if section.settings.car_block_bg != blank %}
+    .car_list_slider .car_detail{
+      background:{{section.settings.car_block_bg}};
+      border: 1px solid #EAEAEA;
+    }
+  {% endif %}
+  {% if section.settings.car_block_heading != blank %}
+    .car_list_slider .car_detail .main_title{
+      color:{{section.settings.car_block_heading}};
+    }
+  {% endif %}
+  {% if section.settings.car_block_text != blank %}
+    .car_list_slider .car_detail .desc_text{
+      color:{{section.settings.car_block_text}};
+    }
+  {% endif %}
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="section-{{ section.id }} product-card-list__slider">
+  <div class="page-width section-{{ section.id }}-padding">
+    {% if section.settings.title_icon != blank %}
+      <div class="title-svg-icon-container" style="padding-bottom: 30px;">
+        {{ section.settings.title_icon }}
+      </div>
+    {% endif %}
+
+    <div class="car_detail_list swiper">
+      <div class="swiper-wrapper">
+        {% assign collection = section.settings.collection %}
+
+        {% if collection and collection.products_count > 0 %}
+          {% for product in collection.products limit: section.settings.limit %}
+            {% assign mod = forloop.index0 | modulo: 2 %}
+            {% if mod == 0 %}
+              <div
+                class="car-detail-list__item swiper-slide"
+              >
+                <div class="featured-car-slide-inner">
+            {% endif %}
+            {% render 'card-car-product', product: product %}
+            {% if mod == 1 or forloop.last %}
+              </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          {% assign blocks = section.blocks %}
+          {% for block in blocks limit: section.settings.limit %}
+            {% assign product = block.settings.product %}
+            {% if product %}
+              {% assign mod = forloop.index0 | modulo: 2 %}
+              {% if mod == 0 %}
+                <div
+                  class="car-detail-list__item swiper-slide"
+                >
+                  <div class="featured-car-slide-inner">
+              {% endif %}
+              {% render 'card-car-product', product: product %}
+              {% if mod == 1 or forloop.last %}
+                </div>
+                </div>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+    <div class="car-slider-next swiper-button-next">
+      {{ 'icon-next.svg' | inline_asset_content }}
+      </div>
+      <div class="car-slider-prev swiper-button-prev">
+      {{ 'icon-prev.svg' | inline_asset_content }}
+    </div>
+
+    {% if section.settings.btn_label != blank or section.settings.btn_link != blank %}
+      <div class="center collection__view-all">
+        <a
+          style="background-color: #white; color: #000;"
+          href="{% if section.settings.btn_link != blank %}{{section.settings.btn_link}}{% else %}Javascript:void(0){% endif %}"
+          class="btn button button--primary"
+        >
+          {{ section.settings.btn_label }}
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Car List Slider",
+  "tag": "section",
+  "class": "car_list_slider",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "default": "t:sections.multicolumn.settings.title.default",
+      "label": "t:sections.multicolumn.settings.title.label"
+    },
+    {
+      "type": "html",
+      "id": "title_icon",
+      "label": "Title Icon"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__3.label"
+        },
+        {
+          "value": "hxl",
+          "label": "t:sections.all.heading_size.options__4.label"
+        },
+        {
+          "value": "hxxl",
+          "label": "t:sections.all.heading_size.options__5.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "color",
+      "id": "car_block_bg",
+      "label": "Block Background"
+    },
+    {
+      "type": "color",
+      "id": "car_block_heading",
+      "label": "Product Title Color"
+    },
+    {
+      "type": "color",
+      "id": "car_block_text",
+      "label": "Block Text Color"
+    },
+    {
+      "type": "header",
+      "content": "Collection"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "label": "Products to show",
+      "min": 4,
+      "max": 50,
+      "step": 1,
+      "default": 18
+    },
+    {
+      "type": "header",
+      "content": "View All Button"
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "Button Label"
+    },
+    {
+      "type": "url",
+      "id": "btn_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "car_block",
+      "name": "Car Detail",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Car List Slider"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,74 @@
+{{ 'top-bar.css' | asset_url | stylesheet_tag }}
+
+<div
+  class="section-top-bar color-{{ section.settings.color_scheme }} gradient"
+>
+  <div class="page-width top-bar__grid">
+    <div
+      class="top-bar"
+      role="region"
+      aria-label="{{ 'sections.header.announcement' | t }}"
+      {{ section.blocks.first.shopify_attributes }}
+    >
+      {% for block in section.blocks %}  
+        <div class="top-bar__item">
+            {%- if block.settings.text != blank -%}
+                <div class="svg-wrapper">
+                    {{ block.settings.svg_icon }}
+                </div>    
+                <div class="top-bar__message h5">
+                    <span>{{ block.settings.text }}</span>
+                </div>
+            {%- endif -%}
+        </div>    
+      {% endfor %}  
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Top Bar",
+  "max_blocks": 12,
+  "class": "top-bar-section",
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-4"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "t:sections.announcement-bar.blocks.announcement.name",
+      "settings": [
+        {
+          "type": "html",
+          "id": "svg_icon",
+          "label": "Svg Icon"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "t:sections.announcement-bar.blocks.announcement.settings.text.label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Top Bar",
+      "blocks": [
+        {
+          "type": "announcement"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

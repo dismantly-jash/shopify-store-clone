@@ -1,0 +1,239 @@
+<div class="product-detail__popup get-estimate-popup" id="get_estimate__popup">
+  <div class="product-popup-wrapper">
+    <div class="product-popup-wrapper__inner">
+      <div class="product-popup-header">
+        {{ settings.get_estimate_popup_heading }}
+          
+        <div class="popup-close">
+          <button class="btn close_btn">
+            {{ 'icon-close-small.svg' | inline_asset_content }}
+          </button>
+        </div>
+      </div>
+      <div class="product-popup-content">
+        <div class="product-popup-form">
+        <div style="margin:0 auto;" class="pxFormGenerator" id="QwNgvkpgZ9tYlBOI-RAznw"></div>
+          {% comment %} {% capture form_id %}product-form--get-estimate{% endcapture %}
+          {% form 'contact', class: 'product-form', id: form_id %}
+            {%- capture content_for_query_string -%}{{ content_for_header }}{%- endcapture -%}
+          {%- liquid
+            assign query_key = query_key | default: blank
+            assign page_url = content_for_query_string | split: '"pageurl":"' | last | split: '"' | first | split: request.host | last | replace: '\/', '/' | replace: '%20', ' ' | replace: '\u0026', '&'
+          -%}
+
+            <input type="hidden" name="return_to" value="{{page_url}}{%- if page_url contains '?' -%}&{%- else -%}?{%-endif-%}contact_posted=true">
+            <input type="hidden" name="contact[tags]" value="Product Estimate">
+            <div
+              class="product-form__field-wrapper"
+            >
+              <input type="hidden" name="contact[Product Name]" value="{{ product.title }}">
+              <div class="field one-half">
+                <label class="field__label" for="productForm--get-estimate-name">
+                  {{ 'templates.contact.form.name' | t }}<span>*</span>
+                </label>
+                <input
+                  class="field__input"
+                  type="text"
+                  id="productForm--get-estimate-name"
+                  name="contact[{{ 'templates.contact.form.name' | t }}]"
+                  value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+                  placeholder="{{ 'templates.contact.form.name' | t }}"
+                  required
+                >
+              </div>
+              <div class="field one-half">
+                <label class="field__label" for="productForm--get-estimate-email">
+                  {{ 'newsletter.label' | t }}<span>*</span>
+                </label>
+                <input
+                  id="productForm--get-estimate-email"
+                  type="email"
+                  name="contact[email]"
+                  class="field__input"
+                  value="{{ form.email }}"
+                  aria-required="true"
+                  autocorrect="off"
+                  autocapitalize="off"
+                  {% if form.errors %}
+                    autofocus
+                    aria-invalid="true"
+                    aria-describedby="product-error--get-estimate"
+                  {% elsif form.posted_successfully? %}
+                    aria-describedby="product-success--get-estimate"
+                  {% endif %}
+                  placeholder="{{ 'general.get_estimate.email_placeholder' | t }}"
+                  required
+                >
+              </div>
+              <div class="field">
+                <label class="field__label" for="productForm--get-estimate-phone">
+                  {{ 'templates.contact.form.phone' | t }}
+                </label>
+                <div class="feild-input_wrapper">
+                  <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span class="emoji">US</span>
+                      <span class="caret">
+                        <span class="svg-wrapper"><svg height="512" viewBox="0 0 24 24" width="512" xmlns="http://www.w3.org/2000/svg"><g id="_16" data-name="16"><path d="m12 16a1 1 0 0 1 -.71-.29l-6-6a1 1 0 0 1 1.42-1.42l5.29 5.3 5.29-5.29a1 1 0 0 1 1.41 1.41l-6 6a1 1 0 0 1 -.7.29z"></path></g></svg></span>
+                      </span>
+                    </button>
+                    <ul class="dropdown-menu scrollable-menu">
+                      {% render 'country-code-list' %}
+                    </ul>  
+                  </div>   
+                  <input
+                    type="tel"
+                    id="productForm--get-estimate-phone"
+                    class="field__input phone__input"
+                    autocomplete="tel"
+                    name="contact[{{ 'templates.contact.form.phone' | t }}]"
+                    value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+                    placeholder="{{ 'general.get_estimate.phone_placeholder' | t }}"
+                  >
+                </div>
+              </div>
+            </div>
+            <div
+              class="product-form__field-wrapper"
+            >
+              <div class="field">
+                <label class="field__label" for="productEstimateForm--get-estimate-year-range">
+                  {{ 'general.get_estimate.year_make_model' | t }} :
+                </label>
+                <input
+                  type="text"
+                  id="sectionEstimateForm--get-estimate-year-range"
+                  class="field__input"
+                  name="contact[{{ 'general.get_estimate.year_make_model' | t }}]"
+                  value=""
+                  placeholder="{{ 'general.get_estimate.year_make_model_placeholder' | t }}"
+                  
+                >
+              </div>
+              <div class="field">
+                <label class="field__label" for="productEstimateForm--get-estimate-vin_number">
+                  {{ 'general.get_estimate.plate_number' | t }} :
+                </label>
+                <input
+                  type="text"
+                  id="productEstimateForm--get-estimate-vin_number"
+                  class="field__input"
+                  name="contact[{{ 'general.get_estimate.plate_number' | t }}]"
+                  value=""
+                  placeholder="{{ 'general.get_estimate.plate_number_placeholder' | t }}"
+                >
+              </div>
+              <div class="field">
+                <label class="field__label" for="productEstimateForm--get-estimate-address">
+                  {{ 'general.get_estimate.address' | t }} :
+                </label>
+                <input
+                  type="text"
+                  id="productEstimateForm--get-estimate-address"
+                  class="field__input"
+                  name="contact[{{ 'general.get_estimate.address' | t }}]"
+                  value=""
+                  placeholder="{{ 'general.get_estimate.address_placeholder' | t }}"
+                >
+              </div>
+            </div>
+            <div
+              class="product-form__field-wrapper product-form__message"
+            >
+              <div class="field">
+                <label class="field__label" for="productEstimateForm--get-estimate-offer-amount">
+                  {{ 'general.get_estimate.desired_price' | t }}
+                </label>
+                <input
+                  type="number"
+                  id="productEstimateForm--get-estimate-offer-amount"
+                  class="field__input"
+                  autocomplete="number"
+                  name="contact[{{ 'general.get_estimate.desired_price' | t }}]"
+                  value=""
+                  placeholder="{{ 'general.get_estimate.desired_price_placeholder' | t }}"
+                >
+              </div>
+              <div class="field">
+                <label class="form__label field__label" for="ContactForm-body">
+                  {{ 'general.get_estimate.description' | t }}
+                </label>
+                <textarea
+                  rows="10"
+                  id="ContactForm-body"
+                  class="text-area field__input"
+                  name="contact[{{ 'general.get_estimate.description_placeholder' | t }}]"
+                  placeholder="{{ 'general.get_estimate.description_placeholder' | t }}"
+                >
+                  {{- form.body -}}
+                </textarea>
+              </div>
+            </div>  
+              <div class="field">
+                <button
+                  type="submit"
+                  class="product-form__button button button--primary"
+                  name="commit"
+                  id="Subscribe"
+                  aria-label="{{ 'newsletter.button_label' | t }}"
+                  style="background-color: {{settings.form_button_color}}; color: {{settings.form_button_text_color}};"
+                >
+                  {{ 'general.get_estimate.submit_button' | t }}
+                </button>
+              </div>
+              {%- if form.errors -%}
+                <small class="product-form__message form__message" id="Newsletter-error--get-estimate">
+                  <span class="svg-wrapper">
+                    {{- 'icon-error.svg' | inline_asset_content -}}
+                  </span>
+                  {{- form.errors.translated_fields.email | capitalize }}
+                  {{ form.errors.messages.email -}}
+                </small>
+              {%- endif -%}
+            {%- if form.posted_successfully? -%}
+              <h3
+                class="product-form__message product-form__message--success form__message"
+                id="Newsletter-success--get-estimate"
+                tabindex="-1"
+                autofocus
+              >
+                <span class="svg-wrapper">
+                  {{- 'icon-success.svg' | inline_asset_content -}}
+                </span>
+                {{- 'newsletter.product_form_success' | t }}
+              </h3>
+            {%- endif -%}
+          {% endform %} {% endcomment %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="thank-you__popup" id="thank-you__popup">
+  <div class="product-popup-wrapper">
+    <div class="product-popup-wrapper__inner">
+      <div class="product-popup-header">
+        <div class="success-wrapper">
+          <svg width="66" height="66" viewBox="0 0 66 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 16.5C0 7.3873 7.3873 0 16.5 0H49.5C58.6127 0 66 7.3873 66 16.5V49.5C66 58.6127 58.6127 66 49.5 66H16.5C7.3873 66 0 58.6127 0 49.5V16.5Z" fill="#EBFBF8"/>
+            <path d="M32.9984 47.8504C24.7968 47.8504 18.1484 41.202 18.1484 33.0004C18.1484 24.7987 24.7968 18.1504 32.9984 18.1504C41.2001 18.1504 47.8484 24.7987 47.8484 33.0004C47.8484 41.202 41.2001 47.8504 32.9984 47.8504ZM31.5179 38.9404L42.0168 28.44L39.9171 26.3402L31.5179 34.7408L27.3168 30.5397L25.217 32.6395L31.5179 38.9404Z" fill="#16A085"/>
+            </svg>            
+          <h3>Submission sent</h3>
+          <div class="rte">
+            <p>
+              Your form has been sent successfully. Our team will review the information and contact you if any
+              additional details are required.
+            </p>
+          </div>
+        </div>
+        <button
+          type="button"
+          class="button thankyou__ok button--primary"
+        >
+          ok
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

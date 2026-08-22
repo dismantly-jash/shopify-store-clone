@@ -1,0 +1,191 @@
+.title-svg-icon-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.product-card-list__slider .title-line {
+  margin-bottom: 40px;
+}
+.product-card-list__slider .car_detail_list {
+  padding-left: 3px;
+}
+.product-card-list__slider .car_detail_list .featured-car-slide-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.product-card-list__slider .card_media {
+  position: relative;
+  padding-bottom: 70%;
+}
+.product-card-list__slider .card_media .media {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.product-card-list__slider .card__inner {
+  background: #FFF;
+  box-shadow: 0 0 10px #28370033;
+  margin-bottom: 10px;
+}
+.product-card-list__slider .card__inner .card__details {
+  padding: 20px 24px 32px;
+  text-align: left;
+}
+.product-card-list__slider .card__inner .card__details h3.card_heading {
+  margin: 0 0 12px;
+  min-height: 58px;
+}
+.product-card-list__slider .card__inner .card__details h3.card_heading a {
+  font-size: 24px;
+  color: #000;
+  text-decoration: none;
+  letter-spacing: 0;
+  line-height: 1.2;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+.product-card-list__slider .card__inner .desc_text {
+  line-height: 1.1
+}
+.product-card-list__slider .card__inner .desc_text span {
+  font-size: 18px;
+  color: #585858;
+  font-weight: 500;
+}
+.product-card-list__slider .collection__view-all {
+  margin-top: 40px;
+  text-align: center;
+}
+.product-card-list__slider .collection__view-all a {
+  margin: 0 auto;
+  width: fit-content;
+  text-align: center;
+  border: 1px solid #D8D8D8;
+  background: #fff;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  font-size: 16px;
+  letter-spacing: 0;
+  color: #000;
+  font-weight: 600;
+  min-width: 150px;
+  padding: 10px;
+  min-height: 46px;
+} 
+
+.product-card-list__slider .page-width{
+  position:relative;
+}
+.product-card-list__slider .swiper-button-next{
+  right:20px !important;
+}
+.product-card-list__slider .swiper-button-prev{
+  left:20px !important;
+}
+.product-card-list__slider .swiper-pagination {
+  margin-top:40px;
+}
+@media (max-width:1440px){
+  .product-card-list__slider .slick-next.slick-arrow {
+    right: -10px;
+  }
+  .product-card-list__slider .slick-prev.slick-arrow {
+    left: -10px;
+  }
+}
+@media screen and (max-width:1259px){
+  .product-card-list__slider .card__inner .card__details h3.card_heading a{
+    font-size:20px;
+  } 
+}
+@media (max-width:1200px){
+  .car_list_slider .car_features_detail .car_feature{
+    font-size: 12px;
+    padding: 2px 4px;
+  } 
+  .car_list_slider .car_features_detail{
+    left:10px;
+  }
+  .car_list_slider .car_detail .desc_text{
+    font-size:16px;
+  } 
+  .product-card-list__slider .car_detail_list {
+    padding-left: 2px;
+  }
+  
+}
+@media screen and (max-width:989px){
+  .product-card-list__slider .car_detail_list .featured-car-slide-inner{
+    gap:22px;
+  }
+  .product-card-list__slider .swiper-button-next, .product-card-list__slider .swiper-button-prev{
+    width:45px;
+    height:45px;
+  }
+  .product-card-list__slider .collection__view-all {
+    margin-top: 10px;
+  }
+}
+@media (max-width:749px){
+  .car_list_slider h2{
+    padding-right:1.5rem;
+  }  
+  .car_list_slider .slick-slide{
+    margin-left:0;
+    margin-right:15px;
+  }  
+  .product-card-list__slider .card__inner .card__details h3.card_heading a{
+    font-size:18px;
+  }
+  .product-card-list__slider .car_detail_list .featured-car-slide-inner{
+    gap:15px;
+  }
+  .product-card-list__slider .collection__view-all{
+    margin-top:30px;
+  }
+  /* .product-card-list__slider .swiper-pagination{
+    margin-top:40px;
+  } */
+  .product-card-list__slider .car_detail_list {
+    padding-left: 3px;
+  }
+  .product-card-list__slider .swiper-button-next{
+    right:12px !important;
+  }
+  .product-card-list__slider .swiper-button-prev{
+    left:12px !important;
+  }
+  .product-card-list__slider .card__inner .card__details h3.card_heading{
+    min-height:auto;
+  }
+}
+@media screen and (max-width:580px){
+  .product-card-list__slider .card__inner .card__details h3.card_heading {
+    min-height: auto;
+  }
+  .car_list_slider .car_detail .main_product_title {
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .product-card-list__slider .card__inner .card__details h3.card_heading a {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+  .product-card-list__slider .card__inner .desc_text span {
+    font-size: 14px;
+    line-height: 1.5;
+    display: block;
+  }
+  .product-card-list__slider .card__inner .card__details {
+    padding: 20px;
+  }
+}
+@media screen and (max-width:480px){
+  .product-card-list__slider .slick-arrow {
+    width: 45px;
+    height: 45px;
+  }
+}

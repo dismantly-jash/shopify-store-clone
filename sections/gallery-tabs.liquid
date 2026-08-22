@@ -1,0 +1,223 @@
+{{ 'section-gallery-tabs.css' | asset_url | stylesheet_tag }}
+{%- liquid
+  assign fetch_priority = 'auto'
+  if section.index == 1
+    assign fetch_priority = 'high'
+  endif
+-%}
+
+<div class="gallery-tabs section-gallery-tabs section-{{ section.id }}-padding">
+  <div class="page-width">
+    {% if section.settings.icon != blank %}
+      <div class="title-svg-icon-container" style="padding-bottom: 20px;">
+        {{ section.settings.icon }}
+      </div>
+    {% endif %}
+
+    <div class="tabs-nav">
+      {% for block in section.blocks %}
+        <button 
+          class="tab-btn{% if forloop.first %} active{% endif %}" 
+          data-index="{{ forloop.index0 }}"
+        >
+          {{ block.settings.tab_label }}
+        </button>
+      {% endfor %}
+    </div>
+
+    <div class="tabs-slider swiper">
+      <div class="swiper-wrapper">
+        {% for block in section.blocks %}
+          <div class="tab-slide swiper-slide">
+            {% if block.settings.tab_image_url != blank %}
+            <a href="{% if block.settings.tab_image_url != blank %}{{block.settings.tab_image_url}}{% else %}Javascript:void(0){% endif %}" class="tab-image_and_title">
+            {% else %}
+            <div class="tab-image_and_title">
+            {% endif %}
+                {%- if block.settings.tab_image != blank -%}
+                  <img
+                    srcset="
+                      {%- if block.settings.tab_image.width >= 165 -%}{{ block.settings.tab_image | image_url: width: 165 }} 165w,{%- endif -%}
+                      {%- if block.settings.tab_image.width >= 360 -%}{{ block.settings.tab_image | image_url: width: 360 }} 360w,{%- endif -%}
+                      {%- if block.settings.tab_image.width >= 533 -%}{{ block.settings.tab_image | image_url: width: 533 }} 533w,{%- endif -%}
+                      {%- if block.settings.tab_image.width >= 720 -%}{{ block.settings.tab_image | image_url: width: 720 }} 720w,{%- endif -%}
+                      {%- if block.settings.tab_image.width >= 940 -%}{{ block.settings.tab_image | image_url: width: 940 }} 940w,{%- endif -%}
+                      {%- if block.settings.tab_image.width >= 1066 -%}{{ block.settings.tab_image | image_url: width: 1066 }} 1066w,{%- endif -%}
+                      {{ block.settings.tab_image | image_url }} {{ block.settings.tab_image.width }}w
+                    "
+                    src="{{ block.settings.tab_image | image_url: width: 533 }}"
+                    alt="{{ block.settings.tab_image.alt | escape }}"
+                    class="motion-reduce"
+                    loading="lazy"
+                    width=""
+                    height=""
+                  >
+                {%- else -%}
+                  {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                {%- endif -%}
+              <div class="tab-slide-title">{{ block.settings.tab_label }}</div>
+              {% if block.settings.tab_image_url != blank %}
+              </a>
+              {% else %}
+              </div>
+              {% endif %}
+              {% if block.settings.btn_label != blank or block.settings.btn_link != blank %}
+                <div class="center collection__view-all">
+                  <a href="{% if block.settings.btn_link != blank %}{{block.settings.btn_link}}{% else %}Javascript:void(0){% endif %}" class="btn button button--primary"
+                    style="background-color: {{ section.settings.gallery_tabs_button_color }}; color: {{ section.settings.gallery_tabs_button_text_color }};"
+                  >
+                    {{ block.settings.btn_label }}
+                  </a>
+                </div>  
+              {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+    <div class="tabs-slider-next swiper-button-next">
+      {{ 'icon-next.svg' | inline_asset_content }}
+    </div>
+    <div class="tabs-slider-prev swiper-button-prev">
+      {{ 'icon-prev.svg' | inline_asset_content }}
+    </div>
+  </div>
+</div>
+
+<style>
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.mobile_padding_top }}px;
+    padding-bottom: {{ section.settings.mobile_padding_bottom  }}px;
+  }
+
+  @media screen and (min-width: 768px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Gallery Tabs",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Gallery Tabs"
+    },
+    {
+      "type": "header",
+      "content": "Section Desktop View padding"
+    },
+    {
+      "type": "html",
+      "id": "icon",
+      "label": "Icon"
+    },
+    {
+      "type": "color",
+      "id": "gallery_tabs_button_color",
+      "label": "Gallery Tabs Button Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "gallery_tabs_button_text_color",
+      "label": "Gallery Tabs Button Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "label": "Desktop Padding Top",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "label": "Desktop Padding Bottom",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Section Mobile View padding"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile Padding Top",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 10
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tab_label",
+          "label": "Tab Label",
+          "default": "Tab Name"
+        },
+        {
+          "type": "image_picker",
+          "id": "tab_image",
+          "label": "Tab Image"
+        },
+        {
+          "type": "url",
+          "id": "tab_image_url",
+          "label": "Tab Image Url"
+        },
+        {
+          "type": "header",
+          "content": "Button"
+        },
+        {
+          "type": "text",
+          "id": "btn_label",
+          "label": "Button Label"
+        },
+        {
+          "type": "url",
+          "id": "btn_link",
+          "label": "Button Link"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "Gallery Tabs",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

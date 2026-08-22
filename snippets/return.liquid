@@ -1,0 +1,341 @@
+<div class="product-detail__popup return-main-popup" id="product-return__popup">
+  <div class="product-popup-wrapper">
+    <div class="product-popup-wrapper__inner">
+      {% comment %}
+      <div style="margin:0 auto;" class="pxFormGenerator" id="yCugPDEjCvTv7_VPKDOqzA"></div>
+      {% endcomment %}
+        <div class="product-popup-header">
+          <div style="display:flex;align-items:center;justify-content:center;">
+            {{ settings.return_popup_heading }}
+          </div>
+          <p>Submit a return request and we'll get back to you with next steps.</p>
+          <div class="popup-close">
+            <button class="btn close_btn">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" class="icon icon-close-small" viewBox="0 0 12 13">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M8.486 9.33 2.828 3.67M2.885 9.385l5.544-5.77"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="product-popup-content">
+          <div class="product-popup-form">
+            <div style="margin:0 auto;" class="pxFormGenerator" id="UCAmKC-pyCi1vm04cLnc2A"></div>
+            {% comment %} {% form 'customer', class: 'product-form' %}
+              {% unless form.posted_successfully? %}
+                <input type="hidden" name="contact[tags]" value="Product Detail">
+                <div
+                  class="product-form__field-wrapper"
+                >
+                  <input type="hidden" name="contact[Product Name]" value="{{ product.title }}">
+                  <div class="field one-half">
+                    <label class="field__label" for="productForm--return-name">
+                      Name on Order
+                      <span>*</span>
+                    </label>
+                    <input
+                      class="field__input"
+                      type="text"
+                      id="productForm--return-name"
+                      name="contact[{{ 'templates.contact.form.name' | t }}]"
+                      value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+                      
+                      required
+                    >
+                  </div>
+                  <div class="field one-half">
+                    <label class="field__label" for="productForm--return-email">
+                      {{ 'newsletter.label' | t -}}
+                      <span>*</span>
+                    </label>
+                    <input
+                      id="productForm--return-email"
+                      type="email"
+                      name="contact[email]"
+                      class="field__input"
+                      value="{{ form.email }}"
+                      aria-required="true"
+                      autocorrect="off"
+                      autocapitalize="off"
+                      autocomplete="email"
+                      inputmode="email"
+                      spellcheck="false"
+                      pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$"
+                      title="Enter a valid email address"
+                      {% if form.errors contains 'email' %}
+                        autofocus
+                        aria-invalid="true"
+                        aria-describedby="productForm--return-email-error"
+                      {% elsif form.posted_successfully? %}
+                        aria-describedby="product-success--{{ section.id }}"
+                      {% endif %}
+                      placeholder="you@example.com"
+                      required
+                    >
+                    {%- if form.errors contains 'email' -%}
+                      <small class="product-form__message form__message" id="productForm--return-email-error">
+                        <span class="svg-wrapper">
+                          {{- 'icon-error.svg' | inline_asset_content -}}
+                        </span>
+                        {{- form.errors.translated_fields.email | capitalize }}
+                        {{ form.errors.messages.email -}}
+                      </small>
+                    {%- endif -%}
+                  </div>
+                  <div class="field one-half">
+                    <label class="field__label" for="productForm--return-phone">
+                      {{ 'templates.contact.form.phone' | t }}
+                    </label>
+                    <div class="feild-input_wrapper">
+                      <div class="input-group-btn">
+                        <button
+                          type="button"
+                          class="btn btn-default dropdown-toggle"
+                          data-toggle="dropdown"
+                          aria-haspopup="true"
+                          aria-expanded="false"
+                        >
+                          <span class="emoji">US</span>
+                          <span class="caret">
+                            <span class="svg-wrapper">
+                              <svg height="512" viewBox="0 0 24 24" width="512" xmlns="http://www.w3.org/2000/svg">
+                                <g id="_16" data-name="16"><path d="m12 16a1 1 0 0 1 -.71-.29l-6-6a1 1 0 0 1 1.42-1.42l5.29 5.3 5.29-5.29a1 1 0 0 1 1.41 1.41l-6 6a1 1 0 0 1 -.7.29z"></path></g>
+                              </svg>
+                            </span>
+                          </span>
+                        </button>
+                        <ul class="dropdown-menu scrollable-menu">
+                          {% render 'country-code-list' %}
+                        </ul>
+                      </div>
+                      <input
+                        type="tel"
+                        id="productForm--return-phone"
+                        class="field__input phone__input"
+                        autocomplete="tel"
+                        inputmode="numeric"
+                        name="contact[{{ 'templates.contact.form.phone' | t }}]"
+                        pattern="[0-9]*"
+                        title="Enter numbers only"
+                        value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                      >
+                    </div>
+                  </div>
+                  <div class="field one-half">
+                    <label class="field__label" for="productForm--return-date">
+                      Order Date
+                      <span>*</span>
+                    </label>
+                    <input
+                      id="productForm--return-date"
+                      type="date"
+                      name="contact[Date]"
+                      class="field__input"
+                      value=""
+                      max="{{ 'now' | date: '%Y-%m-%d' }}"
+                      aria-required="true"
+                      autocorrect="off"
+                      autocapitalize="off"
+                      required
+                    >
+                  </div>
+                  <div class="field one-half">
+                    <label class="field__label" for="productForm--return-invoice"> Invoice No <span>*</span> </label>
+                    <input
+                      id="productForm--return-invoice"
+                      type="text"
+                      name="contact[Invoice]"
+                      class="field__input"
+                      value=""
+                      aria-required="true"
+                      autocorrect="off"
+                      autocapitalize="off"
+                      required
+                    >
+                  </div>
+                  <div class="field one-half">
+                    <label class="field__label" for="productForm--return-refrence"> Reference Number </label>
+                    <input
+                      id="productForm--return-refrence"
+                      type="text"
+                      name="contact[Reference Number]"
+                      class="field__input"
+                      value=""
+                      aria-required="true"
+                      autocorrect="off"
+                      autocapitalize="off"
+                    >
+                  </div>
+                </div>
+                <div
+                  class="product-form__field-wrapper"
+                >
+                  <div class="field">
+                    <label class="field__label" for="productForm--return-reason">
+                      Reason for return <span>*</span>
+                    </label>
+                    <select
+                      id="productForm--return-reason"
+                      name="contact[Reason for return]"
+                      class="custom_field__input"
+                      required
+                    >
+                      <option value="no_longer_needed">Part No Longer Needed</option>
+                      <option value="incompatible" selected>Part is Incompatible</option>
+                      <option value="defective">Part is Defective / Not Functional</option>
+                      <option value="worse_condition">Part in Worse Condition than Expected</option>
+                      <option value="wrong_part">Part Received was Not Part Ordered</option>
+                      <option value="damaged_shipping">Part was Damaged in Shipping</option>
+                      <option value="not_received">Part was Never Received</option>
+                      <option value="other">Other (Please explain)</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                      <label class="form__label field__label" for="ContactForm-description">
+                      Description
+                      </label>
+                      <textarea
+                      rows="10"
+                      id="ContactForm-description"
+                      class="text-area field__input"
+                      name="contact[Description]"
+                      placeholder="Tell us about the issue..."
+                      ></textarea>
+                  </div>
+                  <div class="field return-file-upload-field">
+                    <label
+                      class="return-file-upload"
+                      for="productForm--return-attachment"
+                      data-return-upload-area
+                    >
+                      <span class="return-file-upload__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" focusable="false">
+                          <path d="M4 5.75A1.75 1.75 0 0 1 5.75 4h12.5A1.75 1.75 0 0 1 20 5.75v12.5A1.75 1.75 0 0 1 18.25 20H5.75A1.75 1.75 0 0 1 4 18.25V5.75Zm2 0v8.63l3.12-3.12a1.25 1.25 0 0 1 1.76 0l2.37 2.37.87-.87a1.25 1.25 0 0 1 1.76 0L18 14.88V5.75H6Zm0 11.42v1.08h12v-.54l-3-3-2.63 2.63-2.37-2.37-4 4Z"></path>
+                        </svg>
+                      </span>
+                      <span class="return-file-upload__copy">
+                        <span class="return-file-upload__title">Choose an Image or Video or drag &amp; drop it here.</span>
+                        <span class="return-file-upload__hint" data-return-upload-message>JPEG, PNG, and MP4 formats, up to 50 MB.</span>
+                      </span>
+                      <span class="return-file-upload__button">Browse File</span>
+                      <input
+                        id="productForm--return-attachment"
+                        class="return-file-upload__input"
+                        type="file"
+                        name="contact[Attachment]"
+                        accept=".jpg,.jpeg,.png,.mp4,image/jpeg,image/png,video/mp4"
+                        data-return-upload-input
+                      >
+                    </label>
+                  </div>
+                </div>
+
+                <div class="field form-btn">
+                  <button
+                    type="submit"
+                    class="product-form__button button button--primary"
+                    name="commit"
+                    id="Subscribe"
+                    aria-label="{{ 'newsletter.button_label' | t }}"
+                    style="background-color: {{settings.form_button_color}}; color: {{settings.form_button_text_color}};"
+                  >
+                    Submit Return Request
+                  </button>
+                </div>
+              {% endunless %}
+              {%- if form.posted_successfully? -%}
+                <div class="success-wrapper ">
+                  <svg width="66" height="66" viewBox="0 0 66 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 16.5C0 7.3873 7.3873 0 16.5 0H49.5C58.6127 0 66 7.3873 66 16.5V49.5C66 58.6127 58.6127 66 49.5 66H16.5C7.3873 66 0 58.6127 0 49.5V16.5Z" fill="#EBFBF8"/>
+                    <path d="M32.9984 47.8504C24.7968 47.8504 18.1484 41.202 18.1484 33.0004C18.1484 24.7987 24.7968 18.1504 32.9984 18.1504C41.2001 18.1504 47.8484 24.7987 47.8484 33.0004C47.8484 41.202 41.2001 47.8504 32.9984 47.8504ZM31.5179 38.9404L42.0168 28.44L39.9171 26.3402L31.5179 34.7408L27.3168 30.5397L25.217 32.6395L31.5179 38.9404Z" fill="#16A085"/>
+                    </svg>
+                    
+
+                  <h3>Return Request Submitted Successfully</h3>
+                  <div class="rte">
+                    <p>
+                      Your return request has been submitted. Our team is reviewing it and will get back to you with further details.
+                    </p>
+                  </div>
+                    <div class="popup-close back-to-home-btn">
+                      <button class="btn close_btn">
+                        Back to Home
+                      </button>
+                    </div>
+                </div>
+              {% endif %}
+            {% endform %} {% endcomment %}
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var returnPopup = document.getElementById('product-return__popup');
+    if (!returnPopup) return;
+
+    var uploadArea = returnPopup.querySelector('[data-return-upload-area]');
+    var uploadInput = returnPopup.querySelector('[data-return-upload-input]');
+    var uploadMessage = returnPopup.querySelector('[data-return-upload-message]');
+    if (!uploadArea || !uploadInput || !uploadMessage) return;
+
+    var allowedTypes = ['image/jpeg', 'image/png', 'video/mp4'];
+    var maxFileSize = 50 * 1024 * 1024;
+    var defaultMessage = uploadMessage.textContent;
+
+    function setUploadMessage(message, isError) {
+      uploadMessage.textContent = message;
+      uploadMessage.classList.toggle('is-error', Boolean(isError));
+    }
+
+    function validateFile(file) {
+      if (!file) {
+        setUploadMessage(defaultMessage, false);
+        return;
+      }
+
+      if (allowedTypes.indexOf(file.type) === -1) {
+        uploadInput.value = '';
+        setUploadMessage('Please upload a JPEG, PNG, or MP4 file.', true);
+        return;
+      }
+
+      if (file.size > maxFileSize) {
+        uploadInput.value = '';
+        setUploadMessage('Please upload a file smaller than 50 MB.', true);
+        return;
+      }
+
+      setUploadMessage(file.name, false);
+    }
+
+    uploadInput.addEventListener('change', function () {
+      validateFile(uploadInput.files[0]);
+    });
+
+    ['dragenter', 'dragover'].forEach(function (eventName) {
+      uploadArea.addEventListener(eventName, function (event) {
+        event.preventDefault();
+        uploadArea.classList.add('is-dragover');
+      });
+    });
+
+    ['dragleave', 'drop'].forEach(function (eventName) {
+      uploadArea.addEventListener(eventName, function (event) {
+        event.preventDefault();
+        uploadArea.classList.remove('is-dragover');
+      });
+    });
+
+    uploadArea.addEventListener('drop', function (event) {
+      if (!event.dataTransfer || !event.dataTransfer.files.length) return;
+      uploadInput.files = event.dataTransfer.files;
+      validateFile(uploadInput.files[0]);
+    });
+  });
+</script>
+
+
+

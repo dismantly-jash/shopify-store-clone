@@ -1,0 +1,106 @@
+.testimonial-section .review_slider{
+    margin-top:24px;
+}
+.testimonial-section .customer-review-inner{
+    padding:40px;
+}
+.testimonial-section .review_text{
+    width:100%;
+    margin:0 auto;
+}
+.testimonial-section .review_text p{
+    font-size:18px;
+    line-height:1.56;
+    margin:0;
+    text-align:center;
+}
+.testimonial-section .review-star{
+    line-height: 1;
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+    margin-bottom:17px;
+}
+.testimonial-section .customer-profile{
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.testimonial-section .customer-profile p, .testimonial-section .customer_details .customer_name{
+    font-size:18px;
+    line-height:1.56;
+    letter-spacing:0;
+    font-weight:600;
+    margin:0;
+}
+.testimonial-section .customer-profile p{
+    font-family:Inter, sans-serif;
+}
+.testimonial-section .customer_details{
+    display:flex;
+    gap:12px;
+    align-items:center;
+    justify-content:center;
+}
+
+.customer-review-inner{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+    min-height:355px;
+}
+.testimonial-section .page-width{
+    position:relative;
+}
+@media screen and (max-width:989px){
+    .testimonial-section .customer-review-inner {
+        padding: 25px;
+    }
+    .testimonial-section .review-star {
+        margin-bottom:0;
+    }
+    .testimonial-section .review_text p {
+        line-height: 1.4;
+    }
+}
+@media screen and (max-width:749px){
+    .testimonial-section .review-star svg{
+        width:20px;
+        height:20px;
+    }
+    .testimonial-section .review_text p{
+        font-size:16px;
+    }
+    .testimonial-section .customer-profile{
+        width:40px;
+        height:40px;
+    }
+    .testimonial-section .review_text{
+        max-width:95% !important;
+    }
+    .customer-review-inner{
+        min-height:315px;
+    }
+    .testimonial-section .swiper-button-next, .testimonial-section .swiper-button-prev {
+        transform: translateY(-63%);
+    }
+    .testimonial-section .swiper-button-next, .testimonial-section .swiper-button-prev, .testimonial-section ~.swiper-button-next, .testimonial-section ~.swiper-button-prev {
+        top: var(--swiper-navigation-top-offset, 63%);
+    }
+    
+}
+@media screen and (max-width:680px){
+    .customer-review-inner{
+        min-height:245px;
+        padding:25px 40px;
+    }
+}
+@media screen and (max-width:420px){
+    .customer-review-inner{
+        min-height:315px;
+    }
+}

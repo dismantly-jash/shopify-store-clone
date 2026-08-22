@@ -1,0 +1,426 @@
+{{ 'tabbed-product-grid.css' | asset_url | stylesheet_tag }}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+
+{% if section.settings.image_shape == 'blob' %}
+  {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+
+{% style %}
+  .pad-{{ section.id }}{
+    padding-top:{{ section.settings.padding_top }}px;
+    padding-bottom:{{ section.settings.padding_bottom }}px;
+  }
+  @media screen and (max-width:767px){
+    .pad-{{ section.id }}{
+      padding-top:{{ section.settings.mobile_padding_top }}px;
+      padding-bottom:{{ section.settings.mobile_padding_bottom }}px;
+    }
+  }
+  @media screen and (min-width:767px){
+    {% if section.settings.background != blank %}
+      #tabbed-product-grid-{{ section.id }}{
+        background:{{ section.settings.background }};
+      }
+    {% endif %}
+  }
+  {% for block in section.blocks %}
+    {%- liquid
+      if block.settings.collection_product_list != blank
+        assign products_source = block.settings.collection_product_list.products
+      else
+        assign products_source = collections.all.products
+      endif
+
+      assign has_match = false
+      for product in products_source
+        if block.settings.tab_name != blank
+          if product.title contains block.settings.tab_name
+            assign has_match = true
+            break
+          endif
+        else
+          assign has_match = true
+          break
+        endif
+      endfor
+    -%}
+    {% if has_match %}
+    .tabbed-product-grid  .main-{{ block.id }}{
+     background-image:url({{ block.settings.main_image_tab | img_url: '800x' }});
+    }
+    {% endif %}
+  {% endfor %}
+{% endstyle %}
+
+<section id="tabbed-product-grid-{{ section.id }}" class="tabbed-product-grid pad-{{ section.id }}">
+  <div class="page-width">
+    {% if section.blocks.size > 1 %}
+    <div class="tabs">
+      {% for block in section.blocks %}
+        <div class="tab-btn {% if forloop.first %}active{% endif %}" data-tab="tab-{{ block.id }}">
+          {{ block.settings.tab_name }}
+        </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  
+    {% for block in section.blocks %}
+      {%- liquid
+        if block.settings.collection_product_list != blank
+          assign products_source = block.settings.collection_product_list.products
+        else
+          assign products_source = collections.all.products
+        endif
+
+        assign has_match = false
+        for product in products_source
+          if block.settings.tab_name != blank
+            if product.title contains block.settings.tab_name
+              assign has_match = true
+              break
+            endif
+          else
+            assign has_match = true
+            break
+          endif
+        endfor
+      -%}
+      <div class="tab-content  {% unless has_match %}no-product-found{% endunless %} {% if forloop.first %}active{% endif %}" id="tab-{{ block.id }}">
+        <div class="tab-inner">
+          <div class="tab-left main-{{ block.id }}">
+             {% unless has_match %}
+              {%- liquid
+                assign image_height = block.settings.main_image_tab.width | divided_by: block.settings.main_image_tab.aspect_ratio
+              -%}
+              {{
+                block.settings.main_image_tab
+                | image_url: width: 3840
+                | image_tag:
+                  width: block.settings.main_image_tab.width,
+                  height: image_height,
+                  class: 'tab-image-element',
+                  sizes: '100vw',
+                  widths: '450, 660, 900, 1320, 1800, 2136, 2400, 3600, 7680'
+              }}
+            {% endunless %}
+            <div class="tab-left-content left">
+              {%if block.settings.tab_left_subheading != blank %}
+                <span>{{ block.settings.tab_left_subheading }}</span>
+              {% endif %}
+              {% if block.settings.tab_name != blank %}
+                <h2>{{ block.settings.tab_name }}</h2>
+              {% endif %}
+              {% if block.settings.tab_left_description != blank %}
+                <div class="rte">
+                  {{ block.settings.tab_left_description }}
+                </div>
+              {% endif %}
+              {% if block.settings.button_label != blank %}
+                <a href="{% if block.settings.button_link != blank %}{{ block.settings.button_link }}{% else %}javascript:void(0){% endif %}">{{ block.settings.button_label }}</a>
+              {% endif %}
+            </div>
+          </div>
+  
+          <ul class="products product-grid">
+            {% unless has_match %}
+              <li>
+                <div class="empty-product-wrapper">
+                  <div>
+                    <svg width="70" height="70" viewBox="0 0 108 109" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M0 54.5C0 24.6766 24.1766 0 54 0C83.8234 0 108 24.6766 108 54.5C108 84.3234 83.8234 109 54 109C24.1766 109 0 84.3234 0 54.5Z" fill="#ECECF0" fill-opacity="0.5"></path>
+                      <path d="M6 54.5C6 27.9903 27.4903 6.5 54 6.5C80.5097 6.5 102 27.9903 102 54.5C102 81.0097 80.5097 102.5 54 102.5C27.4903 102.5 6 81.0097 6 54.5Z" fill="#ECECF0"></path>
+                      <path d="M52 68.5C60.8366 68.5 68 61.3366 68 52.5C68 43.6634 60.8366 36.5 52 36.5C43.1634 36.5 36 43.6634 36 52.5C36 61.3366 43.1634 68.5 52 68.5Z" stroke="#717182" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M72.0004 72.5004L63.4004 63.9004" stroke="#717182" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </div>
+                  <div class="empty-text-wrapper rte">
+                    <h3>No results for "{{ block.settings.tab_name }}"</h3>
+                    <p>We couldn't find any matching parts in our catalog.</p>
+                  </div>
+                </div>
+              </li>
+            {% else %}
+              {% assign shown = 0 %}
+              {% for product_tab in products_source %}
+                {% if block.settings.tab_name != blank %}
+                  {% if product_tab.title contains block.settings.tab_name %}
+                    {% assign shown = shown | plus: 1 %}
+                    {% assign skip_card_product_styles = true %}
+                    <li>
+                      {% render 'card-product',
+                        card_product: product_tab,
+                        media_aspect_ratio: section.settings.image_ratio,
+                        image_shape: section.settings.image_shape,
+                        show_secondary_image: section.settings.show_secondary_image,
+                        show_vendor: section.settings.show_vendor,
+                        show_rating: section.settings.show_rating,
+                        skip_styles: skip_card_product_styles,
+                        section_id: section.id,
+                        quick_add: section.settings.quick_add
+                      %}
+                    </li>
+                  {% endif %}
+                {% else %}
+                  {% assign shown = shown | plus: 1 %}
+                  {% assign skip_card_product_styles = true %}
+                  <li>
+                    {% render 'card-product',
+                      card_product: product_tab,
+                      media_aspect_ratio: section.settings.image_ratio,
+                      image_shape: section.settings.image_shape,
+                      show_secondary_image: section.settings.show_secondary_image,
+                      show_vendor: section.settings.show_vendor,
+                      show_rating: section.settings.show_rating,
+                      skip_styles: skip_card_product_styles,
+                      section_id: section.id,
+                      quick_add: section.settings.quick_add
+                    %}
+                  </li>
+                {% endif %}
+                {% if shown >= 6 %}
+                  {% break %}
+                {% endif %}
+              {% endfor %}
+            {% endunless %}
+          </ul>
+        </div>
+      </div>
+      {% if section.settings.image_shape == 'arch' %}
+      {{ 'mask-arch.svg' | inline_asset_content }}
+    {%- endif -%}
+    {% endfor %}
+  </div>
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const section = document.querySelector("#tabbed-product-grid-{{ section.id }}");
+      const tabs = section.querySelectorAll(".tab-btn");
+      const contents = section.querySelectorAll(".tab-content");
+
+      tabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+
+          tabs.forEach(t => t.classList.remove("active"));
+          contents.forEach(c => c.classList.remove("active"));
+
+          tab.classList.add("active");
+          const target = section.querySelector("#" + tab.dataset.tab);
+          if (target) target.classList.add("active");
+
+          setTimeout(() => {
+            $('.product-media-slider').slick('setPosition');
+          }, 50);
+        });
+      });
+    });
+    
+
+  </script>
+
+  {% schema %}
+  {
+    "name": "Tabbed product grid",
+    "settings": [
+      {
+        "type": "select",
+        "id": "image_ratio",
+        "options": [
+        {
+          "value": "adapt",
+          "label": "t:sections.featured-collection.settings.image_ratio.options__1.label"
+        },
+        {
+          "value": "portrait",
+          "label": "t:sections.featured-collection.settings.image_ratio.options__2.label"
+        },
+        {
+          "value": "square",
+          "label": "t:sections.featured-collection.settings.image_ratio.options__3.label"
+        }
+      ],
+      "default": "adapt",
+      "label": "t:sections.featured-collection.settings.image_ratio.label"
+    },
+    {
+      "type": "select",
+      "id": "image_shape",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:sections.all.image_shape.options__1.label"
+        },
+        {
+          "value": "arch",
+          "label": "t:sections.all.image_shape.options__2.label"
+        },
+        {
+          "value": "blob",
+          "label": "t:sections.all.image_shape.options__3.label"
+        },
+        {
+          "value": "chevronleft",
+          "label": "t:sections.all.image_shape.options__4.label"
+        },
+        {
+          "value": "chevronright",
+          "label": "t:sections.all.image_shape.options__5.label"
+        },
+        {
+          "value": "diamond",
+          "label": "t:sections.all.image_shape.options__6.label"
+        },
+        {
+          "value": "parallelogram",
+          "label": "t:sections.all.image_shape.options__7.label"
+        },
+        {
+          "value": "round",
+          "label": "t:sections.all.image_shape.options__8.label"
+        }
+      ],
+      "default": "default",
+      "label": "t:sections.all.image_shape.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "default": false,
+      "label": "t:sections.featured-collection.settings.show_secondary_image.label"
+    },
+    {
+      "type": "select",
+      "id": "quick_add",
+      "default": "none",
+      "label": "t:sections.main-collection-product-grid.settings.quick_add.label",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_1"
+        },
+        {
+          "value": "standard",
+          "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_2"
+        },
+        {
+          "value": "bulk",
+          "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_3"
+        }
+      ]
+    },
+    
+      {
+        "type": "color",
+        "id": "background",
+        "label": "Background"
+      },
+       {
+        "type": "header",
+        "content": "Section Desktop View padding"
+    },
+    {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 150,
+        "step": 5,
+        "unit": "px",
+        "label": "Desktop Padding Top",
+        "default": 10
+    },
+    {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 150,
+        "step": 5,
+        "unit": "px",
+        "label": "Desktop Padding Bottom",
+        "default": 10
+    },
+    {
+        "type": "header",
+        "content": "Section Mobile View padding"
+    },
+    {
+        "type": "range",
+        "id": "mobile_padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Mobile Padding Top",
+        "default": 10
+    },
+    {
+        "type": "range",
+        "id": "mobile_padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Padding Bottom",
+        "default": 10
+    }
+    ],
+    "blocks": [
+      {
+        "type": "tab",
+        "name": "Tab",
+        "settings": [
+           {
+            "type": "image_picker",
+            "id": "main_image_tab",
+            "label": "Main image"
+          },
+          {
+            "type": "text",
+            "id": "tab_left_subheading",
+            "label": "Main image Subheading"
+          },
+          {
+            "type": "richtext",
+            "id": "tab_left_description",
+            "label": "Description"
+          },
+          {
+            "type": "text",
+            "id": "button_label",
+            "label": "Button label",
+            "default": "View All"
+          },
+          {
+            "type": "url",
+            "id": "button_link",
+            "label": "Button link"
+          },
+          {
+            "type": "text",
+            "id": "tab_name",
+            "label": "Tab name",
+            "default": "Engines"
+          },
+          {
+            "type": "collection",
+            "id": "collection_product_list",
+            "label": "Collection"
+          },
+          {
+            "type": "product_list",
+            "id": "product_list",
+            "label": "Products",
+            "limit": 12
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Tabbed product grid",
+        "category": "Products"
+      }
+    ]
+  }
+  {% endschema %}
+</section>

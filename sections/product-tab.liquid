@@ -1,0 +1,221 @@
+{% unless product.metafields.custom.type == "VEHICLE" or product.metafields.custom.type == "vehicle" or product.metafields.custom.type == "car" or product.metafields.custom.type == "cars" %}
+  {{ 'product-tab.css' | asset_url | stylesheet_tag }}
+  {%- style -%}
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.mobile_padding_top }}px;
+      padding-bottom: {{ section.settings.mobile_padding_bottom  }}px;
+    }
+    @media screen and (min-width: 767px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+  {%- endstyle -%}
+
+  <div class="product-tab-view section-{{ section.id }}-padding">
+    <div class="page-width">
+      <ul class="tab-menu">
+        {% for block in section.blocks %}
+          {% if block.settings.tab_title != blank %}
+            {% comment %}
+              {% if pages[block.settings.page].content != blank
+                or block.settings.tab_detail != blank
+                or block.settings.tab_liquid != blank
+                or product.metafields.custom[block.settings.tab_html] != blank
+                or block.settings.html != blank
+              %}
+            {% endif %}
+            {% endcomment %}
+            {% if block.settings.tab_title == 'Donor Vehicle' %} 
+              {% if pages[block.settings.page].content != blank
+                or block.settings.tab_detail != blank
+                or block.settings.tab_liquid != blank
+                or product.metafields.custom[block.settings.tab_html] != blank
+                or block.settings.html != blank
+              %}
+                <li class="tab-links">
+                  <button
+                    class="tab-button {% if forloop.first %}active{% endif %} button-{{ block.id }}"
+                    onclick="openTab(event, 'Tab{{ forloop.index }}')"
+                  >
+                    {{ block.settings.tab_title }}
+                  </button>
+                </li>
+              {% endif %}
+            {% else %}  
+              <li class="tab-links">
+                <button
+                  class="tab-button {% if forloop.first %}active{% endif %} button-{{ block.id }}"
+                  onclick="openTab(event, 'Tab{{ forloop.index }}')"
+                >
+                  {{ block.settings.tab_title }}
+                </button>
+              </li>
+            {% endif %}  
+          {% endif %}
+        {% endfor %}
+      </ul>
+
+      <div class="tab-content">
+        {% for block in section.blocks %}
+          <div id="Tab{{ forloop.index }}" class="tab{% if forloop.first %} active{% endif %}">
+            {% if pages[block.settings.page].content != blank %}
+              <div class="tab-view-detail">
+                {{ pages[block.settings.page].content }}
+              </div>
+            {% else %}
+              {% if block.settings.tab_detail != blank or block.settings.html != blank or block.settings.tab_liquid != blank or product.metafields.custom[block.settings.tab_html] != blank %}
+                <div class="tab-view-detail product-view-details">
+                  {{ block.settings.tab_liquid }}
+                  <div class="rte">
+                    {{ block.settings.tab_detail }}
+                  </div>  
+                  {{ product.metafields.custom[block.settings.tab_html] }}
+                  {{ block.settings.html }}
+                </div>
+              {% else %}
+                <div class="no_fitment_available_details center" bis_skin_checked="1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="36" height="37" viewBox="0 0 36 37" fill="none">
+                      <path d="M29.522 15.6521C29.3235 14.6403 28.7998 13.9272 27.969 12.9887L20.2073 5.22695C18.6902 3.69379 18.0812 3.37671 15.9662 3.37671H9.36071C6.86751 3.37671 4.86035 5.38387 4.86035 7.87706V28.1418C4.86035 30.635 6.86751 32.6422 9.36071 32.6422H21.7308" stroke="#525866" stroke-width="2.25372" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M17.2305 4.5105V11.2654C17.2305 13.7586 19.2376 15.7658 21.7308 15.7658H29.5299" stroke="#525866" stroke-width="2.25372" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M10.0869 24.9706H17.048ZM10.0869 19.1531H14.2636Z" fill="#525866"></path>
+                      <path d="M10.0869 24.9706H17.048M10.0869 19.1531H14.2636" stroke="#525866" stroke-width="2.25372" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M25.1335 29.2277C27.4116 29.2277 29.2583 27.381 29.2583 25.103C29.2583 22.825 27.4116 20.9783 25.1335 20.9783C22.8555 20.9783 21.0088 22.825 21.0088 25.103C21.0088 27.381 22.8555 29.2277 25.1335 29.2277Z" stroke="#145DA0" stroke-width="2.25372" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M31.1407 31.512L27.9551 28.3264" stroke="#145DA0" stroke-width="2.25372" stroke-linecap="round" stroke-linejoin="round"></path>
+                      </svg>
+                  <p>No {{ block.settings.tab_title }} Found</p>
+                  <span>We Couldn't find any {{ block.settings.tab_title }} details for this part.</span>
+              </div>
+              {% endif %}
+            {% endif %}
+          </div>
+        {% endfor %}
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openTab(event, tabName) {
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach((tab) => tab.classList.remove('active'));
+
+      const buttons = document.querySelectorAll('.tab-button');
+      buttons.forEach((button) => button.classList.remove('active'));
+
+      document.getElementById(tabName).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+
+    // Active tab initialization (auto find first available)
+    document.addEventListener('DOMContentLoaded', function () {
+      const firstButton = document.querySelector('.tab-button');
+      if (firstButton) {
+        const firstTabId = firstButton.getAttribute('onclick').match(/'([^']+)'/)[1];
+        openTab({ currentTarget: firstButton }, firstTabId);
+      }
+    });
+  </script>
+{% endunless %}
+
+{% schema %}
+{
+  "name": "Product Tab",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Desktop View padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Desktop Padding Top",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Desktop Padding Bottom",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Section Mobile View padding"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile Padding Top",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 10
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tab_title",
+          "label": "Tab Title",
+          "default": "Tab Title"
+        },
+        {
+          "type": "richtext",
+          "id": "tab_detail",
+          "label": "Tab Details"
+        },
+        {
+          "type": "liquid",
+          "id": "tab_liquid",
+          "label": "Tab Custom Liquid"
+        },
+        {
+          "type": "html",
+          "id": "html",
+          "label": "Tab Html"
+        },
+        {
+          "type": "text",
+          "id": "tab_html",
+          "label": "Product Metafeild Key",
+          "info": "If You Want Html in content so write metfield Key. Ex: size_guide"
+        },
+        {
+          "type": "page",
+          "id": "page",
+          "label": "Page"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Tab"
+    }
+  ]
+}
+{% endschema %}

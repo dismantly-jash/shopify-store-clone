@@ -1,0 +1,115 @@
+<script>
+  (async () => {
+    try {
+      const currentProductTitle = `{{ product.title | escape }}`;
+      const currentMeta = {
+        model: '{{ product.metafields.custom.model }}',
+        make: '{{ product.metafields.custom.make }}',
+        year: '{{ product.metafields.custom.year }}',
+        stock_id: '{{ product.metafields.custom.stock_id }}'
+      };
+
+
+      const storefrontToken = '0c3bbdc24dcf6a551fb01ebb5e0163bf'; // replace
+      const endpoint = '/api/2024-01/graphql.json';
+
+      async function fetchProducts(cursor = null, allProducts = []) {
+        const query = `
+          query getProducts($cursor: String) {
+            products(first: 50, after: $cursor) {
+              edges {
+                node {
+                  id
+                  title
+                  handle
+                  images(first: 1) {
+                    edges {
+                      node { url altText }
+                    }
+                  }
+                  priceRange {
+                    minVariantPrice { amount currencyCode }
+                  }
+                  variants(first: 1) {
+                    edges {
+                      node {
+                        id
+                        availableForSale
+                      }
+                    }
+                  }
+                  metafields(identifiers: [
+                    { namespace: "custom", key: "stock_id" }
+                    { namespace: "custom", key: "model" }
+                    { namespace: "custom", key: "make" }
+                    { namespace: "custom", key: "year" }
+                    { namespace: "custom", key: "type" }
+                    { namespace: "custom", key: "part_details" }
+                  ]) {
+                    key
+                    value
+                  }
+                }
+                cursor
+              }
+              pageInfo { hasNextPage endCursor }
+            }
+          }`;
+
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Shopify-Storefront-Access-Token': storefrontToken,
+          },
+          body: JSON.stringify({ query, variables: { cursor } }),
+        });
+
+        const data = await res.json();
+        if (!data.data || !data.data.products) return allProducts;
+
+        const edges = data.data.products.edges;
+        allProducts.push(...edges.map((e) => e.node));
+
+        if (data.data.products.pageInfo.hasNextPage) {
+          return fetchProducts(data.data.products.pageInfo.endCursor, allProducts);
+        } else {
+          return allProducts;
+        }
+      }
+
+      function mapMeta(fields) {
+        const obj = {};
+        if (Array.isArray(fields)) {
+          fields.forEach((f) => {
+            if (f && f.key && f.value) {
+              obj[f.key] = f.value;
+            }
+          });
+        }
+        return obj;
+      }
+
+      const products = await fetchProducts();
+      let count = 0;
+
+      products.forEach((product) => {
+        const metaObj = mapMeta(product.metafields);
+
+        if (
+            metaObj.stock_id === currentMeta.stock_id && 
+            metaObj.type !== "VEHICLE"
+        ) {
+          count++;
+        }
+      });
+      if (count > 0) {
+        if (document.querySelector('.item-{{ product.id }} .vehicle-btns .show-part-btn')) {
+            document.querySelector('.item-{{ product.id }} .vehicle-btns .show-part-btn').style.display = "block";
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
+  })();
+</script>

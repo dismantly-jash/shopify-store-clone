@@ -1,0 +1,384 @@
+<div class="product-detail__popup" id="card-product-{{ product.id }}-{{ section.id }}">
+  <div class="product-popup-wrapper">
+    <div class="product-popup-wrapper__inner">
+      <div class="popup-close">
+        <button class="btn close_btn">
+          {{ 'icon-close-small.svg' | inline_asset_content }}
+        </button>
+      </div>
+      <div class="product-popup-header">
+        <h2 class="inline-richtext h2">Product Detail Form</h2>
+      </div>
+      <div class="product-popup-content">
+        <div class="product-popup-form">
+          {% capture form_id %}product-form-offer-{{ section.id }}-{{ product.id }}{% endcapture %}
+          {% form 'customer', class: 'product-form', id: form_id %}
+            {%- capture content_for_query_string -%}{{ content_for_header }}{%- endcapture -%}
+            {%- liquid
+                assign query_key = query_key | default: blank
+                assign page_url = content_for_query_string | split: '"pageurl":"' | last | split: '"' | first | split: request.host | last | replace: '\/', '/' | replace: '%20', ' ' | replace: '\u0026', '&'
+            -%}
+            <input type="hidden" name="contact[tags]" value="Product Detail">
+            <input type="hidden" name="return_to" value="{{page_url }}">
+            <div
+              class="product-form__field-wrapper"
+            >
+              <input type="hidden" name="contact[Product Name]" value="{{ product.title }}">
+              <div class="field one-half">
+                <label class="field__label" for="productForm--{{ product.id }}-name">
+                  {{ 'templates.contact.form.name' | t }}
+                </label>
+                <input
+                  class="field__input"
+                  autocomplete="name"
+                  type="text"
+                  id="productForm--{{ product.id }}-name"
+                  name="contact[{{ 'templates.contact.form.name' | t }}]"
+                  value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+                  placeholder="{{ 'templates.contact.form.name' | t }}"
+                >
+              </div>
+              <div class="field one-half">
+                <label class="field__label" for="productForm--{{ product.id }}-email">
+                  {{ 'newsletter.label' | t }}
+                </label>
+                <input
+                  id="productForm--{{ product.id }}-email"
+                  type="email"
+                  name="contact[email]"
+                  class="field__input"
+                  value="{{ form.email }}"
+                  aria-required="true"
+                  autocorrect="off"
+                  autocapitalize="off"
+                  autocomplete="email"
+                  {% if form.errors %}
+                    autofocus
+                    aria-invalid="true"
+                    aria-describedby="product-error--{{ product.id }}-{{ section.id }}"
+                  {% elsif form.posted_successfully? %}
+                    aria-describedby="product-success--{{ product.id }}-{{ section.id }}"
+                  {% endif %}
+                  placeholder="{{ 'newsletter.label' | t }}"
+                  required
+                >
+              </div>
+              <div class="field">
+                <label class="field__label" for="productForm--{{ product.id }}-phone">
+                  {{ 'templates.contact.form.phone' | t }}
+                </label>
+                <input
+                  type="tel"
+                  id="productForm--{{ product.id }}-phone"
+                  class="field__input"
+                  autocomplete="tel"
+                  name="contact[{{ 'templates.contact.form.phone' | t }}]"
+                  pattern="[0-9\-]*"
+                  value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+                  placeholder="{{ 'templates.contact.form.phone' | t }}"
+                >
+              </div>
+              {% assign count = 0 %}
+                {% unless product.metafields.custom.type == 'VEHICLE' %}
+                  {% if product.metafields.custom.tag_id != blank %} 
+                    <div class="field one-half">
+                      <label class="field__label" for="ProductForm-{{ product.id }}-tag-id">
+                        Tag Number :
+                      </label>
+                      <input
+                        type="text"
+                        id="ProductForm-{{ product.id }}-tag-id"
+                        class="field__input"
+                        autocomplete="tel"
+                        name="contact[Tag I'd]"
+                        pattern="[0-9\-]*"
+                        value="{{ product.metafields.custom.tag_id }}"
+                        placeholder="Tag Id"
+                        readonly
+                      >
+                    </div>
+                  {% endif %}
+                {% endunless %}
+                {% if product.metafields.custom.year != blank %}
+                <div class="field one-half">
+                  <label class="field__label" for="ProductForm-{{ product.id }}-year-range">
+                    Year :
+                  </label>
+                  <input
+                    type="text"
+                    id="ProductForm-{{ product.id }}-year-range"
+                    class="field__input"
+                    name="contact[Year Range]"
+                    value="{{ product.metafields.custom.year }}"
+                    placeholder="Year Range"
+                    readonly
+                  >
+                </div>
+                {% endif %}
+                {% if product.metafields.custom.make != blank %}
+                <div class="field one-half">
+                  <label class="field__label" for="ProductForm-{{ product.id }}-make">
+                    Make :
+                  </label>
+                  <input
+                    type="text"
+                    id="ProductForm-{{ product.id }}-make"
+                    class="field__input"
+                    name="contact[Make]"
+                    value="{{ product.metafields.custom.make }}"
+                    placeholder="Make"
+                    readonly
+                  >
+                </div>
+                {% endif %}
+                {% if product.metafields.custom.model != blank %}
+                <div class="field one-half">
+                  <label class="field__label" for="ProductForm-{{ product.id }}-model">
+                    Model :
+                  </label>
+                  <input
+                    type="text"
+                    id="ProductForm-{{ product.id }}-model"
+                    class="field__input"
+                    name="contact[Model]"
+                    value="{{ product.metafields.custom.model }}"
+                    placeholder="Model"
+                    readonly
+                  >
+                </div>
+                {% endif %}
+                {%# if product.metafields.custom.part_type != blank %}
+                  {%# unless product.metafields.custom.type == 'VEHICLE' %}
+                    <div class="field one-half">
+                      <label class="field__label" for="ProductForm-{{ product.id }}-part-type">
+                        Part Type :
+                      </label>
+                      <input
+                        type="text"
+                        id="ProductForm-{{ product.id }}-part-type"
+                        class="field__input"
+                        name="contact[Part Type]"
+                        value="{{ product.metafields.custom.part_type }}"
+                        placeholder="Part Type"
+                        readonly
+                      >
+                    </div>
+                  {%# endunless %}
+                {%# endif %}
+                {% if product.metafields.custom.stock_id != blank %}
+                  {% unless product.metafields.custom.type == 'PART' %}
+                  <div class="field one-half">
+                    <label class="field__label" for="ProductForm-{{ product.id }}-stock-id">
+                      Stock i'd :
+                    </label>
+                    <input
+                      type="text"
+                      id="ProductForm-{{ product.id }}-stock-id"
+                      class="field__input"
+                      autocomplete="tel"
+                      name="contact[Stock Id]"
+                      pattern="[0-9\-]*"
+                      value="{{ product.metafields.custom.stock_id }}"
+                      placeholder="Stock Id"
+                      readonly
+                    >
+                  </div>
+                  {% endunless %}
+                {% endif %}
+                {% if product.metafields.custom.sub_model != blank %}
+                <div class="field one-half">
+                  <label class="field__label" for="ProductForm-{{ product.id }}-sub-model">
+                    Sub Model :
+                  </label>
+                  <input
+                    type="text"
+                    id="ProductForm-{{ product.id }}-sub-model"
+                    class="field__input"
+                    name="contact[Sub Model]"
+                    value="{{ product.metafields.custom.sub_model }}"
+                    placeholder="Sub Model"
+                    readonly
+                  >
+                </div>
+                {% endif %}
+                {% if product.metafields.custom.part_number != blank %}
+                  {% unless product.metafields.custom.type == 'VEHICLE' %}
+                    <div class="field one-half">
+                      <label class="field__label" for="ProductForm-{{ product.id }}-part-number">
+                        Part Number :
+                      </label>
+                      <input
+                        type="text"
+                        id="ProductForm-{{ product.id }}-part-number"
+                        class="field__input"
+                        autocomplete="tel"
+                        name="contact[Part Number]"
+                        pattern="[0-9\-]*"
+                        value="{{ product.metafields.custom.part_number }}"
+                        placeholder="Part Number"
+                        readonly
+                      >
+                    </div>
+                  {% endunless %}
+                {% endif %}
+                {% if product.metafields.custom.color != blank %}
+                  <div class="field one-half">
+                    <label class="field__label" for="ProductForm-{{ product.id }}-color">
+                      Color :
+                    </label>
+                    <input
+                      type="text"
+                      id="ProductForm-{{ product.id }}-color"
+                      class="field__input"
+                      name="contact[Color]"
+                      value="{{ product.metafields.custom.color }}"
+                      placeholder="Color"
+                      readonly
+                    >
+                  </div>
+                {% endif %}
+                {% if product.metafields.custom.vin != blank %}
+                  <div class="field one-half">
+                    <label class="field__label" for="ProductForm-{{ product.id }}-vin">
+                      Vin :
+                    </label>
+                    <input
+                      type="text"
+                      id="ProductForm-{{ product.id }}-vin"
+                      class="field__input"
+                      name="contact[Vin]"
+                      value="{{ product.metafields.custom.vin }}"
+                      placeholder="Vin"
+                      readonly
+                    >
+                  </div>
+                {% endif %}
+                {% if product.metafields.custom.engine_code != blank %}
+                  <div class="field one-half">
+                    <label class="field__label" for="ProductForm-{{ product.id }}-engine-code">
+                      Engine # :
+                    </label>
+                    <input
+                      type="text"
+                      id="ProductForm-{{ product.id }}-engine-code"
+                      class="field__input"
+                      name="contact[Engine Code]"
+                      value="{{ product.metafields.custom.engine_code }}"
+                      placeholder="Engine Code"
+                      readonly
+                    >
+                  </div>
+                {% endif %}
+                {% if product.metafields.custom.odometer != blank %}
+                  <div class="field one-half">
+                    <label class="field__label" for="ProductForm-{{ product.id }}-odometer">
+                      Odometer :
+                    </label>
+                    <input
+                      type="text"
+                      id="ProductForm-{{ product.id }}-odometer"
+                      class="field__input"
+                      name="contact[Odometer]"
+                      value="{{ product.metafields.custom.odometer }}"
+                      placeholder="Odometer"
+                      readonly
+                    >
+                  </div>
+                {% endif %}
+              {% assign even_number = count | modulo: 2 %}
+              <div class="field {% if even_number != 0 %}one-half{% endif %}">
+                <label class="field__label" for="ProductForm-{{ product.id }}-offer-amount">
+                  {{ 'templates.contact.form.amount' | t }}
+                </label>
+                <input
+                  type="number"
+                  id="ProductForm-{{ product.id }}-offer-amount"
+                  class="field__input"
+                  autocomplete="number"
+                  name="contact[{{ 'templates.contact.form.amount' | t }}]"
+                  value="{{ form.amount }}"
+                  placeholder="{{ 'templates.contact.form.amount' | t }}"
+                >
+              </div>
+              {% comment %}
+                <div class="field">
+                    <textarea
+                      rows="10"
+                      id="ContactForm-body"
+                      class="text-area field__input"
+                      name="contact[{{ 'templates.contact.form.item_information' | t }}]"
+                      placeholder="{{ 'templates.contact.form.item_information' | t }}"
+                    >
+                      {{- form.body -}}
+                    </textarea>
+                </div>
+              {% endcomment %}
+              <div class="field">
+                <button
+                  type="submit"
+                  class="product-form__button button button--primary"
+                  name="commit"
+                  id="Subscribe"
+                  aria-label="{{ 'newsletter.button_label' | t }}"
+                >
+                  submit
+                </button>
+              </div>
+              {%- if form.errors -%}
+                <small class="product-form__message form__message" id="Newsletter-error--{{ product.id }}-{{ section.id }}">
+                  <span class="svg-wrapper">
+                    {{- 'icon-error.svg' | inline_asset_content -}}
+                  </span>
+                  {{- form.errors.translated_fields.email | capitalize }}
+                  {{ form.errors.messages.email -}}
+                </small>
+              {%- endif -%}
+            </div>
+            {%- if form.posted_successfully? -%}
+              <h3
+                class="product-form__message product-form__message--success form__message"
+                id="Newsletter-success--{{ product.id }}-{{ section.id }}"
+                tabindex="-1"
+                autofocus
+              >
+                <span class="svg-wrapper">
+                  {{- 'icon-success.svg' | inline_asset_content -}}
+                </span>
+                {{- 'newsletter.product_form_success' | t }}
+              </h3>
+            {%- endif -%}
+          {% endform %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="thank-you__popup" id="{{form_id}}-thank">
+  <div class="product-popup-wrapper">
+    <div class="product-popup-wrapper__inner">
+      <div class="product-popup-header">
+        <div class="success-wrapper">
+          <svg width="66" height="66" viewBox="0 0 66 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 16.5C0 7.3873 7.3873 0 16.5 0H49.5C58.6127 0 66 7.3873 66 16.5V49.5C66 58.6127 58.6127 66 49.5 66H16.5C7.3873 66 0 58.6127 0 49.5V16.5Z" fill="#EBFBF8"/>
+            <path d="M32.9984 47.8504C24.7968 47.8504 18.1484 41.202 18.1484 33.0004C18.1484 24.7987 24.7968 18.1504 32.9984 18.1504C41.2001 18.1504 47.8484 24.7987 47.8484 33.0004C47.8484 41.202 41.2001 47.8504 32.9984 47.8504ZM31.5179 38.9404L42.0168 28.44L39.9171 26.3402L31.5179 34.7408L27.3168 30.5397L25.217 32.6395L31.5179 38.9404Z" fill="#16A085"/>
+            </svg>
+            
+          <h3>Submission sent</h3>
+          <div class="rte">
+            <p>
+              Your form has been sent successfully. Our team will review the information and contact you if any
+              additional details are required.
+            </p>
+          </div>
+        </div>
+        <button
+          type="button"
+          class="button thankyou__ok button--primary"
+        >
+          ok
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

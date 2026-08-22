@@ -1,0 +1,283 @@
+{% comment %}
+  Renders product buy-buttons.
+  Accepts:
+  - product: {Object} product object.
+  - block: {Object} passing the block information.
+  - product_form_id: {String} product form id.
+  - section_id: {String} id of section to which this snippet belongs.
+  - show_pickup_availability: {Boolean} for the pickup availability. If true the pickup availability is rendered, false - not rendered (optional).
+
+  Usage:
+  {% render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true %}
+{% endcomment %}
+<div {{ block.shopify_attributes }}>
+  {%- if product != blank -%}
+    {%- liquid
+      assign gift_card_recipient_feature_active = false
+      if block.settings.show_gift_card_recipient and product.gift_card?
+        assign gift_card_recipient_feature_active = true
+      endif
+
+      assign show_dynamic_checkout = false
+      if block.settings.show_dynamic_checkout and gift_card_recipient_feature_active == false
+        assign show_dynamic_checkout = true
+      endif
+    -%}
+
+    <product-form
+      class="product-form"
+      data-hide-errors="{{ gift_card_recipient_feature_active }}"
+      data-section-id="{{ section.id }}"
+    >
+      <div class="product-form__error-message-wrapper" role="alert" hidden>
+        <span class="svg-wrapper">
+          {{- 'icon-error.svg' | inline_asset_content -}}
+        </span>
+        <span class="product-form__error-message"></span>
+      </div>
+
+      {%- form 'product',
+        product,
+        id: product_form_id,
+        class: 'form',
+        novalidate: 'novalidate',
+        data-type: 'add-to-cart-form'
+      -%}
+        <input
+          type="hidden"
+          name="id"
+          value="{{ product.selected_or_first_available_variant.id }}"
+          {% if product.selected_or_first_available_variant.available == false
+            or quantity_rule_soldout
+            or product.selected_or_first_available_variant == null
+          %}
+            disabled
+          {% endif %}
+          class="product-variant-id"
+        >
+
+        {%- if gift_card_recipient_feature_active -%}
+          {%- render 'gift-card-recipient-form', product: product, form: form, section: section -%}
+        {%- endif -%}
+        <div class="product-form__buttons">
+          {%- liquid
+            assign check_against_inventory = true
+            if product.selected_or_first_available_variant.inventory_management != 'shopify' or product.selected_or_first_available_variant.inventory_policy == 'continue'
+              assign check_against_inventory = false
+            endif
+            if product.selected_or_first_available_variant.quantity_rule.min > product.selected_or_first_available_variant.inventory_quantity and check_against_inventory
+              assign quantity_rule_soldout = true
+            endif
+          -%}
+          {% unless product.metafields.custom.type == 'VEHICLE' %}
+            {% unless product.price == 0 or product.available == false %}
+              {% if block.settings.buy_btn != blank %}
+                {% comment %} {%- unless product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
+                  {{ form | payment_button }}
+                  <style>
+                    .shopify-payment-button__button--unbranded:after {
+                      display: none;
+                    }
+                    button.shopify-payment-button__button.shopify-payment-button__button--unbranded {
+                        font-family: var(--font-body-family);
+                        border-radius: 12px;
+                        font-size: 16px;
+                        line-height: 1.3;
+                        padding: 12px 20px;
+                        font-weight: 600;
+                        text-transform: uppercase;
+                        width: 100%;
+                        border: 1px solid #E7E4E4;
+                        background: rgba(var(--color-button),var(--alpha-button-background));
+                        margin-top: 0;
+                      }
+                    button.shopify-payment-button__button.shopify-payment-button__button--unbranded:hover{
+                      background: #264D35;
+                    }
+                  </style>
+                {% endunless %} {% endcomment %}
+
+              <a href="/cart/{{ product.selected_or_first_available_variant.id }}:1" class="button custom_buy_it_now_btn">
+                Buy it Now
+              </a>
+
+              <style>
+                .product-form__buttons .button.custom_buy_it_now_btn{
+                    font-size:18px;
+                    font-weight:500;
+                    line-height:1.3;
+                    background: var(--main-color);
+                    color: #fff;
+                    padding: 14.5px 20px;
+                    flex: 0 0 100%;
+                    max-width: 100%;
+                    width: 100%;
+                    box-shadow:none;
+                    text-transform:capitalize;
+                  }
+              </style>
+              {% endif %}
+            {% endunless %}
+          {% endunless %}
+
+          {% if product.metafields.custom.type == 'VEHICLE' %}
+            <div class="custom-request-part-btn custom-offer-btn">
+                <a href="javascript:void(0)" class="request_parts"> Request Part </a>
+            </div>
+
+            <div
+              class="custom-search-btn"
+              data-stock-id="{{ product.metafields.custom.stock_id | escape }}"
+            >
+              <a
+                href="/search?q=*&options%5Bprefix%5D=last&filter.p.m.custom.year={{ product.metafields.custom.year | url_encode }}&filter.p.m.custom.make={{ product.metafields.custom.make | url_encode }}&filter.p.m.custom.model={{ product.metafields.custom.model | url_encode }}&filter.p.m.custom.type=PART&sort_by=relevance"
+                class="search_parts"
+                role="button"
+                aria-haspopup="listbox"
+                aria-expanded="false"
+                aria-controls="parts-search-dropdown-{{ section_id }}"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M17.4279 16.1553L21.2826 20.0091L20.0091 21.2826L16.1553 17.4279C14.7214 18.5774 12.9378 19.2026 11.1 19.2C6.6288 19.2 3 15.5712 3 11.1C3 6.6288 6.6288 3 11.1 3C15.5712 3 19.2 6.6288 19.2 11.1C19.2026 12.9378 18.5774 14.7214 17.4279 16.1553ZM15.6225 15.4875C16.7647 14.3129 17.4026 12.7384 17.4 11.1C17.4 7.6188 14.5803 4.8 11.1 4.8C7.6188 4.8 4.8 7.6188 4.8 11.1C4.8 14.5803 7.6188 17.4 11.1 17.4C12.7384 17.4026 14.3129 16.7647 15.4875 15.6225L15.6225 15.4875Z" fill="#302B2B"/>
+                </svg>
+                Search Parts
+              </a>
+              <div class="custom-search-dropdown" id="parts-search-dropdown-{{ section_id }}" hidden>
+                <label class="visually-hidden" for="parts-search-dropdown-input-{{ section_id }}">
+                  Search available parts
+                </label>
+                <input
+                  type="search"
+                  id="parts-search-dropdown-input-{{ section_id }}"
+                  class="custom-search-dropdown__input"
+                  placeholder="Search available parts"
+                  autocomplete="off"
+                >
+                <div class="custom-search-dropdown__status" data-dropdown-status>Loading available parts…</div>
+                <ul class="custom-search-dropdown__list" data-dropdown-list role="listbox"></ul>
+              </div>
+            </div>
+          {% endif %}
+
+          {% if product.metafields.custom.type == 'VEHICLE' %}
+            {% comment %}
+            {% if product.selected_or_first_available_variant.available %}
+              {% if block.settings.offer_btn != blank %}
+                <div class="custom-offer-btn {% if product.metafields.custom.type == 'PART' %}make_an_offer_btn{% endif %}">
+                  <a href="javascript:void(0)" class="request_quote button button--secondary">
+                    {{ block.settings.offer_btn -}}
+                  </a>
+                </div>
+              {% endif %}
+            {% endif %}
+            {% endcomment %}
+          {% else %}
+            {% if product.price == 0 or product.available == false %}
+              {% unless product.selected_or_first_available_variant.available %}
+                {% if block.settings.offer_btn != blank %}
+                  <div class="custom-offer-btn {% if product.metafields.custom.type == 'PART' %}make_an_offer_btn{% endif %} {% if product.price == 0 %}make_an_offer_btn_with_no_price{% endif %}">
+                    <a href="javascript:void(0)" class="button button--secondary">
+                      {{ block.settings.offer_btn -}}
+                    </a>
+                  </div>
+                {% endif %}
+              {% else %}
+                <div class="custom-get_a_quote-btn custom-offer-btn">
+                  <a href="javascript:void(0)" class="request_quote button button--secondary">
+                    Get a quote
+                  </a>
+                </div>
+              {% endunless %}
+            {% endif %}   
+          {% endif %}
+
+          {% unless product.metafields.custom.type == 'VEHICLE' %}
+            {% if product.price > 0 %}
+              {% unless product.selected_or_first_available_variant.available == false or quantity_rule_soldout %}
+                <button
+                  id="ProductSubmitButton-{{ section_id }}"
+                  type="submit"
+                  name="add"
+                  class="product-form__submit button button--secondary"
+                  {% if product.selected_or_first_available_variant.available == false
+                    or quantity_rule_soldout
+                    or product.selected_or_first_available_variant == null
+                  %}
+                    disabled
+                  {% endif %}
+                >
+                  <span>
+                    {%- if product.selected_or_first_available_variant == null -%}
+                      {{ 'products.product.unavailable' | t }}
+                      {% comment %}
+                        {%- elsif product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
+                          {{ 'products.product.sold_out' | t }}
+                      {% endcomment %}
+                    {%- else -%}
+                      {{ 'products.product.add_to_cart' | t }}
+                    {%- endif -%}
+                  </span>
+                  {%- render 'loading-spinner' -%}
+                </button>
+              {% endunless %}
+            {% endif %}
+          {% endunless %}
+        
+          {%- if show_dynamic_checkout -%}
+            {{ form | payment_button }}
+          {%- endif -%}
+          {% comment %}
+          {% endcomment %}
+        </div>
+      {%- endform -%}
+    </product-form>
+  {%- else -%}
+    <div class="product-form">
+      <div class="product-form__buttons form">
+        <button
+          type="submit"
+          name="add"
+          class="product-form__submit button button--full-width button--primary"
+          disabled
+        >
+          {{ 'products.product.sold_out' | t }}
+        </button>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if show_pickup_availability -%}
+    {{ 'component-pickup-availability.css' | asset_url | stylesheet_tag }}
+
+    {%- assign pick_up_availabilities = product.selected_or_first_available_variant.store_availabilities
+      | where: 'pick_up_enabled', true
+    -%}
+
+    <pickup-availability
+      class="product__pickup-availabilities quick-add-hidden"
+      {% if product.selected_or_first_available_variant.available and pick_up_availabilities.size > 0 %}
+        available
+      {% endif %}
+      data-root-url="{{ routes.root_url }}"
+      data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+      data-has-only-default-variant="{{ product.has_only_default_variant }}"
+      data-product-page-color-scheme="gradient color-{{ section.settings.color_scheme }}"
+    >
+      <template>
+        <pickup-availability-preview class="pickup-availability-preview">
+          <span class="svg-wrapper">
+            {{- 'icon-unavailable.svg' | inline_asset_content -}}
+          </span>
+          <div class="pickup-availability-info">
+            <p class="caption-large">{{ 'products.product.pickup_availability.unavailable' | t }}</p>
+            <button class="pickup-availability-button link link--text underlined-link">
+              {{ 'products.product.pickup_availability.refresh' | t }}
+            </button>
+          </div>
+        </pickup-availability-preview>
+      </template>
+    </pickup-availability>
+
+    <script src="{{ 'pickup-availability.js' | asset_url }}" defer="defer"></script>
+  {%- endif -%}
+</div>

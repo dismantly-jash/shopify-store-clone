@@ -1,0 +1,44 @@
+<div class="car_detail card card--standard card--media">
+  <div class="card__inner">
+    <div class="image_with_features">
+      <a class="image_wrapper" href="{{ product.url }}">
+      {% if product.featured_media %}
+        <div class="card_media">
+          <div class="media">
+                <img
+                srcset="
+                    {%- if product.featured_media.width >= 165 -%}{{ product.featured_media | image_url: width: 165 }} 165w,{%- endif -%}
+                    {%- if product.featured_media.width >= 360 -%}{{ product.featured_media | image_url: width: 360 }} 360w,{%- endif -%}
+                    {%- if product.featured_media.width >= 533 -%}{{ product.featured_media | image_url: width: 533 }} 533w,{%- endif -%}
+                    {%- if product.featured_media.width >= 720 -%}{{ product.featured_media | image_url: width: 720 }} 720w,{%- endif -%}
+                    {%- if product.featured_media.width >= 940 -%}{{ product.featured_media | image_url: width: 940 }} 940w,{%- endif -%}
+                    {%- if product.featured_media.width >= 1066 -%}{{ product.featured_media | image_url: width: 1066 }} 1066w,{%- endif -%}
+                    {{ product.featured_media | image_url }} {{ product.featured_media.width }}w
+                "
+                src="{{ product.featured_media | image_url: width: 533 }}"
+                alt="{{ product.featured_media.alt | escape }}"
+                class="motion-reduce"
+                loading="lazy"
+                width=""
+                height=""
+                >
+            </div>
+        </div>
+      {% endif %}
+      </a>
+    </div>
+    <div class="card__details">
+      <h3 class="main_product_title card_heading h5">
+        <a class="product-link" href="{{ product.url }}">
+          {{ product.title }}
+        </a>
+      </h3>
+
+      <div class="desc_text">
+        {% if product.description != blank %}
+          {{ product.description }}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

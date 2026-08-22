@@ -1,0 +1,125 @@
+.page-title {
+  margin-top: 0;
+}
+
+.main-page-title {
+  margin-bottom: 3rem;
+}
+
+@media screen and (min-width: 750px) {
+  .main-page-title {
+    margin-bottom: 4rem;
+  }
+}
+
+.page-placeholder-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.page-placeholder {
+  width: 52.5rem;
+  height: 52.5rem;
+}
+
+/* my code start */
+.page-shipping-policy .main-page-title, 
+.page-service-policy .main-page-title{
+  display: none;
+}
+.page-shipping-policy .custom-content-container, 
+.page-service-policy .custom-content-container{
+  max-width: 122rem;
+  padding-left: 50px;
+  padding-right: 50px;
+  border-bottom: 1px solid #E9EAEA;
+}
+.page-shipping-policy .custom-content-container .rte p, 
+.page-service-policy .custom-content-container .rte p,
+.page-shipping-policy .custom-content-container .rte ul li{
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.5556;
+  color: #535353;
+}
+.page-shipping-policy .custom-content-container .rte ul li{
+  list-style-position: outside;
+}
+.page-shipping-policy .custom-content-container .rte strong,
+.page-service-policy .custom-content-container .rte .icon-heading strong{
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-transform: uppercase;
+  color: #B30D0D;
+}
+.page-service-policy .custom-content-container .icon-heading svg{
+  flex-shrink: 0; 
+}
+.page-service-policy .icon-heading{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+ }
+.page-shipping-policy .custom-content-container .rte p, 
+.page-service-policy .custom-content-container .rte p{
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+.page-service-policy .custom-content-container .rte p,
+.page-shipping-policy .custom-content-container .rte p,
+.page-shipping-policy .custom-content-container .rte ul{
+  margin: 20px 0px 46px;
+}
+.page-service-policy .custom-content-container .rte p:last-child{
+   margin: 20px 0px 0px;
+}
+/* responsive */
+@media screen and (max-width: 768px){
+  .page-shipping-policy .custom-content-container .rte strong, 
+  .page-service-policy .custom-content-container .rte .icon-heading strong{
+    font-size: 22px;
+  }
+  .page-shipping-policy .custom-content-container, 
+  .page-service-policy .custom-content-container{
+    padding: 35px 20px;
+  }
+}
+@media screen and (max-width: 600px){
+  .page-service-policy .icon-heading{
+    align-items: start;
+  }
+  .page-service-policy .custom-content-container .icon-heading svg{
+    margin-top: 5px;
+  }
+}
+@media screen and (max-width: 575px){
+  .page-shipping-policy .custom-content-container .rte strong, 
+  .page-service-policy .custom-content-container .rte .icon-heading strong{
+    font-size: 20px;
+  }
+  .page-shipping-policy .custom-content-container, 
+  .page-service-policy .custom-content-container{
+    padding: 30px 15px;
+  }
+  .page-shipping-policy .custom-content-container .rte p, 
+  .page-service-policy .custom-content-container .rte p, 
+  .page-shipping-policy .custom-content-container .rte ul li, 
+  .page-service-policy .custom-content-container .rte ul li{
+    font-size: 16px;
+  }
+  .page-service-policy .custom-content-container .icon-heading svg{
+    width: 16px;
+    height: 16px;
+  }
+  .page-service-policy .custom-content-container .icon-heading {
+    gap: 8px;
+  }
+  .page-service-policy .custom-content-container .rte p, .page-shipping-policy .custom-content-container .rte p, .page-shipping-policy .custom-content-container .rte ul{
+    margin: 15px 0 40px;
+  }
+  .page-service-policy .custom-content-container .icon-heading svg {
+    margin-top: 4px;
+  }
+}
+/* my code end */
