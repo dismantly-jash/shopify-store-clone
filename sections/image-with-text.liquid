@@ -54,6 +54,8 @@
                 | image_url: width: 1500
                 | image_tag: sizes: sizes, widths: widths, fetchpriority: fetch_priority
               }}
+            {%- elsif section.settings.image_asset != blank -%}
+              <img src="{{ section.settings.image_asset | asset_url }}" alt="" loading="lazy" class="image-with-text__image global-media-settings">
             {%- else -%}
               {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
             {%- endif -%}
@@ -120,6 +122,12 @@
       "type": "image_picker",
       "id": "image",
       "label": "t:sections.image-with-text.settings.image.label"
+    },
+    {
+      "type": "text",
+      "id": "image_asset",
+      "label": "Theme asset filename",
+      "info": "Fallback image when no image is picked, e.g. cta-quality-parts.jpg"
     },
     {
       "type": "select",
