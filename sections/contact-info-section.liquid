@@ -2,7 +2,14 @@
 {%- style -%}
   .desc-text {
     padding: 20px 20px;
-    text-align: center;
+    text-align: left;
+  }
+  .desc-text p {
+    margin: 0 0 12px;
+  }
+  .desc-text ul {
+    margin: 0 0 12px;
+    padding-left: 22px;
   }
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.mobile_padding_top }}px;
@@ -129,9 +136,9 @@
       </div>
     </div>
   </div>
-  <p class="desc-text">
+  <div class="desc-text rte">
     {{ section.settings.company_description }}
-  </p>
+  </div>
   {% if section.settings.sales_heading != blank
     or section.settings.sales_body != blank
     or section.settings.sales_contact_phone_1 != blank
@@ -260,7 +267,7 @@
       "label": "Map Embed URL (leave blank to use image)"
     },
     {
-      "type": "text",
+      "type": "html",
       "id": "company_description",
       "label": "Company Description",
       "default": "Welcome to Lorryland, New Zealand's premier destination for both new and second-hand aftermarket truck parts. As one of the largest stockists in the country, we pride ourselves on offering an extensive selection of quality parts to meet all your trucking needs. Whether you're searching for reliable used components or the latest aftermarket innovations, Lorryland has you covered. Explore our online store to discover the exceptional range of products we provide, ensuring your trucks are always road-ready."
