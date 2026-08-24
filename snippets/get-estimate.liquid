@@ -106,7 +106,7 @@
                   name="contact[{{ 'general.get_estimate.year_make_model' | t }}]"
                   value=""
                   placeholder="{{ 'general.get_estimate.year_make_model_placeholder' | t }}"
-                  
+                  required
                 >
               </div>
               <div class="field">
@@ -151,6 +151,7 @@
                   name="contact[{{ 'general.get_estimate.desired_price' | t }}]"
                   value=""
                   placeholder="{{ 'general.get_estimate.desired_price_placeholder' | t }}"
+                  required
                 >
               </div>
               <div class="field">
@@ -163,6 +164,7 @@
                   class="text-area field__input"
                   name="contact[{{ 'general.get_estimate.description_placeholder' | t }}]"
                   placeholder="{{ 'general.get_estimate.description_placeholder' | t }}"
+                  required
                 >
                   {{- form.body -}}
                 </textarea>

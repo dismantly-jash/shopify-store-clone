@@ -3643,7 +3643,7 @@ h2.has-border {
   left: 16px;
   width: calc(100% - 16px);
   height: 100%;
-  background: var(--main-color);
+  background: var(--brand-dark, #050708);
   z-index: -1;
   transform: matrix(1, 0, -0.2, 1, 0, 0);
 }
@@ -3653,7 +3653,7 @@ h2.has-border {
   width:fit-content;
   margin:0 auto;
 }
-.title-line::after, 
+.title-line::after,
 .title-line::before {
   content: "";
   position: absolute;
@@ -3661,12 +3661,13 @@ h2.has-border {
   left: 7px;
   width:5px;
   height: 100%;
-  background: var(--main-color-orange);
+  background: var(--brand-green, #3d6601);
   z-index:-1;
   transform: skewX(-11.5deg);
 }
 .title-line::before {
   left: -2px;
+  background: var(--accent-color, #d7fd10);
 }
 @media screen and (max-width:749px){
   .section-main-title{

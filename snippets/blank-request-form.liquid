@@ -20,8 +20,7 @@
         </div>
       <div class="product-popup-content">
         <div class="product-popup-form">
-          <div style="margin:0 auto;" class="pxFormGenerator" id="9arv1G5o4FL5U-1wPSb1fA"></div>
-          {% comment %} {% form 'customer', class: 'product-form' %}
+          {% form 'contact', class: 'product-form' %}
             {%- unless form.posted_successfully? -%}
             <input type="hidden" name="contact[tags]" value="Product Detail">
             <div class="product-form__field-wrapper">
@@ -213,7 +212,7 @@
                 </div>
               </div>
             {% endif %}
-          {% endform %} {% endcomment %}
+          {% endform %}
         </div>
       </div>
     </div>
