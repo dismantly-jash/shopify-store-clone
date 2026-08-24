@@ -1,24 +1,30 @@
 {{ 'section-image-banner.css' | asset_url | stylesheet_tag }}
 
+{%- style -%}
+  {%- comment -%} Always emitted: the FAP base gated these behind a picked
+      store image, which left the theme-asset fallback image unstyled {%- endcomment -%}
+  .image-fit-contain {
+    object-fit: contain;
+  }
+  .banner-image-custom {
+    width: 100% !important;
+    max-width: 744px;
+    max-height: 510px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    object-fit: contain !important;
+  }
+  @media screen and (max-width: 749px) {
+    .banner-image-custom {
+      max-height: 320px;
+    }
+  }
+{%- endstyle -%}
+
 {%- if section.settings.image_height == 'adapt' and section.settings.image != blank -%}
   {%- style -%}
-    .image-fit-contain {
-      object-fit: contain;
-    }
-    .banner-image-custom {
-      /* height: 400px !important; */
-      width: 100% !important;
-      max-width: 744px;
-      max-height: 510px;
-      height: auto;
-      display: block;
-      margin: 0 auto;
-      object-fit: contain !important;
-    }
     @media screen and (max-width: 749px) {
-      .banner-image-custom {
-        height: 200px !important;
-      }
       #Banner-{{ section.id }}::before,
       #Banner-{{ section.id }} .banner__media::before,
       #Banner-{{ section.id }}:not(.banner--mobile-bottom) .banner__content::before {

@@ -4216,6 +4216,7 @@ line-height:normal;
     background: transparent;
     padding: 0;
     color: #000;
+    box-shadow: none;
   }
   .header-cart__icon .cart-text {
     display: none;
