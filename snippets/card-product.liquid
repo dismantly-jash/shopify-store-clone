@@ -407,14 +407,18 @@
             {% else %}
               <div class="quick-add no-js-hidden">
                 <div class="vehicle-btns">
-                  <div class="btn-wrapper show-part-btn" style="display: none;">
-                    <a href="/search?q=*&options%5Bprefix%5D=last&filter.p.m.custom.year={{ card_product.metafields.custom.year }}&filter.p.m.custom.make={{ card_product.metafields.custom.make }}&filter.p.m.custom.model={{ card_product.metafields.custom.model }}&filter.p.m.custom.type=PART&sort_by=relevance" class="search__btn button">
+                  {%- comment -%} CLI-498: Search Parts is the primary CTA on vehicle cards per Figma
+                      (was hidden until an API stock_id match revealed it) {%- endcomment -%}
+                  <div class="btn-wrapper show-part-btn">
+                    <a href="/search?q=*&options%5Bprefix%5D=last&filter.p.m.custom.year={{ card_product.metafields.custom.year }}&filter.p.m.custom.make={{ card_product.metafields.custom.make }}&filter.p.m.custom.model={{ card_product.metafields.custom.model }}&filter.p.m.custom.type=PART&sort_by=relevance" class="search__btn button"
+                      style="background-color: {{ section.settings.search_part_button_color }}; color: {{ section.settings.search_part_button_text_color }};"
+                    >
                       {{ 'templates.search.search_part' | t }}
                     </a>
                   </div>
                   <div class="btn-wrapper">
                     <a href="{{ card_product.url }}" class="vehicles_detail button button--full-width button--secondary"
-                      style="background-color: {{ section.settings.search_part_button_color }}; color: {{ section.settings.search_part_button_text_color }};"
+                      style="background-color: {{ section.settings.search_part_cart_button_color }}; color: {{ section.settings.search_part_cart_button_text_color }};"
                     >
                       {{ 'templates.search.vehicle_details' | t }}
                     </a>

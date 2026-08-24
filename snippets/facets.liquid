@@ -12,6 +12,16 @@
   {% render 'facets', results: collection, enable_filtering: true, enable_sorting: true, filter_type: 'vertical', paginate: paginate %}
 {% endcomment %}
 
+{%- comment -%} CLI-512: vehicles have no prices — hide price sorts on vehicle results {%- endcomment -%}
+{%- capture facets_url_probe -%}{{ content_for_header }}{%- endcapture -%}
+{%- liquid
+  assign facets_page_url = facets_url_probe | split: '"pageurl":"' | last | split: '"' | first
+  assign facets_hide_price_sort = false
+  if facets_page_url contains 'type=VEHICLE' or facets_page_url contains 'type=vehicle'
+    assign facets_hide_price_sort = true
+  endif
+-%}
+
 {{ 'component-show-more.css' | asset_url | stylesheet_tag }}
 {{ 'component-swatch-input.css' | asset_url | stylesheet_tag }}
 {{ 'component-swatch.css' | asset_url | stylesheet_tag }}
@@ -471,6 +481,7 @@
                     aria-describedby="a11y-refresh-page-message"
                   >
                     {%- for option in results.sort_options -%}
+                      {%- if facets_hide_price_sort and option.value contains 'price' -%}{%- continue -%}{%- endif -%}
                       <option
                         value="{{ option.value | escape }}"
                         {% if option.value == sort_by %}
@@ -824,6 +835,7 @@
                           aria-describedby="a11y-refresh-page-message"
                         >
                           {%- for option in results.sort_options -%}
+                            {%- if facets_hide_price_sort and option.value contains 'price' -%}{%- continue -%}{%- endif -%}
                             <option
                               value="{{ option.value | escape }}"
                               {% if option.value == sort_by %}
@@ -935,6 +947,7 @@
                 aria-describedby="a11y-refresh-page-message"
               >
                 {%- for option in results.sort_options -%}
+                  {%- if facets_hide_price_sort and option.value contains 'price' -%}{%- continue -%}{%- endif -%}
                   <option
                     value="{{ option.value | escape }}"
                     {% if option.value == sort_by %}

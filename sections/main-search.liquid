@@ -348,6 +348,10 @@
                     aria-describedby="a11y-refresh-page-message"
                   >
                     {%- for option in search.sort_options -%}
+                      {%- comment -%} CLI-512: vehicles have no prices — price sorts are meaningless there {%- endcomment -%}
+                      {%- if get_part_type == 'vehicle' and option.value contains 'price' -%}
+                        {%- continue -%}
+                      {%- endif -%}
                       <option
                         value="{{ option.value | escape }}"
                         {% if option.value == sort_by %}
@@ -409,8 +413,27 @@
                     {%- assign lazy_load = true -%}
                   {%- endif -%}
 
+                  {%- liquid
+                    comment
+                      CLI-495/498: until Search & Discovery metafield filters are
+                      configured, the type filter in the URL is inert — skip items
+                      whose custom.type does not match the page type
+                    endcomment
+                    assign item_type_mismatch = false
+                    if item.object_type == 'product' and get_part_type != ''
+                      assign item_type = item.metafields.custom.type | upcase
+                      if get_part_type == 'part' and item_type == 'VEHICLE'
+                        assign item_type_mismatch = true
+                      elsif get_part_type == 'vehicle' and item_type == 'PART'
+                        assign item_type_mismatch = true
+                      endif
+                    endif
+                  -%}
                   {%- case item.object_type -%}
                     {%- when 'product' -%}
+                      {%- if item_type_mismatch -%}
+                        {%- continue -%}
+                      {%- endif -%}
                       <li
                         class="grid__item{% if settings.animations_reveal_on_scroll %} {% endif %}"
                         {% if settings.animations_reveal_on_scroll %}
