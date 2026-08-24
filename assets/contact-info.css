@@ -43,7 +43,7 @@
   line-height: 1.2;
   font-weight: 500;
   margin: 0;
-  color: rgb(var(--color-button));
+  color: var(--brand-green, #3d6601);
   text-decoration: none;
   display: block;
 }

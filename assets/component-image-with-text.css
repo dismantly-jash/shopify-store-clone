@@ -468,9 +468,9 @@
   color: #000;
   line-height: 1.556;
 }
-.page-service-policy .image-with-text .image-with-text__content .image-with-text__heading strong, 
+.page-service-policy .image-with-text .image-with-text__content .image-with-text__heading strong,
 .page-shipping-policy .image-with-text .image-with-text__content .image-with-text__heading strong{
-  color: var(--main-color);
+  color: var(--brand-green, #3d6601);
 }
 /* responsive */
 @media screen and (max-width: 1280px){

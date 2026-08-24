@@ -611,7 +611,8 @@ details > * {
 .underlined-link,
 .customer a {
   /* color:  rgba(var(--color-link), var(--alpha-link)); */
-  color: var(--main-color);
+  /* --main-color is the lime accent since the rebrand — unreadable as text on white */
+  color: var(--brand-green, #3d6601);
 }
 
 .inline-richtext a,
@@ -3850,7 +3851,7 @@ line-height:normal;
   line-height:normal;
 }
 .product-popup-content .product-form .field label span{
-  color:var(--main-color);
+  color:var(--brand-green, #3d6601);
 }
 .custom_field__input,
 .product-popup-content .product-form .field input,

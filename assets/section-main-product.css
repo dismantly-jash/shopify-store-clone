@@ -1623,7 +1623,7 @@ a.product__text {
   margin-top:20px;
 }
 .custom-product-information h3{
-  color: var(--main-color);
+  color: var(--brand-green, #3d6601);
   font-size: 18px;
   font-weight: 500;
   line-height: 1.3;
