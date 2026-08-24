@@ -32,14 +32,16 @@
         assign products_source = collections.all.products
       endif
 
+      assign match_keyword = block.settings.match_keyword | default: block.settings.tab_name | downcase
       assign has_match = false
       for product in products_source
-        if block.settings.tab_name != blank
-          if product.title contains block.settings.tab_name
-            assign has_match = true
-            break
-          endif
-        else
+        if block.settings.tab_name == blank
+          assign has_match = true
+          break
+        endif
+        assign tab_probe = product.title | downcase
+        assign tab_pt = product.metafields.custom.part_type.value | downcase
+        if tab_probe contains match_keyword or tab_pt contains match_keyword
           assign has_match = true
           break
         endif
@@ -77,14 +79,16 @@
           assign products_source = collections.all.products
         endif
 
+        assign match_keyword = block.settings.match_keyword | default: block.settings.tab_name | downcase
         assign has_match = false
         for product in products_source
-          if block.settings.tab_name != blank
-            if product.title contains block.settings.tab_name
-              assign has_match = true
-              break
-            endif
-          else
+          if block.settings.tab_name == blank
+            assign has_match = true
+            break
+          endif
+          assign tab_probe = product.title | downcase
+          assign tab_pt = product.metafields.custom.part_type.value | downcase
+          if tab_probe contains match_keyword or tab_pt contains match_keyword
             assign has_match = true
             break
           endif
@@ -151,8 +155,12 @@
             {% else %}
               {% assign shown = 0 %}
               {% for product_tab in products_source %}
+                {%- liquid
+                  assign loop_probe = product_tab.title | downcase
+                  assign loop_pt = product_tab.metafields.custom.part_type.value | downcase
+                -%}
                 {% if block.settings.tab_name != blank %}
-                  {% if product_tab.title contains block.settings.tab_name %}
+                  {% if loop_probe contains match_keyword or loop_pt contains match_keyword %}
                     {% assign shown = shown | plus: 1 %}
                     {% assign skip_card_product_styles = true %}
                     <li>
@@ -414,6 +422,12 @@
             "id": "tab_name",
             "label": "Tab name",
             "default": "Engines"
+          },
+          {
+            "type": "text",
+            "id": "match_keyword",
+            "label": "Product match keyword",
+            "info": "Products whose title or Part Type metafield contains this (case-insensitive) appear in the tab. Defaults to the tab name, e.g. Engine"
           },
           {
             "type": "collection",

@@ -43,6 +43,20 @@
       <div class="swiper-wrapper">
         {% assign collection = section.settings.collection %}
 
+        {%- comment -%} CLI-492: when no collection is configured (or it is empty),
+            fall back to all products typed VEHICLE so the section never renders bare {%- endcomment -%}
+        {%- liquid
+          assign fallback_vehicles_exist = false
+          if collection == blank or collection.products_count == 0
+            for product in collections.all.products
+              if product.metafields.custom.type == 'VEHICLE'
+                assign fallback_vehicles_exist = true
+                break
+              endif
+            endfor
+          endif
+        -%}
+
         {% if collection and collection.products_count > 0 %}
           {% for product in collection.products limit: section.settings.limit %}
             {% assign mod = forloop.index0 | modulo: 2 %}
@@ -58,6 +72,31 @@
               </div>
             {% endif %}
           {% endfor %}
+        {% elsif fallback_vehicles_exist %}
+          {% assign shown_vehicles = 0 %}
+          {% for product in collections.all.products %}
+            {% if product.metafields.custom.type != 'VEHICLE' %}{% continue %}{% endif %}
+            {% if shown_vehicles >= section.settings.limit %}{% break %}{% endif %}
+            {% assign mod = shown_vehicles | modulo: 2 %}
+            {% if mod == 0 %}
+              <div
+                class="car-detail-list__item swiper-slide"
+              >
+                <div class="featured-car-slide-inner">
+            {% endif %}
+            {% render 'card-car-product', product: product %}
+            {% assign shown_vehicles = shown_vehicles | plus: 1 %}
+            {% assign mod_after = shown_vehicles | modulo: 2 %}
+            {% if mod_after == 0 %}
+              </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+          {% assign trailing = shown_vehicles | modulo: 2 %}
+          {% if trailing == 1 %}
+            </div>
+            </div>
+          {% endif %}
         {% else %}
           {% assign blocks = section.blocks %}
           {% for block in blocks limit: section.settings.limit %}

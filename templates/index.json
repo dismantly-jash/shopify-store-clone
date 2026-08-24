@@ -292,7 +292,8 @@
             "collection_product_list": "",
             "product_list": [],
             "main_image_asset": "banner-engines.jpg",
-            "main_image_tab": "shopify://shop_images/banner-16_jpg.png"
+            "main_image_tab": "shopify://shop_images/banner-16_jpg.png",
+            "match_keyword": "Engine"
           }
         },
         "tab_tcs_2": {
@@ -305,7 +306,8 @@
             "tab_name": "Transmissions & Gearboxes",
             "collection_product_list": "",
             "product_list": [],
-            "main_image_tab": "shopify://shop_images/banner-16.jpg-1.png"
+            "main_image_tab": "shopify://shop_images/banner-16.jpg-1.png",
+            "match_keyword": "Transmission"
           }
         },
         "tab_tcs_3": {
@@ -318,7 +320,8 @@
             "tab_name": "Headlights & Taillights",
             "collection_product_list": "",
             "product_list": [],
-            "main_image_asset": "banner-headlights.jpg"
+            "main_image_asset": "banner-headlights.jpg",
+            "match_keyword": "light"
           }
         },
         "tab_tcs_4": {
@@ -331,7 +334,8 @@
             "tab_name": "ECU’s",
             "collection_product_list": "",
             "product_list": [],
-            "main_image_tab": "shopify://shop_images/banner-16.jpg-2.png"
+            "main_image_tab": "shopify://shop_images/banner-16.jpg-2.png",
+            "match_keyword": "ECU"
           }
         },
         "tab_tcs_5": {
@@ -344,7 +348,8 @@
             "tab_name": "Exterior Parts",
             "collection_product_list": "",
             "product_list": [],
-            "main_image_tab": "shopify://shop_images/banner-16.jpg-3.png"
+            "main_image_tab": "shopify://shop_images/banner-16.jpg-3.png",
+            "match_keyword": "Exterior"
           }
         }
       },
