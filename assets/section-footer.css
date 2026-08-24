@@ -617,6 +617,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  text-decoration: none;
 }
 .powered-by__fallback-text {
   font-size: 1.2rem;

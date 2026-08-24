@@ -199,9 +199,13 @@
                       <div class="powered-by__image extra-small-hide">
                         {%- if block.settings.powered_by_image != blank -%}
                           {%- assign p_image_size_2x = block.settings.powered_by_image_width | times: 2 | at_most: 5760 -%}
-                          <div
+                          <a
+                            href="https://dismantly.ai/"
                             class="footer-block__image-wrapper"
-                            style="max-width: min(100%, {{ block.settings.powered_by_image_width }}px);"
+                            style="display: block; max-width: min(100%, {{ block.settings.powered_by_image_width }}px);"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="Powered by Dismantly"
                           >
                             <img
                               srcset="{{ block.settings.powered_by_image | image_url: width: block.settings.powered_by_image_width }}, {{ block.settings.powered_by_image | image_url: width: p_image_size_2x }} 2x"
@@ -211,12 +215,18 @@
                               width="{{ block.settings.powered_by_image.width }}"
                               height="{{ block.settings.powered_by_image.height }}"
                             >
-                          </div>
+                          </a>
                         {%- else -%}
-                          <div class="footer-block__image-wrapper powered-by__fallback">
+                          <a
+                            href="https://dismantly.ai/"
+                            class="footer-block__image-wrapper powered-by__fallback"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="Powered by Dismantly"
+                          >
                             <img src="{{ 'badge-dismantly.svg' | asset_url }}" alt="" width="42" height="42" loading="lazy">
                             <span class="powered-by__fallback-text">Powered by<br><strong>Dismantly</strong></span>
-                          </div>
+                          </a>
                         {%- endif -%}
                       </div>
                     </div>
@@ -228,8 +238,13 @@
 
         {%- if section.settings.powered_by_image_mobile != blank -%}
         <div class="powered-by__image mobile-powerd-img">
-            <div
+            <a
+              href="https://dismantly.ai/"
               class="footer-block__image-wrapper"
+              style="display: block;"
+              target="_blank"
+              rel="noopener"
+              aria-label="Powered by Dismantly"
             >
               <img
                 srcset="{{ section.settings.powered_by_image_mobile | image_url: width: 176 }}, {{ section.settings.powered_by_image_mobile | image_url: width: p_image_size_2x }} 2x"
@@ -239,8 +254,21 @@
                 width="{{ section.settings.powered_by_image_mobile.width }}"
                 height="{{ section.settings.powered_by_image_mobile.height }}"
               >
-            </div>
-          </div>  
+            </a>
+          </div>
+        {%- else -%}
+          <div class="powered-by__image mobile-powerd-img">
+            <a
+              href="https://dismantly.ai/"
+              class="footer-block__image-wrapper powered-by__fallback"
+              target="_blank"
+              rel="noopener"
+              aria-label="Powered by Dismantly"
+            >
+              <img src="{{ 'badge-dismantly.svg' | asset_url }}" alt="" width="42" height="42" loading="lazy">
+              <span class="powered-by__fallback-text">Powered by<br><strong>Dismantly</strong></span>
+            </a>
+          </div>
         {%- endif -%}
 
         <div
