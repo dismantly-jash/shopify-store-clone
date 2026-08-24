@@ -171,8 +171,11 @@ class FacetFiltersForm extends HTMLElement {
       const currentElement = document.getElementById(elementToRender.id);
       // Element already rendered in the DOM so just update the innerHTML
       if (currentElement) {
-        // console.log(currentElement, 'currentElement');
-        document.getElementById(elementToRender.id).innerHTML = elementToRender.innerHTML;
+        // CLI-511: replacing identical content restarts every logo <img> load and
+        // makes the auto-opened dropdown flicker between plain and logo rows
+        if (currentElement.innerHTML !== elementToRender.innerHTML) {
+          document.getElementById(elementToRender.id).innerHTML = elementToRender.innerHTML;
+        }
 
         if (event != undefined) {
           const detailsEl = event.target.closest("details");

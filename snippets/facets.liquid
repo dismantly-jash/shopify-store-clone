@@ -270,7 +270,7 @@
                                   {% assign image_url = value_make | handle | append: '.png' | file_img_url: '30x30' %}
                                   {% assign common_url = 'common' | append: '.png' | file_img_url: '30x30' %}
                                   {% if image_url contains "?v=" %}
-                                    <img class="value_name_filter_image" src="{{ image_url }}" alt="{{ value.label | handle }}" width="" height=""  onerror="this.src='{{ common_url }}'">
+                                    <img class="value_name_filter_image" src="{{ image_url }}" alt="{{ value.label | handle }}" width="30" height="30" loading="lazy" onerror="this.onerror=null;this.src='{{ common_url }}'">
                                   {% else %}
                                     <div style="width: 39px;display: block;"></div>
                                   {% endif %}
@@ -701,7 +701,7 @@
                                       {% assign image_url = value_make | handle | append: '.png' | file_img_url: '30x30' %}
                                       {% assign common_url = 'common' | append: '.jpg' | file_img_url: '30x30' %}
                                       {% if image_url contains "?v=" %}
-                                        <img class="value_name_filter_image" src="{{ image_url }}" alt="{{ value.label | handle }}" width="" height=""  onerror="this.src='{{ common_url }}'">
+                                        <img class="value_name_filter_image" src="{{ image_url }}" alt="{{ value.label | handle }}" width="30" height="30" loading="lazy" onerror="this.onerror=null;this.src='{{ common_url }}'">
                                       {% else %}
                                         <div style="width: 39px;display: block;"></div>
                                       {% endif %}
