@@ -805,3 +805,18 @@
   padding-left: 8px;
   padding-right: 8px;
 }
+
+/* Total Spares: uniform product-card layout — fixed 4:3 image band regardless of
+   each photo's aspect ratio, and Buy Now / Add to Cart pinned to the card bottom
+   so rows stay level when titles/descriptions differ in length */
+.product-card-wrapper .card--standard .card__inner.ratio::before {
+  padding-bottom: 75% !important;
+}
+.product-card-wrapper .card__content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.product-card-wrapper .card__content .card__information {
+  flex: 1 0 auto;
+}

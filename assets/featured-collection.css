@@ -81,3 +81,13 @@
 .featured-collection-slider.swiper .swiper-wrapper {
   align-items: stretch;
 }
+
+/* Total Spares: equal-height cards — slides stretch, stacked cards share the row height */
+.featured-collection-slider .swiper-slide {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+}
+.featured-collection-slider .swiper-slide .card-wrapper {
+  flex: 1 1 0;
+}
