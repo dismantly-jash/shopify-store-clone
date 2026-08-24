@@ -291,7 +291,8 @@
             "tab_name": "Engines",
             "collection_product_list": "",
             "product_list": [],
-            "main_image_asset": "banner-engines.jpg"
+            "main_image_asset": "banner-engines.jpg",
+            "main_image_tab": "shopify://shop_images/banner-16_jpg.png"
           }
         },
         "tab_tcs_2": {
@@ -303,7 +304,8 @@
             "button_link": "/search?q=*&options%5Bprefix%5D=last&filter.p.m.custom.type=PART&filter.p.m.custom.part_type=Transmission",
             "tab_name": "Transmissions & Gearboxes",
             "collection_product_list": "",
-            "product_list": []
+            "product_list": [],
+            "main_image_tab": "shopify://shop_images/banner-16.jpg-1.png"
           }
         },
         "tab_tcs_3": {
@@ -315,7 +317,8 @@
             "button_link": "/search?q=*&options%5Bprefix%5D=last&filter.p.m.custom.type=PART&filter.p.m.custom.part_type=Headlight",
             "tab_name": "Headlights & Taillights",
             "collection_product_list": "",
-            "product_list": []
+            "product_list": [],
+            "main_image_asset": "banner-headlights.jpg"
           }
         },
         "tab_tcs_4": {
@@ -327,7 +330,8 @@
             "button_link": "/search?q=*&options%5Bprefix%5D=last&filter.p.m.custom.type=PART&filter.p.m.custom.part_type=ECU",
             "tab_name": "ECU’s",
             "collection_product_list": "",
-            "product_list": []
+            "product_list": [],
+            "main_image_tab": "shopify://shop_images/banner-16.jpg-2.png"
           }
         },
         "tab_tcs_5": {
@@ -339,7 +343,8 @@
             "button_link": "/search?q=*&options%5Bprefix%5D=last&filter.p.m.custom.type=PART&filter.p.m.custom.part_type=Exterior",
             "tab_name": "Exterior Parts",
             "collection_product_list": "",
-            "product_list": []
+            "product_list": [],
+            "main_image_tab": "shopify://shop_images/banner-16.jpg-3.png"
           }
         }
       },
@@ -371,7 +376,8 @@
             "tab_label": "Ford",
             "tab_image_url": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Ford&filter.p.m.custom.type=PART",
             "btn_label": "Shop Parts",
-            "btn_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Ford&filter.p.m.custom.type=PART"
+            "btn_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Ford&filter.p.m.custom.type=PART",
+            "tab_image": "shopify://shop_images/image_26.png"
           }
         },
         "tab_tcs_2": {
@@ -380,7 +386,8 @@
             "tab_label": "GWM",
             "tab_image_url": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=GWM&filter.p.m.custom.type=PART",
             "btn_label": "Shop Parts",
-            "btn_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=GWM&filter.p.m.custom.type=PART"
+            "btn_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=GWM&filter.p.m.custom.type=PART",
+            "tab_image": "shopify://shop_images/s-l1200_2-2.png"
           }
         },
         "tab_tcs_3": {
@@ -389,7 +396,8 @@
             "tab_label": "Holden",
             "tab_image_url": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Holden&filter.p.m.custom.type=PART",
             "btn_label": "Shop Parts",
-            "btn_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Holden&filter.p.m.custom.type=PART"
+            "btn_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Holden&filter.p.m.custom.type=PART",
+            "tab_image": "shopify://shop_images/s-l1200_2-3.png"
           }
         },
         "tab_tcs_4": {
@@ -398,7 +406,8 @@
             "tab_label": "Isuzu",
             "tab_image_url": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Isuzu&filter.p.m.custom.type=PART",
             "btn_label": "Shop Parts",
-            "btn_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Isuzu&filter.p.m.custom.type=PART"
+            "btn_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Isuzu&filter.p.m.custom.type=PART",
+            "tab_image": "shopify://shop_images/s-l1200_2-4.png"
           }
         },
         "tab_tcs_5": {
@@ -407,7 +416,8 @@
             "tab_label": "Mazda",
             "tab_image_url": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Mazda&filter.p.m.custom.type=PART",
             "btn_label": "Shop Parts",
-            "btn_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Mazda&filter.p.m.custom.type=PART"
+            "btn_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Mazda&filter.p.m.custom.type=PART",
+            "tab_image": "shopify://shop_images/s-l1200_2.png"
           }
         },
         "tab_tcs_6": {
@@ -416,7 +426,8 @@
             "tab_label": "Mitsubishi",
             "tab_image_url": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Mitsubishi&filter.p.m.custom.type=PART",
             "btn_label": "Shop Parts",
-            "btn_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Mitsubishi&filter.p.m.custom.type=PART"
+            "btn_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Mitsubishi&filter.p.m.custom.type=PART",
+            "tab_image": "shopify://shop_images/s-l1200_2-1.png"
           }
         },
         "tab_tcs_7": {
@@ -425,7 +436,8 @@
             "tab_label": "Nissan",
             "tab_image_url": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Nissan&filter.p.m.custom.type=PART",
             "btn_label": "Shop Parts",
-            "btn_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Nissan&filter.p.m.custom.type=PART"
+            "btn_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Nissan&filter.p.m.custom.type=PART",
+            "tab_image": "shopify://shop_images/image_24.png"
           }
         },
         "tab_tcs_8": {
@@ -434,7 +446,8 @@
             "tab_label": "Suzuki",
             "tab_image_url": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Suzuki&filter.p.m.custom.type=PART",
             "btn_label": "Shop Parts",
-            "btn_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Suzuki&filter.p.m.custom.type=PART"
+            "btn_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Suzuki&filter.p.m.custom.type=PART",
+            "tab_image": "shopify://shop_images/image_24-1.png"
           }
         },
         "tab_tcs_9": {
@@ -443,7 +456,8 @@
             "tab_label": "Toyota",
             "tab_image_url": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Toyota&filter.p.m.custom.type=PART",
             "btn_label": "Shop Parts",
-            "btn_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Toyota&filter.p.m.custom.type=PART"
+            "btn_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Toyota&filter.p.m.custom.type=PART",
+            "tab_image": "shopify://shop_images/image_24-2.png"
           }
         }
       },
