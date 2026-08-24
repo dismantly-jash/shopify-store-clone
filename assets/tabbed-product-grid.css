@@ -226,3 +226,16 @@
         min-height:225px;
     }
 }
+/* Total Spares (CLI-490): Figma dark-to-transparent overlay on the tab banner
+   so the tile heading stays readable on bright photos */
+.tabbed-product-grid .tab-left::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 8px 0 0 8px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, rgba(102, 102, 102, 0) 65%);
+  pointer-events: none;
+}
+.tabbed-product-grid .tab-left-content {
+  z-index: 1;
+}

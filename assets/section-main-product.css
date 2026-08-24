@@ -1566,8 +1566,8 @@ a.product__text {
   max-width: calc(220px - 10px);
 }
 .product .product-form__buttons .custom-offer-btn.custom-request-part-btn a {
-  background: var(--brand-dark, #050708);
-  color: #fff;
+  background: var(--main-color, #d7fd10);
+  color: #000;
   justify-content: center;
   font-size: 18px;
   font-weight: 500;
@@ -1715,9 +1715,10 @@ a.product__text {
 }
 
 .custom-request-part-btn .request_parts{
-  background-color: var(--brand-dark, #050708);
-  color: #fff;
+  background-color: var(--main-color, #d7fd10);
+  color: #000;
   margin-top: 0;
+  box-shadow: var(--btn-shadow);
 }
 .custom-search-btn .search_parts{
   display: flex;
@@ -2278,4 +2279,12 @@ a.product__text {
   .product .product-form__buttons .button.button--secondary, .product .product-form__buttons .custom-offer-btn a{
     padding: 11px;
   }
+}
+
+/* Total Spares (CLI-503): Figma paints the whole upper photo/details section on
+   the light-grey band, not just the feature-icon row (the scheme gradient
+   painter is disabled in this base, so paint it explicitly) */
+.main-product-section {
+  display: block;
+  background-color: #f9f9f9;
 }

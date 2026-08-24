@@ -300,3 +300,9 @@
     padding: 20px;
   }
 }
+
+/* Total Spares (CLI-513): Figma places the contact info + map block on a light
+   gray panel that transitions to white before the page copy below */
+.contact-info-section .contact-info-wrapper {
+  background: #f4f4f4;
+}
