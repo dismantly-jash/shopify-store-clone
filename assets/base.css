@@ -4413,3 +4413,8 @@ a.request_quote.button {
 .overflow-hidden .featured-collection-slider.swiper-initialized .swiper-wrapper {
   transform: none!important;
 }
+
+/* Total Spares (CLI-501): black search glyph on the lime Available Parts button */
+.custom-api-feature .field__button {
+  color: #000000;
+}

@@ -620,11 +620,15 @@
   text-decoration: none;
 }
 .powered-by__fallback-text {
-  font-size: 1.2rem;
-  line-height: 1.3;
+  font-size: 12px;
+  line-height: 1.35;
   color: #145da0;
   font-weight: 700;
+  letter-spacing: 0;
 }
 .powered-by__fallback-text strong {
-  font-size: 1.7rem;
+  display: block;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.1;
 }

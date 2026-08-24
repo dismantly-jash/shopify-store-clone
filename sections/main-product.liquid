@@ -841,12 +841,15 @@
               {%- when 'icon-with-text' -%}
                 {% render 'icon-with-text', block: block %}
               {% when 'payment_icons' %}
-                <div class="product-custom-icons">
-                  {% for i in (1..6) %}
-                    {% capture icon %}icon_{{i}}{%endcapture %}
-                    <div class="payment-icon-item">{{ block.settings[icon] }}</div>
-                  {% endfor %}
-                </div>
+                {%- comment -%} CLI-499: vehicles are not sold online — no payment methods row {%- endcomment -%}
+                {%- unless product.metafields.custom.type == 'VEHICLE' -%}
+                  <div class="product-custom-icons">
+                    {% for i in (1..6) %}
+                      {% capture icon %}icon_{{i}}{%endcapture %}
+                      <div class="payment-icon-item">{{ block.settings[icon] }}</div>
+                    {% endfor %}
+                  </div>
+                {%- endunless -%}
             {%- endcase -%}
           {%- endfor -%}
           <a href="{{ product.url }}" class="link product__view-details animate-arrow">
