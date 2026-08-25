@@ -12,6 +12,7 @@
   border: 0;
   border-radius: 0 4px 4px 0;
   position: relative;
+  color: #000000;
 }
 
 .header-search-wrapper .search__button .icon {
