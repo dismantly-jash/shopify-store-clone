@@ -1,0 +1,77 @@
+{
+  "sections": {
+    "page_hero": {
+      "type": "page-hero",
+      "settings": {
+        "title": "Guarantee & After-Sales Service",
+        "image_asset": "hero-returns.jpg",
+        "overlay_opacity": 46,
+        "height": 300
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "show_title": false
+      }
+    },
+    "image_with_text_cta": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_tcs": {
+          "type": "heading",
+          "settings": {
+            "heading": "<strong>Quality Parts</strong>, Ready When You Are!",
+            "heading_size": "h1"
+          }
+        },
+        "text_tcs": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Get the right part, the first time, every time. Browse our extensive inventory of quality-tested, recycled auto parts and order with confidence.</p>",
+            "text_style": "body"
+          }
+        },
+        "button_tcs": {
+          "type": "button",
+          "settings": {
+            "button_label": "Shop Now",
+            "button_link": "/search?q=*&options%5Bprefix%5D=last&filter.p.m.custom.type=PART",
+            "button_style_secondary": false,
+            "button_color": "#d7fd10",
+            "button_text_color": "#000000"
+          }
+        }
+      },
+      "block_order": [
+        "heading_tcs",
+        "text_tcs",
+        "button_tcs"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/cta-quality-parts.jpg",
+        "image_asset": "cta-quality-parts.jpg",
+        "height": "small",
+        "desktop_image_width": "medium",
+        "layout": "text_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "center",
+        "section_color_scheme": "scheme-1",
+        "color_scheme": "scheme-1",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    }
+  },
+  "order": [
+    "page_hero",
+    "main",
+    "image_with_text_cta"
+  ]
+}
