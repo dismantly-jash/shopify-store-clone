@@ -10,10 +10,11 @@
       };
 
 
-      const storefrontToken = '0c3bbdc24dcf6a551fb01ebb5e0163bf'; // replace
+      const storefrontToken = {{ settings.storefront_api_token | json }};
       const endpoint = '/api/2024-01/graphql.json';
 
       async function fetchProducts(cursor = null, allProducts = []) {
+        if (!storefrontToken) return allProducts;
         const query = `
           query getProducts($cursor: String) {
             products(first: 50, after: $cursor) {

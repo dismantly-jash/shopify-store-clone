@@ -233,10 +233,11 @@
       const stockListingElement = document.querySelector(`#Slider-${sectionId}`);
       const loader = document.querySelector(`.loader_wrapper`);
 
-      const storefrontToken = "0c3bbdc24dcf6a551fb01ebb5e0163bf"; // replace
+      const storefrontToken = {{ settings.storefront_api_token | json }};
       const endpoint = "/api/2026-01/graphql.json";
 
       async function fetchProducts(cursor = null, allProducts = []) {
+        if (!storefrontToken) return allProducts;
         const query = `
           query getProducts($cursor: String) {
             products(first: 250, after: $cursor) {
@@ -497,9 +498,10 @@ function redirectCheckout(id, quantity = 1) {
       stock_id: '{{ product.metafields.custom.stock_id }}'
     };
 
-    const storefrontToken = "0c3bbdc24dcf6a551fb01ebb5e0163bf";
+    const storefrontToken = {{ settings.storefront_api_token | json }};
     const endpoint = "/api/2026-01/graphql.json";
-    
+    if (!storefrontToken) return;
+
     let totalCount = 0;
     const matchingParts = [];
     const matchingPartHandles = new Set();
