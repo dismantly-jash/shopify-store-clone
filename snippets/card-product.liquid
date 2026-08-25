@@ -296,7 +296,9 @@
         </div>
         {% assign product_form_id = 'quick-add-' | append: section_id | append: card_product.id %}
         {% if quick_add == 'standard' %}
-          {% if card_product.selected_or_first_available_variant.available %}
+          {%- comment -%} Zero-price items are quote-only: the product page swaps the buy
+             buttons for "Get a quote", so cards must not offer a free checkout. {%- endcomment -%}
+          {% if card_product.selected_or_first_available_variant.available and card_product.price > 0 %}
             {% unless card_product.metafields.custom.type == "VEHICLE" %}
               <div class="quick-add no-js-hidden">
                 {%- liquid
@@ -434,6 +436,10 @@
                   {% if card_product.metafields.custom.type == 'VEHICLE' %}
                     <a href="javascript:void(0)" class="request_quote button" data-product-popup="card-product-{{ card_product.id }}-{{ section.id }}">
                       Request Part 
+                    </a>
+                  {% elsif card_product.selected_or_first_available_variant.available %}
+                    <a href="javascript:void(0)" class="request_quote button" data-product-popup="card-product-{{ card_product.id }}-{{ section.id }}">
+                      Get a quote
                     </a>
                   {% else %}  
                     <a href="javascript:void(0)" class="request_quote button" data-product-popup="card-product-{{ card_product.id }}-{{ section.id }}">
