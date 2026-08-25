@@ -233,86 +233,24 @@
       const stockListingElement = document.querySelector(`#Slider-${sectionId}`);
       const loader = document.querySelector(`.loader_wrapper`);
 
-      const storefrontToken = {{ settings.storefront_api_token | json }};
-      const endpoint = "/api/2026-01/graphql.json";
-
-      async function fetchProducts(cursor = null, allProducts = []) {
-        if (!storefrontToken) return allProducts;
-        const query = `
-          query getProducts($cursor: String) {
-            products(first: 250, after: $cursor) {
-              edges {
-                node {
-                  id
-                  title
-                  handle
-                  images(first: 1) {
-                    edges {
-                      node { url altText }
-                    }
-                  }
-                  priceRange {
-                    minVariantPrice { amount currencyCode }
-                  }
-                  variants(first: 1) {
-                    edges {
-                      node {
-                        id
-                        availableForSale
-                        quantityAvailable
-                      }
-                    }
-                  }
-                  metafields(identifiers: [
-                    { namespace: "custom", key: "stock_id" }
-                    { namespace: "custom", key: "model" }
-                    { namespace: "custom", key: "make" }
-                    { namespace: "custom", key: "year" }
-                    { namespace: "custom", key: "description" }
-                    { namespace: "custom", key: "type" }
-                  ]) {
-                    key
-                    value
-                  }
-                }
-                cursor
-              }
-              pageInfo { hasNextPage endCursor }
-            }
-          }`;
-
-        const res = await fetch(endpoint, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Shopify-Storefront-Access-Token": storefrontToken
-          },
-          body: JSON.stringify({ query, variables: { cursor } })
-        });
-
-        const data = await res.json();
-        if (!data.data || !data.data.products) return allProducts;
-
-        const edges = data.data.products.edges;
-        allProducts.push(...edges.map(e => e.node));
-
-        if (data.data.products.pageInfo.hasNextPage) {
-          return fetchProducts(data.data.products.pageInfo.endCursor, allProducts);
-        } else {
-          return allProducts;
+      // Tag-filtered fetch on the Online Store channel (Section Rendering API):
+      // no Storefront token, no per-app sales-channel publication required.
+      async function fetchProducts(page = 1, allProducts = []) {
+        const stockId = String(currentMeta.stock_id || '').trim();
+        if (!stockId) return allProducts;
+        try {
+          const res = await fetch(`/collections/all/stock_id_${encodeURIComponent(stockId)}?section_id=stock-parts-data&page=${page}`);
+          if (!res.ok) return allProducts;
+          const doc = new DOMParser().parseFromString(await res.text(), 'text/html');
+          const payload = doc.querySelector('[data-stock-parts]');
+          if (!payload) return allProducts;
+          const data = JSON.parse(payload.textContent);
+          allProducts.push(...data.products);
+          if (data.hasNextPage && page < 20) return fetchProducts(page + 1, allProducts);
+        } catch (e) {
+          console.error('stock parts fetch failed:', e);
         }
-      }
-
-      function mapMeta(fields) {
-        const obj = {};
-        if (Array.isArray(fields)) {
-          fields.forEach(f => {
-            if (f && f.key && f.value) {
-              obj[f.key] = f.value;
-            }
-          });
-        }
-        return obj;
+        return allProducts;
       }
 
       const products = await fetchProducts();
@@ -498,9 +436,6 @@ function redirectCheckout(id, quantity = 1) {
       stock_id: '{{ product.metafields.custom.stock_id }}'
     };
 
-    const storefrontToken = {{ settings.storefront_api_token | json }};
-    const endpoint = "/api/2026-01/graphql.json";
-    if (!storefrontToken) return;
 
     let totalCount = 0;
     const matchingParts = [];
@@ -692,47 +627,25 @@ function redirectCheckout(id, quantity = 1) {
       }
     }
 
-    async function fetchAndAppendProducts(cursor = null) {
-      const query = `query getProducts($cursor: String) {
-        products(first: 250, after: $cursor) {
-          edges {
-            node {
-              id title handle
-              images(first: 1) { edges { node { url altText } } }
-              priceRange { minVariantPrice { amount currencyCode } }
-              variants(first: 1) { edges { node { id availableForSale } } }
-              metafields(identifiers: [
-                { namespace: "custom", key: "stock_id" }
-                { namespace: "custom", key: "description" }
-                { namespace: "custom", key: "type" }
-              ]) { key value }
-            }
-          }
-          pageInfo { hasNextPage endCursor }
-        }
-      }`;
-
+    async function fetchAndAppendProducts(page = 1) {
+      const stockId = String(currentMeta.stock_id || "").trim();
+      if (!stockId) {
+        if (loader) loader.remove();
+        sectionElement.style.display = "none";
+        updatePartSearchCache();
+        return;
+      }
       try {
-        const res = await fetch(endpoint, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Shopify-Storefront-Access-Token": storefrontToken
-          },
-          body: JSON.stringify({ query, variables: { cursor } })
-        });
+        const res = await fetch(`/collections/all/stock_id_${encodeURIComponent(stockId)}?section_id=stock-parts-data&page=${page}`);
+        const doc = new DOMParser().parseFromString(await res.text(), "text/html");
+        const payload = doc.querySelector("[data-stock-parts]");
+        const data = payload ? JSON.parse(payload.textContent) : { products: [], hasNextPage: false };
 
-        const data = await res.json();
-        const edges = data.data.products.edges;
+        data.products.forEach(node => renderProduct(node));
 
-        // પ્રોડક્ટ્સ મળતા જ તેને લૂપમાં રેન્ડર કરવી
-        edges.forEach(edge => renderProduct(edge.node));
-
-        // જો હજુ વધુ પ્રોડક્ટ્સ હોય, તો ફરીથી ફેચ કરો (Recursive call)
-        if (data.data.products.pageInfo.hasNextPage) {
-          await fetchAndAppendProducts(data.data.products.pageInfo.endCursor);
+        if (data.hasNextPage && page < 20) {
+          await fetchAndAppendProducts(page + 1);
         } else {
-          // જ્યારે બધી જ પ્રોડક્ટ્સ પ્રોસેસ થઈ જાય ત્યારે:
           updatePartSearchCache();
           if (totalCount === 0) {
             sectionElement.style.display = "none";

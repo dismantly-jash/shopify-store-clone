@@ -1,0 +1,64 @@
+{%- comment -%}
+  Data endpoint for the Available Parts / Search Parts features.
+
+  Rendered only through the Section Rendering API on a tag-filtered
+  collection URL, e.g.:
+    /collections/all/stock_id_5118?section_id=stock-parts-data&page=2
+
+  Emits the products as JSON in the same node shape the theme's old
+  Storefront API GraphQL queries returned, so the consuming scripts
+  are unchanged. Runs on the Online Store channel: no access token and
+  no per-app sales-channel publication needed — only the stock_id_<id>
+  tag the inventory integration already writes.
+{%- endcomment -%}
+{%- paginate collection.products by 50 -%}
+<script type="application/json" data-stock-parts>
+  {
+    "hasNextPage": {% if paginate.next %}true{% else %}false{% endif %},
+    "products": [
+      {%- for product in collection.products -%}
+        {%- assign v = product.selected_or_first_available_variant | default: product.variants.first -%}
+        {
+          "id": {{ product.id | prepend: 'gid://shopify/Product/' | json }},
+          "title": {{ product.title | json }},
+          "handle": {{ product.handle | json }},
+          "images": { "edges": [
+            {%- if product.featured_image -%}
+            { "node": { "url": {{ product.featured_image | image_url: width: 533 | json }}, "altText": {{ product.featured_image.alt | json }} } }
+            {%- endif -%}
+          ] },
+          "priceRange": { "minVariantPrice": {
+            "amount": {{ product.price | divided_by: 100.0 | append: '' | json }},
+            "currencyCode": {{ cart.currency.iso_code | json }}
+          } },
+          "variants": { "edges": [
+            {%- if v -%}
+            { "node": {
+              "id": {{ v.id | prepend: 'gid://shopify/ProductVariant/' | json }},
+              "availableForSale": {% if v.available %}true{% else %}false{% endif %},
+              "quantityAvailable": {{ v.inventory_quantity | default: 0 | json }}
+            } }
+            {%- endif -%}
+          ] },
+          "metafields": [
+            { "key": "stock_id", "value": {{ product.metafields.custom.stock_id.value | json }} },
+            { "key": "model", "value": {{ product.metafields.custom.model.value | json }} },
+            { "key": "make", "value": {{ product.metafields.custom.make.value | json }} },
+            { "key": "year", "value": {{ product.metafields.custom.year.value | json }} },
+            { "key": "description", "value": {{ product.metafields.custom.description.value | json }} },
+            { "key": "type", "value": {{ product.metafields.custom.type.value | json }} },
+            { "key": "part_details", "value": {{ product.metafields.custom.part_details.value | json }} }
+          ]
+        }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ]
+  }
+</script>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Stock Parts Data",
+  "settings": []
+}
+{% endschema %}
