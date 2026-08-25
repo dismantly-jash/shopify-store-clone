@@ -149,7 +149,7 @@
             style="height: auto;"
           >
           </h3> {% endcomment %}
-          <h3>
+          <h3 class="card__heading{% if card_product.featured_media or settings.card_style == 'standard' %} h5{% endif %}">
           <a
             href="{{ card_product.url }}"
             id="CardLink-{{ section_id }}-{{ card_product.id }}"
@@ -432,12 +432,26 @@
           {% else %}
             <div class="quick-add no-js-hidden offer-quick__add">
               <div class="vehicle-btns">
-                <div class="btn-wrapper">
-                  {% if card_product.metafields.custom.type == 'VEHICLE' %}
-                    <a href="javascript:void(0)" class="request_quote button" data-product-popup="card-product-{{ card_product.id }}-{{ section.id }}">
-                      Request Part 
+                {% if card_product.metafields.custom.type == 'VEHICLE' %}
+                  {%- comment -%} CLI-498: vehicles are quote-only (price 0), so they land in this
+                      branch — they still need the Search Parts / Vehicle Details pair. {%- endcomment -%}
+                  <div class="btn-wrapper show-part-btn">
+                    <a href="/search?q=*&options%5Bprefix%5D=last&filter.p.m.custom.year={{ card_product.metafields.custom.year }}&filter.p.m.custom.make={{ card_product.metafields.custom.make }}&filter.p.m.custom.model={{ card_product.metafields.custom.model }}&filter.p.m.custom.type=PART&sort_by=relevance" class="search__btn button"
+                      style="background-color: {{ section.settings.search_part_button_color }}; color: {{ section.settings.search_part_button_text_color }};"
+                    >
+                      {{ 'templates.search.search_part' | t }}
                     </a>
-                  {% elsif card_product.selected_or_first_available_variant.available %}
+                  </div>
+                  <div class="btn-wrapper">
+                    <a href="{{ card_product.url }}" class="vehicles_detail button button--full-width button--secondary"
+                      style="background-color: {{ section.settings.search_part_cart_button_color }}; color: {{ section.settings.search_part_cart_button_text_color }};"
+                    >
+                      {{ 'templates.search.vehicle_details' | t }}
+                    </a>
+                  </div>
+                {% else %}
+                <div class="btn-wrapper">
+                  {% if card_product.selected_or_first_available_variant.available %}
                     <a href="javascript:void(0)" class="request_quote button" data-product-popup="card-product-{{ card_product.id }}-{{ section.id }}">
                       Get a quote
                     </a>
@@ -447,6 +461,7 @@
                     </a>
                   {% endif %}  
                 </div>
+                {% endif %}
               </div>
             </div>
             

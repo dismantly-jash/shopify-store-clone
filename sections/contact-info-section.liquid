@@ -61,7 +61,8 @@
             </div>
             <div class="text">
               <h5>Phone</h5>
-              <a href="tel:{{ section.settings.phone | escape }}">{{ section.settings.phone }}</a>
+              {%- comment -%} richtext setting: already contains its own tel: link {%- endcomment -%}
+              {{ section.settings.phone }}
             </div>
           </div>
         {% endif %}
@@ -76,7 +77,8 @@
             </div>
             <div class="text">
               <h5>For Part Sales</h5>
-              <a href="mailto:{{ section.settings.email | escape }}">{{ section.settings.email }}</a>
+              {%- comment -%} richtext setting: already contains its own mailto: link {%- endcomment -%}
+              {{ section.settings.email }}
             </div>
           </div>
         {% endif %}
