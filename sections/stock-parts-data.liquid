@@ -21,6 +21,7 @@
         {
           "id": {{ product.id | prepend: 'gid://shopify/Product/' | json }},
           "title": {{ product.title | json }},
+          "description": {{ product.description | strip_html | truncate: 160 | json }},
           "handle": {{ product.handle | json }},
           "images": { "edges": [
             {%- if product.featured_image -%}
