@@ -296,9 +296,22 @@
         </div>
         {% assign product_form_id = 'quick-add-' | append: section_id | append: card_product.id %}
         {% if quick_add == 'standard' %}
-          {%- comment -%} Zero-price items are quote-only: the product page swaps the buy
-             buttons for "Get a quote", so cards must not offer a free checkout. {%- endcomment -%}
-          {% if card_product.selected_or_first_available_variant.available and card_product.price > 0 %}
+          {%- liquid
+            # Zero-price parts are quote-only: the product page swaps the buy buttons for
+            # "Get a quote", so cards must not offer a free checkout. Vehicles are always
+            # unpriced/enquiry-only and keep their own Vehicle Details actions.
+            assign card_is_vehicle = false
+            if card_product.metafields.custom.type == 'VEHICLE'
+              assign card_is_vehicle = true
+            endif
+            assign card_purchasable = false
+            if card_product.selected_or_first_available_variant.available
+              if card_is_vehicle or card_product.price > 0
+                assign card_purchasable = true
+              endif
+            endif
+          -%}
+          {% if card_purchasable %}
             {% unless card_product.metafields.custom.type == "VEHICLE" %}
               <div class="quick-add no-js-hidden">
                 {%- liquid
