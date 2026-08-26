@@ -58,63 +58,80 @@
         -%}
 
         {% if collection and collection.products_count > 0 %}
-          {% for product in collection.products limit: section.settings.limit %}
-            {% assign mod = forloop.index0 | modulo: 2 %}
-            {% if mod == 0 %}
-              <div
-                class="car-detail-list__item swiper-slide"
-              >
-                <div class="featured-car-slide-inner">
-            {% endif %}
-            {% render 'card-car-product', product: product %}
-            {% if mod == 1 or forloop.last %}
+          {%- comment -%} Each slide is a column of 2. Pair them row-major (item c on top,
+              item c + num_cols beneath) so the visible top row reads 1,2,3… instead of
+              filling column by column. {%- endcomment -%}
+          {%- liquid
+            assign total = collection.products_count
+            if total > section.settings.limit
+              assign total = section.settings.limit
+            endif
+            assign num_cols = total | plus: 1 | divided_by: 2
+          -%}
+          {% for c in (1..num_cols) %}
+            <div class="car-detail-list__item swiper-slide">
+              <div class="featured-car-slide-inner">
+                {% render 'card-car-product', product: collection.products[forloop.index0] %}
+                {% assign bottom_index = forloop.index0 | plus: num_cols %}
+                {% if bottom_index < total %}
+                  {% render 'card-car-product', product: collection.products[bottom_index] %}
+                {% endif %}
               </div>
-              </div>
-            {% endif %}
+            </div>
           {% endfor %}
         {% elsif fallback_vehicles_exist %}
-          {% assign shown_vehicles = 0 %}
-          {% for product in collections.all.products %}
-            {% if product.metafields.custom.type != 'VEHICLE' %}{% continue %}{% endif %}
-            {% if shown_vehicles >= section.settings.limit %}{% break %}{% endif %}
-            {% assign mod = shown_vehicles | modulo: 2 %}
-            {% if mod == 0 %}
-              <div
-                class="car-detail-list__item swiper-slide"
-              >
-                <div class="featured-car-slide-inner">
-            {% endif %}
-            {% render 'card-car-product', product: product %}
-            {% assign shown_vehicles = shown_vehicles | plus: 1 %}
-            {% assign mod_after = shown_vehicles | modulo: 2 %}
-            {% if mod_after == 0 %}
+          {%- comment -%} Same row-major pairing over the metafield-filtered vehicles,
+              which cannot be indexed directly. {%- endcomment -%}
+          {%- liquid
+            assign total = 0
+            for product in collections.all.products
+              if product.metafields.custom.type == 'VEHICLE'
+                assign total = total | plus: 1
+              endif
+            endfor
+            if total > section.settings.limit
+              assign total = section.settings.limit
+            endif
+            assign num_cols = total | plus: 1 | divided_by: 2
+          -%}
+          {% for c in (1..num_cols) %}
+            {% assign top_i = c %}
+            {% assign bottom_i = c | plus: num_cols %}
+            <div class="car-detail-list__item swiper-slide">
+              <div class="featured-car-slide-inner">
+                {%- assign vi = 0 -%}
+                {% for product in collections.all.products %}
+                  {% if product.metafields.custom.type != 'VEHICLE' %}{% continue %}{% endif %}
+                  {% assign vi = vi | plus: 1 %}
+                  {% if vi > total %}{% break %}{% endif %}
+                  {% if vi == top_i or vi == bottom_i %}
+                    {% render 'card-car-product', product: product %}
+                  {% endif %}
+                {% endfor %}
               </div>
-              </div>
-            {% endif %}
+            </div>
           {% endfor %}
-          {% assign trailing = shown_vehicles | modulo: 2 %}
-          {% if trailing == 1 %}
-            </div>
-            </div>
-          {% endif %}
         {% else %}
           {% assign blocks = section.blocks %}
-          {% for block in blocks limit: section.settings.limit %}
-            {% assign product = block.settings.product %}
-            {% if product %}
-              {% assign mod = forloop.index0 | modulo: 2 %}
-              {% if mod == 0 %}
-                <div
-                  class="car-detail-list__item swiper-slide"
-                >
-                  <div class="featured-car-slide-inner">
-              {% endif %}
-              {% render 'card-car-product', product: product %}
-              {% if mod == 1 or forloop.last %}
-                </div>
-                </div>
-              {% endif %}
-            {% endif %}
+          {%- liquid
+            assign total = blocks.size
+            if total > section.settings.limit
+              assign total = section.settings.limit
+            endif
+            assign num_cols = total | plus: 1 | divided_by: 2
+          -%}
+          {% for c in (1..num_cols) %}
+            <div class="car-detail-list__item swiper-slide">
+              <div class="featured-car-slide-inner">
+                {% if blocks[forloop.index0].settings.product %}
+                  {% render 'card-car-product', product: blocks[forloop.index0].settings.product %}
+                {% endif %}
+                {% assign bottom_index = forloop.index0 | plus: num_cols %}
+                {% if bottom_index < total and blocks[bottom_index].settings.product %}
+                  {% render 'card-car-product', product: blocks[bottom_index].settings.product %}
+                {% endif %}
+              </div>
+            </div>
           {% endfor %}
         {% endif %}
       </div>
