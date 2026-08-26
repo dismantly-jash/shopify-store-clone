@@ -119,9 +119,15 @@
     width:44px;
     height:44px;
     border-radius:50%;
-    background:#ffffff;
-    border:1px solid #eaeaea;
-    box-shadow:0 2px 6px rgba(0,0,0,0.08);
+    background:var(--brand-dark,#050708);
+    border:1px solid var(--brand-dark,#050708);
+    box-shadow:0 2px 6px rgba(0,0,0,0.15);
+}
+/* CLI-489: white circles with a #eaeaea hairline were near-invisible on the
+   light testimonial background. */
+.testimonial-section .swiper-button-prev svg path,
+.testimonial-section .swiper-button-next svg path{
+    stroke:var(--accent-color,#e9eb71);
 }
 .testimonial-section .swiper-button-prev svg,
 .testimonial-section .swiper-button-next svg{

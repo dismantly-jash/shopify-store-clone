@@ -417,29 +417,35 @@
 }
 
 /* page: shipping and service  policy start */
-.page-service-policy .custom-container, 
+.page-service-policy .custom-container,
+.page-guarantee-after-sales .custom-container, 
 .page-shipping-policy .custom-container{
   max-width: 1404px;
 }
-.page-service-policy .custom-container .image-with-text .image-with-text__grid, 
+.page-service-policy .custom-container .image-with-text .image-with-text__grid,
+.page-guarantee-after-sales .custom-container .image-with-text .image-with-text__grid, 
 .page-shipping-policy .custom-container .image-with-text .image-with-text__grid{
   padding: 16.5px;
   background-color: #F9F9F9;
 }
-.page-service-policy .custom-container .image-with-text .image-with-text__grid .image-with-text__media-item, 
+.page-service-policy .custom-container .image-with-text .image-with-text__grid .image-with-text__media-item,
+.page-guarantee-after-sales .custom-container .image-with-text .image-with-text__grid .image-with-text__media-item, 
 .page-shipping-policy .custom-container .image-with-text .image-with-text__grid .image-with-text__media-item{
   max-width: 520px;
   width: 100%; 
 }
-.page-service-policy .custom-container .image-with-text .image-with-text__content, 
+.page-service-policy .custom-container .image-with-text .image-with-text__content,
+.page-guarantee-after-sales .custom-container .image-with-text .image-with-text__content, 
 .page-shipping-policy .custom-container .image-with-text .image-with-text__content{
   padding: 59.5px 95px 63.5px 65px;
   background: transparent;
   box-shadow: none;
   border: 0;
 }
-.page-service-policy .image-with-text .image-with-text__content .image-with-text__heading, 
+.page-service-policy .image-with-text .image-with-text__content .image-with-text__heading,
+.page-guarantee-after-sales .image-with-text .image-with-text__content .image-with-text__heading, 
 .page-service-policy  .image-with-text .image-with-text__content .image-with-text__heading .strong,
+.page-guarantee-after-sales  .image-with-text .image-with-text__content .image-with-text__heading .strong,
 .page-shipping-policy .image-with-text .image-with-text__content .image-with-text__heading, 
 .page-shipping-policy .image-with-text .image-with-text__content .image-with-text__heading strong{
   font-size: 36px;
@@ -447,13 +453,16 @@
   line-height: 1.4445;
   color: #000000;
 }
-.page-service-policy .image-with-text .image-with-text__content .image-with-text__text, 
+.page-service-policy .image-with-text .image-with-text__content .image-with-text__text,
+.page-guarantee-after-sales .image-with-text .image-with-text__content .image-with-text__text, 
 .page-service-policy .image-with-text .image-with-text__content .button,
+.page-guarantee-after-sales .image-with-text .image-with-text__content .button,
 .page-shipping-policy .image-with-text .image-with-text__content .image-with-text__text, 
 .page-shipping-policy .image-with-text .image-with-text__content .button{
   margin-top: 23px;
 }
-.page-service-policy .image-with-text .image-with-text__content .button, 
+.page-service-policy .image-with-text .image-with-text__content .button,
+.page-guarantee-after-sales .image-with-text .image-with-text__content .button, 
 .page-shipping-policy .image-with-text .image-with-text__content .button{
   min-width: 184px;
   min-height: 42px;
@@ -462,88 +471,108 @@
   font-size: 15px;
   line-height: normal;
 }
-.page-service-policy .image-with-text .image-with-text__content .image-with-text__text p, 
+.page-service-policy .image-with-text .image-with-text__content .image-with-text__text p,
+.page-guarantee-after-sales .image-with-text .image-with-text__content .image-with-text__text p, 
 .page-shipping-policy .image-with-text .image-with-text__content .image-with-text__text p{
   font-size: 18px;
   color: #000;
   line-height: 1.556;
 }
 .page-service-policy .image-with-text .image-with-text__content .image-with-text__heading strong,
+.page-guarantee-after-sales .image-with-text .image-with-text__content .image-with-text__heading strong,
 .page-shipping-policy .image-with-text .image-with-text__content .image-with-text__heading strong{
   color: var(--brand-green, #3d6601);
 }
 /* responsive */
 @media screen and (max-width: 1280px){
-  .page-service-policy .custom-container .image-with-text .image-with-text__content, .page-shipping-policy .custom-container .image-with-text .image-with-text__content {
+  .page-service-policy .custom-container .image-with-text .image-with-text__content,
+.page-guarantee-after-sales .custom-container .image-with-text .image-with-text__content, .page-shipping-policy .custom-container .image-with-text .image-with-text__content {
     padding: 59.5px 45px 63.5px 30px;
   }
-  .page-service-policy .custom-container .image-with-text .image-with-text__grid .image-with-text__media-item, .page-shipping-policy .custom-container .image-with-text .image-with-text__grid .image-with-text__media-item{
+  .page-service-policy .custom-container .image-with-text .image-with-text__grid .image-with-text__media-item,
+.page-guarantee-after-sales .custom-container .image-with-text .image-with-text__grid .image-with-text__media-item, .page-shipping-policy .custom-container .image-with-text .image-with-text__grid .image-with-text__media-item{
     max-width: 480px;
   }
 }
 @media screen and (max-width: 1140px){
-  .page-service-policy .custom-container .image-with-text .image-with-text__grid .image-with-text__media-item,  
+  .page-service-policy .custom-container .image-with-text .image-with-text__grid .image-with-text__media-item,
+.page-guarantee-after-sales .custom-container .image-with-text .image-with-text__grid .image-with-text__media-item,  
   .page-shipping-policy .custom-container .image-with-text .image-with-text__grid .image-with-text__media-item{
     max-width: 100%;
   }
-  .page-service-policy .custom-container .image-with-text .image-with-text__content, 
+  .page-service-policy .custom-container .image-with-text .image-with-text__content,
+.page-guarantee-after-sales .custom-container .image-with-text .image-with-text__content, 
   .page-shipping-policy .custom-container .image-with-text .image-with-text__content{
     padding: 40px;
   }
 }
 @media screen and (min-width: 750px) and (max-width: 1140px){
-  .page-service-policy .image-with-text .image-with-text__content--mobile-center>*, 
+  .page-service-policy .image-with-text .image-with-text__content--mobile-center>*,
+.page-guarantee-after-sales .image-with-text .image-with-text__content--mobile-center>*, 
   .page-shipping-policy .image-with-text .image-with-text__content--mobile-center>*{
     text-align: center;
     align-self: center ;
   }
 }
 @media screen and (max-width: 768px){
-  .page-service-policy .custom-container, 
+  .page-service-policy .custom-container,
+.page-guarantee-after-sales .custom-container, 
   .page-shipping-policy .custom-container{
     padding: 0px 20px;
   }
-  .page-service-policy .image-with-text .image-with-text__content .button, .page-shipping-policy .image-with-text .image-with-text__content .button {
+  .page-service-policy .image-with-text .image-with-text__content .button,
+.page-guarantee-after-sales .image-with-text .image-with-text__content .button, .page-shipping-policy .image-with-text .image-with-text__content .button {
     min-width: 164px;
   }
 }
 @media screen and (max-width: 575px){
-  .page-service-policy .custom-container, 
+  .page-service-policy .custom-container,
+.page-guarantee-after-sales .custom-container, 
   .page-shipping-policy .custom-container{
     padding: 0px 15px;
   }
-  .page-service-policy .custom-container .image-with-text .image-with-text__content, 
+  .page-service-policy .custom-container .image-with-text .image-with-text__content,
+.page-guarantee-after-sales .custom-container .image-with-text .image-with-text__content, 
   .page-shipping-policy .custom-container .image-with-text .image-with-text__content{
     padding: 30px 25px;
   }
-  .page-service-policy .image-with-text .image-with-text__content .image-with-text__heading, 
-  .page-service-policy .image-with-text .image-with-text__content .image-with-text__heading strong, .page-shipping-policy .image-with-text .image-with-text__content .image-with-text__heading, .page-shipping-policy .image-with-text .image-with-text__content .image-with-text__heading strong{
+  .page-service-policy .image-with-text .image-with-text__content .image-with-text__heading,
+.page-guarantee-after-sales .image-with-text .image-with-text__content .image-with-text__heading, 
+  .page-service-policy .image-with-text .image-with-text__content .image-with-text__heading strong,
+.page-guarantee-after-sales .image-with-text .image-with-text__content .image-with-text__heading strong, .page-shipping-policy .image-with-text .image-with-text__content .image-with-text__heading, .page-shipping-policy .image-with-text .image-with-text__content .image-with-text__heading strong{
     font-size: 32px;
   }
 }
 @media screen and (max-width: 475px){
-  .page-service-policy .custom-container .image-with-text .image-with-text__content, 
+  .page-service-policy .custom-container .image-with-text .image-with-text__content,
+.page-guarantee-after-sales .custom-container .image-with-text .image-with-text__content, 
   .page-shipping-policy .custom-container .image-with-text .image-with-text__content{
     padding: 25px 15px;
   }
-  .page-service-policy .image-with-text .image-with-text__content .image-with-text__heading, 
-  .page-service-policy .image-with-text .image-with-text__content .image-with-text__heading strong, 
+  .page-service-policy .image-with-text .image-with-text__content .image-with-text__heading,
+.page-guarantee-after-sales .image-with-text .image-with-text__content .image-with-text__heading, 
+  .page-service-policy .image-with-text .image-with-text__content .image-with-text__heading strong,
+.page-guarantee-after-sales .image-with-text .image-with-text__content .image-with-text__heading strong, 
   .page-shipping-policy .image-with-text .image-with-text__content .image-with-text__heading, 
   .page-shipping-policy .image-with-text .image-with-text__content .image-with-text__heading strong{
     font-size: 28px;
   }
-  .page-service-policy .image-with-text .image-with-text__content .image-with-text__text p, 
+  .page-service-policy .image-with-text .image-with-text__content .image-with-text__text p,
+.page-guarantee-after-sales .image-with-text .image-with-text__content .image-with-text__text p, 
   .page-shipping-policy .image-with-text .image-with-text__content .image-with-text__text p{
     font-size: 16px;
   }
-  .page-service-policy .custom-container .image-with-text .image-with-text__grid, 
+  .page-service-policy .custom-container .image-with-text .image-with-text__grid,
+.page-guarantee-after-sales .custom-container .image-with-text .image-with-text__grid, 
   .page-shipping-policy .custom-container .image-with-text .image-with-text__grid{
     padding:11px;
   }
 }
 @media screen and (max-width: 375px){
-  .page-service-policy .image-with-text .image-with-text__content .image-with-text__heading, 
-  .page-service-policy .image-with-text .image-with-text__content .image-with-text__heading strong, 
+  .page-service-policy .image-with-text .image-with-text__content .image-with-text__heading,
+.page-guarantee-after-sales .image-with-text .image-with-text__content .image-with-text__heading, 
+  .page-service-policy .image-with-text .image-with-text__content .image-with-text__heading strong,
+.page-guarantee-after-sales .image-with-text .image-with-text__content .image-with-text__heading strong, 
   .page-shipping-policy .image-with-text .image-with-text__content .image-with-text__heading, 
   .page-shipping-policy .image-with-text .image-with-text__content .image-with-text__heading strong{
     font-size: 25px;

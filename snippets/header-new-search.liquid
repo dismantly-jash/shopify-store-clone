@@ -10,7 +10,7 @@
         id="{{ input_id }}"
         type="search"
         name="q"
-        value=""
+        value="{%- unless search.terms == '*' -%}{{ search.terms | escape }}{%- endunless -%}"
         placeholder="{{ 'general.search.search_placeholder' | t }}"
         {%- if settings.predictive_search_enabled -%}
         role="combobox"

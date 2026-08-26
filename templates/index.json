@@ -223,12 +223,48 @@
             "profile_background": "#e1e4ea",
             "profile_text": "#222530"
           }
+        },
+        "customer_review_tcs_4": {
+          "type": "customer_review",
+          "settings": {
+            "content_for_index": 5,
+            "review_text": "<p>Great place to purchase all second hand car parts that you might need for your Toyota vehicles. Staff is very friendly and helpful. Good knowledge of car parts. Highly recommended.</p>",
+            "width": 312,
+            "customer_name": "Pedja Stanich",
+            "profile_background": "#f3ebff",
+            "profile_text": "#6b21a8"
+          }
+        },
+        "customer_review_tcs_5": {
+          "type": "customer_review",
+          "settings": {
+            "content_for_index": 5,
+            "review_text": "<p>These guys were really terrific in finding &amp; supplying me a side window glass for my old Suzuki. The old banger can now keep taking me fishing for another few years yet! Great service fellas, thanks a lot.</p>",
+            "width": 312,
+            "customer_name": "John Akers",
+            "profile_background": "#ffecec",
+            "profile_text": "#b42318"
+          }
+        },
+        "customer_review_tcs_6": {
+          "type": "customer_review",
+          "settings": {
+            "content_for_index": 5,
+            "review_text": "<p>Absolutely awesome people, and cheap parts, and they help install if they can 10/10</p>",
+            "width": 312,
+            "customer_name": "Indy Rose",
+            "profile_background": "#eaf2ff",
+            "profile_text": "#1d4ed8"
+          }
         }
       },
       "block_order": [
         "customer_review_tcs_1",
         "customer_review_tcs_2",
-        "customer_review_tcs_3"
+        "customer_review_tcs_3",
+        "customer_review_tcs_4",
+        "customer_review_tcs_5",
+        "customer_review_tcs_6"
       ],
       "settings": {
         "heading": "What Our Clients Say About Us",
@@ -316,7 +352,7 @@
             "tab_left_subheading": "Good Quality tested headlights and taillights",
             "tab_left_description": "",
             "button_label": "View All",
-            "button_link": "/search?q=*&options%5Bprefix%5D=last&filter.p.m.custom.type=PART&filter.p.m.custom.part_type=Headlight",
+            "button_link": "/search?q=*&options%5Bprefix%5D=last&filter.p.m.custom.type=PART&filter.p.m.custom.part_type=Left%20Headlight&filter.p.m.custom.part_type=Right%20Headlight&filter.p.m.custom.part_type=Left%20Taillight&filter.p.m.custom.part_type=Right%20Taillight&filter.p.m.custom.part_type=High%20Level%20Stoplight",
             "tab_name": "Headlights & Taillights",
             "collection_product_list": "",
             "product_list": [],
@@ -344,7 +380,7 @@
             "tab_left_subheading": "Good Quality tested exterior parts",
             "tab_left_description": "",
             "button_label": "View All",
-            "button_link": "/search?q=*&options%5Bprefix%5D=last&filter.p.m.custom.type=PART&filter.p.m.custom.part_type=Exterior",
+            "button_link": "/search?q=*&options%5Bprefix%5D=last&filter.p.m.custom.type=PART&filter.p.m.custom.part_type=Front%20Bumper&filter.p.m.custom.part_type=Bumper%20Grille&filter.p.m.custom.part_type=Rear%20Bumper%20Step%20Cover&filter.p.m.custom.part_type=Left%20Door%20Mirror&filter.p.m.custom.part_type=Right%20Door%20Mirror&filter.p.m.custom.part_type=Right%20Front%20Door%20Shell&filter.p.m.custom.part_type=Right%20Front%20Exterior%20Door%20Handle&filter.p.m.custom.part_type=Tailgate%20Glass&filter.p.m.custom.part_type=Right%20Bonnet%20Strut",
             "tab_name": "Exterior Parts",
             "collection_product_list": "",
             "product_list": [],

@@ -176,17 +176,14 @@
 -%}
 
 {% assign class_name = false %}
-{% assign search_heading = '*' %}
-{% if page_url contains 'PART' or page_url contains 'Part' or page_url contains 'part' %}
+{%- comment -%} CLI-552: show the customer's own query, and decide the scope from
+  the explicit type filter. The old test matched any URL merely containing
+  "car" or "part", so q=carburettor rendered as "Vehicles". {%- endcomment -%}
+{% assign search_heading = search.terms | default: '*' %}
+{% if page_url contains 'type=PART' or page_url contains 'type=Part' or page_url contains 'type=part' %}
   {% assign class_name = 'template-search-parts' %}
   {% assign search_heading = 'Parts' %}
-{% elsif page_url contains 'VEHICLE'
-  or page_url contains 'Vehicle'
-  or page_url contains 'vehicle'
-  or page_url contains 'car'
-  or page_url contains 'CAR'
-  or page_url contains 'Car'
-%}
+{% elsif page_url contains 'type=VEHICLE' or page_url contains 'type=Vehicle' or page_url contains 'type=vehicle' %}
   {% assign class_name = 'template-search-vehicle' %}
   {% assign search_heading = 'Vehicles' %}
 {% endif %}
@@ -245,11 +242,6 @@
           <p>We couldn't find any matching parts in our catalog.</p>
           <div class="subheading">
             It might still be available. Submit a part request and our team will find it for you.
-          </div>
-          <div class="product-form__buttons">
-            <div class="custom-request-part-btn custom-offer-btn">
-              <a href="javascript:void(0)" class="request_parts"> Request Part </a>
-            </div>
           </div>
         </div>
       </div>
