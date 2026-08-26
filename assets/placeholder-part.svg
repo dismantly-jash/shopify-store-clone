@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 533 400" role="img" aria-label="Image not available">
+  <rect width="533" height="400" fill="#f2f3f0"/>
+  <g fill="none" stroke="#9aa08d" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M148 236h237"/>
+    <path d="M158 236l22-58a20 20 0 0 1 19-13h135a20 20 0 0 1 19 13l22 58"/>
+    <rect x="140" y="236" width="253" height="52" rx="14"/>
+    <circle cx="192" cy="288" r="19"/>
+    <circle cx="341" cy="288" r="19"/>
+    <path d="M206 165h121"/>
+  </g>
+  <text x="266.5" y="342" text-anchor="middle" font-family="Figtree, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#9aa08d">Image not available</text>
+</svg>

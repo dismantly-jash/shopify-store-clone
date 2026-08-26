@@ -1335,10 +1335,18 @@ class CartPerformance {
 
 
 // Testimonial Slider 
+// CLI-574: pagination rendered one bullet per review (six dots for six reviews)
+// regardless of how many actually fitted on screen, and `loop: true` meant Swiper
+// never treated the carousel as overflow-free, so the dots and arrows stayed on
+// even with a single page. Advancing a whole page at a time makes the bullet
+// count fall out of reviews / cards-per-page, and dropping the loop lets
+// watchOverflow lock both controls when everything already fits.
 var reviewSwiper = new Swiper(".review_slider", {
   slidesPerView: 3,
+  slidesPerGroup: 3,
   spaceBetween: 32,
-  loop: true,
+  loop: false,
+  watchOverflow: true,
   navigation: {
     nextEl: ".review_swiper-button-next",
     prevEl: ".review_swiper-button-prev",
@@ -1350,14 +1358,17 @@ var reviewSwiper = new Swiper(".review_slider", {
   breakpoints: {
     0: {
       slidesPerView: 1,
+      slidesPerGroup: 1,
       spaceBetween: 16,
     },
     681: {
       slidesPerView: 2,
+      slidesPerGroup: 2,
       spaceBetween: 20,
     },
     992: {
       slidesPerView: 3,
+      slidesPerGroup: 3,
       spaceBetween: 32,
     }
   }
@@ -1618,6 +1629,20 @@ $(document).on('click', '.theme-overlay', function() {
   $('.thank-you__popup').removeClass('is-active');
   cleanURL()
   $(this).parents('.product-detail__popup').removeClass('this_is_sold_out_product');
+});
+
+// CLI-556: none of the theme popups listened for Escape, so keyboard and
+// assistive-technology users were stuck with the small close button while the
+// full-page backdrop swallowed every click behind it.
+$(document).on('keydown', function (event) {
+  if (event.key !== 'Escape' && event.key !== 'Esc') return;
+  if (!$('.theme-overlay').hasClass('is-active')) return;
+
+  $('.product-detail__popup, .thank-you__popup, #product-return__popup').removeClass('is-active');
+  $('.theme-overlay').removeClass('is-active');
+  $('body').removeClass('overflow-hidden');
+  $('.product-detail__popup').removeClass('this_is_sold_out_product');
+  cleanURL();
 });
 
 $(document).on('click', '.custom-offer-btn a', function(){
@@ -2122,11 +2147,9 @@ document.addEventListener('DOMContentLoaded', () => {
     crumb.previousElementSibling.style.display = "none";
     link.href = `/search?${term}`;
     const params = new URLSearchParams(term);
-    if (term.includes("VEHICLE")) {
-      var qValue = "Vehicle";
-    } else {
-      var qValue = "Part";
-    }
+    // CLI-568/569: match the plural labels the server-rendered root and the
+    // rest of the site use.
+    var qValue = term.includes("VEHICLE") ? "Vehicles" : "Parts";
     link.textContent = `${qValue}`;
   }
 });

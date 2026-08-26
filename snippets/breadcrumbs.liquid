@@ -36,7 +36,6 @@
     line-height: normal;
     text-decoration: none;
     font-size: 16px;
-    text-transform: capitalize;
   }
 
   .breadcrumbs__link[aria-current="page"] {
@@ -68,10 +67,29 @@
 {%- unless template == 'index' or template == 'cart' or template == 'list-collections' or template == '404' -%}
   {%- assign t = template | split: '.' | first -%}
 
+  {%- comment -%} CLI-568: product pages rooted the trail at Home and repeated the full
+    product title. The design roots them at Parts (or Vehicles) and uses the short
+    part-type name, which also gives customers a route back into the catalogue.
+    A visitor arriving from a search still gets their own query substituted here by
+    the .search-breadcrumb handler in global.js. {%- endcomment -%}
+  {%- liquid
+    assign crumb_root_label = 'Home'
+    assign crumb_root_url = '/'
+    if t == 'product'
+      if product.metafields.custom.type == 'VEHICLE'
+        assign crumb_root_label = 'Vehicles'
+        assign crumb_root_url = '/search?q=*&filter.p.m.custom.type=VEHICLE'
+      else
+        assign crumb_root_label = 'Parts'
+        assign crumb_root_url = '/search?q=*&filter.p.m.custom.type=PART'
+      endif
+    endif
+  -%}
+
   <nav class="breadcrumbs" role="navigation" aria-label="breadcrumbs">
     <ol class="breadcrumbs__list">
       <li class="breadcrumbs__item">
-        <a class="breadcrumbs__link" href="/">Home</a>
+        <a class="breadcrumbs__link" href="{{ crumb_root_url }}">{{ crumb_root_label }}</a>
       </li>
       {%- case t -%}
         {%- when 'page' -%}
@@ -97,7 +115,7 @@
             </li>
             <li class="breadcrumbs__item">
               <a class="breadcrumbs__link" href="{{ product.url }}" aria-current="page">
-                {{ product.title }}
+                {{ product.metafields.custom.part_type | default: product.title }}
               </a>
             </li>
           {%- endif -%}

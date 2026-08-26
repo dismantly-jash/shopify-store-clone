@@ -1,5 +1,14 @@
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
+<script>
+  /* CLI-561: the Storefront API returns amounts as bare strings ("10.0"), and
+     these cards printed them verbatim, so Similar Parts showed $10.0 while the
+     main product price on the same page showed $10.00. */
+  function formatMoney(amount) {
+    const n = Number(amount);
+    return Number.isFinite(n) ? n.toFixed(2) : amount;
+  }
+</script>
 
 {{ 'component-slider.css' | asset_url | stylesheet_tag }}
 {{ 'template-collection.css' | asset_url | stylesheet_tag }}
@@ -292,7 +301,7 @@
                       <input type="hidden" name="utf8" value="✓">
                       <input type="hidden" name="id" value="${variantId}" class="product-variant-id">
                       <a href="/cart/${variantId}:1" class="custom_buy_it_now_btn button">
-                        Buy it Now
+                        Buy It Now
                       </a>
                       <button
                         id="${productFormId}-submit"
@@ -318,7 +327,7 @@
                           class="shopify-payment-button__button shopify-payment-button__button--unbranded" 
                           onclick="redirectCheckout(${variantId})"
                         >
-                          Buy it now
+                          Buy It Now
                         </button>                     
                       </div> {% endcomment %}
                     </form>
@@ -386,7 +395,7 @@
                             <div class="price__container">
                               <div class="price__regular">
                                 <span class="visually-hidden visually-hidden--inline">Regular price</span>
-                                <span class="price-item price-item--regular">$${price}</span>
+                                <span class="price-item price-item--regular">$${formatMoney(price)}</span>
                               </div>
                             </div> 
                           </div>`}
@@ -524,7 +533,7 @@ function redirectCheckout(id, quantity = 1) {
                       <input type="hidden" name="utf8" value="✓">
                       <input type="hidden" name="id" value="${variantId}" class="product-variant-id">
                       <a href="/cart/${variantId}:1" class="custom_buy_it_now_btn button">
-                        Buy it Now
+                        Buy It Now
                       </a>
                       <button
                         id="${productFormId}-submit"
@@ -608,7 +617,7 @@ function redirectCheckout(id, quantity = 1) {
                             <div class="price__container">
                               <div class="price__regular">
                                 <span class="visually-hidden visually-hidden--inline">Regular price</span>
-                                <span class="price-item price-item--regular">$${price}</span>
+                                <span class="price-item price-item--regular">$${formatMoney(price)}</span>
                               </div>
                             </div> 
                           </div>`}

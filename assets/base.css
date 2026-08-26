@@ -3872,8 +3872,13 @@ line-height:normal;
 .custom_field__input:focus-visible {
     outline: none;
 }
+/* CLI-558: Request Part prefills the vehicle's Stock #, Year, Make and Model
+   and submits them correctly, but this made them read as grey placeholder text
+   so customers retyped details that were already right. Keep the read-only cue
+   subtle — a tinted field, not a faded value. */
 .product-popup-content .product-form .field input[readonly]{
-  opacity:0.4;
+  background-color: #f4f4f4;
+  cursor: default;
 }
 
 .product-popup-content .product-form .product-form__button {
@@ -4205,12 +4210,24 @@ line-height:normal;
     justify-content: space-between;
     gap: 0;
   }
-  .header .header-main-wrapper .header__heading {
+  /* CLI-559: this capped `.header__heading`, but the logo renders as a bare
+     `.header__heading-link` with no `.header__heading` wrapper, so nothing
+     constrained it. Its intrinsic image width (195px) plus the 74px icon
+     cluster overflowed the 247px wrapper and pushed the document 6px wider
+     than the viewport on the search results page. */
+  .header .header-main-wrapper .header__heading,
+  .header .header-main-wrapper > .header__heading-link {
     max-width: 50%;
     width: 100%;
+    min-width: 0;
+  }
+  .header .header-main-wrapper > .header__heading-link img {
+    max-width: 100%;
+    height: auto;
   }
   .header .header-main-wrapper .header__icons {
     max-width: 50%;
+    min-width: 0;
     justify-content: flex-end;
   }
   .header-cart__icon {

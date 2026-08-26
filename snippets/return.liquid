@@ -177,8 +177,13 @@
                       class="custom_field__input"
                       required
                     >
+                      {%- comment -%} CLI-554: the field opened pre-set to "Part is Incompatible"
+                        and skipped the first option entirely, so anyone submitting without
+                        opening it silently filed the wrong reason. A blank placeholder makes
+                        the existing `required` do its job. {%- endcomment -%}
+                      <option value="" disabled selected>Please select…</option>
                       <option value="no_longer_needed">Part No Longer Needed</option>
-                      <option value="incompatible" selected>Part is Incompatible</option>
+                      <option value="incompatible">Part is Incompatible</option>
                       <option value="defective">Part is Defective / Not Functional</option>
                       <option value="worse_condition">Part in Worse Condition than Expected</option>
                       <option value="wrong_part">Part Received was Not Part Ordered</option>

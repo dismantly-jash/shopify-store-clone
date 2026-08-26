@@ -27,7 +27,10 @@
     display: grid;
     grid-template-columns: 302px 1fr;
     /* gap: 30px; */
-    align-items: center;
+    /* CLI-555: `center` vertically centred the 500px category tile against a
+       ~956px block of product cards, dropping its top edge 228px below the
+       first card row. The tile aligns to the top of the grid, as drawn. */
+    align-items: start;
 }
 
 .tabbed-product-grid .tab-left {

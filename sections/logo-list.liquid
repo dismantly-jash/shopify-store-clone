@@ -66,15 +66,24 @@
     justify-content: center;
     gap: 20px;
   }
+  /* CLI-553: the strip used flex-wrap: nowrap with rigid `flex: 0 0 Npx`
+     items, so nine 140px tiles plus gaps measured 1452px inside a 1290px
+     parent and pushed the whole document wider than the viewport. The items
+     may now shrink, and the strip is capped at its parent's width so it can
+     never move the page again. */
   .logo-list-logos {
     display: flex;
     flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
     gap: 24px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
   }
   .logo-list-logos .logo-list-logo-item {
-    flex: 0 0 {{ section.settings.logo_item_width }}px;
+    flex: 0 1 {{ section.settings.logo_item_width }}px;
+    min-width: 0;
     max-width: {{ section.settings.logo_item_width }}px;
     background: #fff;
     height: {{ section.settings.logo_item_height }}px;
@@ -167,6 +176,17 @@
     }
     .logo-list-logos {
       gap: 16px;
+    }
+  }
+
+  /* Below 1024 nine tiles in one row would each be narrower than the logo
+     they hold, so wrap them into rows rather than shrinking further. */
+  @media screen and (min-width: 681px) and (max-width: 1024px) {
+    .logo-list-logos {
+      flex-wrap: wrap;
+    }
+    .logo-list-logos .logo-list-logo-item {
+      flex: 0 1 {{ section.settings.logo_item_width }}px;
     }
   }
 </style>

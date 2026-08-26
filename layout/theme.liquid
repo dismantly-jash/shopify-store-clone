@@ -1,5 +1,16 @@
 <!doctype html>
-<html class="js" lang="{{ request.locale.iso_code }}">
+{%- comment -%} CLI-560: the bare language tag ("en") left browsers rendering native
+  date controls US-first, so a NZ customer entering 03/04 recorded 4 March. Append
+  the storefront country when the locale carries no region of its own. {%- endcomment -%}
+{%- liquid
+  assign doc_lang = request.locale.iso_code
+  unless doc_lang contains '-'
+    if localization.country.iso_code != blank
+      assign doc_lang = doc_lang | append: '-' | append: localization.country.iso_code
+    endif
+  endunless
+-%}
+<html class="js" lang="{{ doc_lang }}">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

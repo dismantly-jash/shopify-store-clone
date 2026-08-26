@@ -609,7 +609,10 @@
   font-size:20px;
   line-height:1.4;
   letter-spacing:0;
-  color: #000;
+  /* CLI-567: this black beat the brand-green rule below on specificity, so the
+     green only ever showed on the sale-price variant — which stays hidden
+     unless an item is discounted. Card prices are green in the design. */
+  color: var(--brand-green, #3d6601);
   font-weight:700;
 }
 .card-information .price.price--on-sale .price-item--regular {

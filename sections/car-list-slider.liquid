@@ -67,6 +67,18 @@
               assign total = section.settings.limit
             endif
             assign num_cols = total | plus: 1 | divided_by: 2
+            # CLI-563/575: pairing alone gives ceil(total/2) columns, so a
+            # four-vehicle catalogue produced two columns and left the third of
+            # the three visible desktop slots empty. Spread over at least three
+            # columns (or however many vehicles exist, when fewer) so the top
+            # row always fills the width the design draws.
+            assign min_cols = 3
+            if total < min_cols
+              assign min_cols = total
+            endif
+            if num_cols < min_cols
+              assign num_cols = min_cols
+            endif
           -%}
           {% for c in (1..num_cols) %}
             <div class="car-detail-list__item swiper-slide">
@@ -93,6 +105,18 @@
               assign total = section.settings.limit
             endif
             assign num_cols = total | plus: 1 | divided_by: 2
+            # CLI-563/575: pairing alone gives ceil(total/2) columns, so a
+            # four-vehicle catalogue produced two columns and left the third of
+            # the three visible desktop slots empty. Spread over at least three
+            # columns (or however many vehicles exist, when fewer) so the top
+            # row always fills the width the design draws.
+            assign min_cols = 3
+            if total < min_cols
+              assign min_cols = total
+            endif
+            if num_cols < min_cols
+              assign num_cols = min_cols
+            endif
           -%}
           {% for c in (1..num_cols) %}
             {% assign top_i = c %}
@@ -119,6 +143,18 @@
               assign total = section.settings.limit
             endif
             assign num_cols = total | plus: 1 | divided_by: 2
+            # CLI-563/575: pairing alone gives ceil(total/2) columns, so a
+            # four-vehicle catalogue produced two columns and left the third of
+            # the three visible desktop slots empty. Spread over at least three
+            # columns (or however many vehicles exist, when fewer) so the top
+            # row always fills the width the design draws.
+            assign min_cols = 3
+            if total < min_cols
+              assign min_cols = total
+            endif
+            if num_cols < min_cols
+              assign num_cols = min_cols
+            endif
           -%}
           {% for c in (1..num_cols) %}
             <div class="car-detail-list__item swiper-slide">

@@ -3,7 +3,7 @@
     "page_hero": {
       "type": "page-hero",
       "settings": {
-        "title": "",
+        "title": "Shipping & Delivery",
         "image_asset": "hero-shipping.jpg",
         "overlay_opacity": 46,
         "height": 300

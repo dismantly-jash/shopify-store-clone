@@ -1511,7 +1511,10 @@ a.product__text {
   max-width:100%;
 }
 .product .product-form__buttons .button{
-  text-transform:uppercase;
+  /* CLI-569: uppercase turned the shared "Buy It Now" label into BUY IT NOW on
+     the detail page only, so the same action read three different ways across
+     the site. The label is already in the design's title case. */
+  text-transform:none;
 }
 .product .product-form__buttons .custom-offer-btn,
 .product .product-form__buttons .button.button--secondary  {
@@ -1956,7 +1959,8 @@ a.product__text {
   color:#000;
   flex:0 0 100%;
   max-width:100%;
-  text-transform:capitalize;
+  /* CLI-569: capitalize rewrote "Add to Cart" as "Add To Cart". */
+  text-transform:none;
   margin:0;
 }
 .product__info-wrapper .product-custom-icons{

@@ -266,14 +266,18 @@
   
                               <li class="list-menu__item facets__item{% if forloop.index > show_more_number and filter_type == 'vertical' %} show-more-item hidden{% endif %}">
                                 {% if filter.label == 'Select Make' %}
+                                  {%- comment -%} CLI-511/571: makes without an uploaded logo used to
+                                    render a bare 39px spacer instead of an image, so the list mixed
+                                    plain rows with logo rows and appeared to flicker as it
+                                    re-rendered. Every row now carries an image slot, falling back to
+                                    a generic mark that ships with the theme. {%- endcomment -%}
                                   {% assign value_make = value.label %}
                                   {% assign image_url = value_make | handle | append: '.png' | file_img_url: '30x30' %}
-                                  {% assign common_url = 'common' | append: '.png' | file_img_url: '30x30' %}
-                                  {% if image_url contains "?v=" %}
-                                    <img class="value_name_filter_image" src="{{ image_url }}" alt="{{ value.label | handle }}" width="30" height="30" loading="lazy" onerror="this.onerror=null;this.src='{{ common_url }}'">
-                                  {% else %}
-                                    <div style="width: 39px;display: block;"></div>
-                                  {% endif %}
+                                  {% assign common_url = 'placeholder-make.svg' | asset_url %}
+                                  {% unless image_url contains "?v=" %}
+                                    {% assign image_url = common_url %}
+                                  {% endunless %}
+                                  <img class="value_name_filter_image" src="{{ image_url }}" alt="{{ value.label | handle }}" width="30" height="30" loading="lazy" onerror="this.onerror=null;this.src='{{ common_url }}'">
                                 {% endif %}
 
                                 {% assign param_name = filter.param_name | split: '.' | last %}
@@ -697,14 +701,15 @@
                                 {% else %}
                                   <label for="{{ input_id }}" class="{{ label_class }}">
                                      {% if filter.label == 'Select Make And Model' %}
+                                      {%- comment -%} CLI-511/571: same stable image slot as the
+                                        desktop Select Make list above. {%- endcomment -%}
                                       {% assign value_make = value.label | split: ',' | first %}
                                       {% assign image_url = value_make | handle | append: '.png' | file_img_url: '30x30' %}
-                                      {% assign common_url = 'common' | append: '.jpg' | file_img_url: '30x30' %}
-                                      {% if image_url contains "?v=" %}
-                                        <img class="value_name_filter_image" src="{{ image_url }}" alt="{{ value.label | handle }}" width="30" height="30" loading="lazy" onerror="this.onerror=null;this.src='{{ common_url }}'">
-                                      {% else %}
-                                        <div style="width: 39px;display: block;"></div>
-                                      {% endif %}
+                                      {% assign common_url = 'placeholder-make.svg' | asset_url %}
+                                      {% unless image_url contains "?v=" %}
+                                        {% assign image_url = common_url %}
+                                      {% endunless %}
+                                      <img class="value_name_filter_image" src="{{ image_url }}" alt="{{ value.label | handle }}" width="30" height="30" loading="lazy" onerror="this.onerror=null;this.src='{{ common_url }}'">
                                     {% endif %}
                                     <input
                                       class="mobile-facets__checkbox"
