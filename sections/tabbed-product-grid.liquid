@@ -39,6 +39,9 @@
           assign has_match = true
           break
         endif
+        if product.metafields.custom.type == 'VEHICLE'
+          continue
+        endif
         assign tab_probe = product.title | downcase
         assign tab_pt = product.metafields.custom.part_type.value | downcase
         if tab_probe contains match_keyword or tab_pt contains match_keyword
@@ -85,6 +88,9 @@
           if block.settings.tab_name == blank
             assign has_match = true
             break
+          endif
+          if product.metafields.custom.type == 'VEHICLE'
+            continue
           endif
           assign tab_probe = product.title | downcase
           assign tab_pt = product.metafields.custom.part_type.value | downcase
@@ -153,8 +159,14 @@
                 </div>
               </li>
             {% else %}
+              {%- comment -%} One row only: the grid is 3-up, so cap what we render {%- endcomment -%}
+              {% assign tab_limit = section.settings.products_per_tab | default: 3 %}
               {% assign shown = 0 %}
               {% for product_tab in products_source %}
+                {% if shown >= tab_limit %}{% break %}{% endif %}
+                {%- comment -%} Parts tabs must not list vehicles, whose titles carry
+                    strings like "ENGINE CODE: ..." and match the keyword {%- endcomment -%}
+                {% if product_tab.metafields.custom.type == 'VEHICLE' %}{% continue %}{% endif %}
                 {%- liquid
                   assign loop_probe = product_tab.title | downcase
                   assign loop_pt = product_tab.metafields.custom.part_type.value | downcase
@@ -236,13 +248,22 @@
   </script>
 
   {% schema %}
-  {
-    "name": "Tabbed product grid",
-    "settings": [
-      {
-        "type": "select",
-        "id": "image_ratio",
-        "options": [
+{
+  "name": "Tabbed product grid",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_tab",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "label": "Products per tab",
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
         {
           "value": "adapt",
           "label": "t:sections.featured-collection.settings.image_ratio.options__1.label"
@@ -325,130 +346,129 @@
         }
       ]
     },
-    
-      {
-        "type": "color",
-        "id": "background",
-        "label": "Background"
-      },
-       {
-        "type": "header",
-        "content": "Section Desktop View padding"
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background"
     },
     {
-        "type": "range",
-        "id": "padding_top",
-        "min": 0,
-        "max": 150,
-        "step": 5,
-        "unit": "px",
-        "label": "Desktop Padding Top",
-        "default": 10
+      "type": "header",
+      "content": "Section Desktop View padding"
     },
     {
-        "type": "range",
-        "id": "padding_bottom",
-        "min": 0,
-        "max": 150,
-        "step": 5,
-        "unit": "px",
-        "label": "Desktop Padding Bottom",
-        "default": 10
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "label": "Desktop Padding Top",
+      "default": 10
     },
     {
-        "type": "header",
-        "content": "Section Mobile View padding"
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "label": "Desktop Padding Bottom",
+      "default": 10
     },
     {
-        "type": "range",
-        "id": "mobile_padding_top",
-        "min": 0,
-        "max": 100,
-        "step": 2,
-        "unit": "px",
-        "label": "Mobile Padding Top",
-        "default": 10
+      "type": "header",
+      "content": "Section Mobile View padding"
     },
     {
-        "type": "range",
-        "id": "mobile_padding_bottom",
-        "min": 0,
-        "max": 100,
-        "step": 2,
-        "unit": "px",
-        "label": "Padding Bottom",
-        "default": 10
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile Padding Top",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 10
     }
-    ],
-    "blocks": [
-      {
-        "type": "tab",
-        "name": "Tab",
-        "settings": [
-           {
-            "type": "image_picker",
-            "id": "main_image_tab",
-            "label": "Main image"
-          },
-          {
-            "type": "text",
-            "id": "main_image_asset",
-            "label": "Theme asset filename",
-            "info": "Fallback banner when no image is picked, e.g. banner-engines.jpg"
-          },
-          {
-            "type": "text",
-            "id": "tab_left_subheading",
-            "label": "Main image Subheading"
-          },
-          {
-            "type": "richtext",
-            "id": "tab_left_description",
-            "label": "Description"
-          },
-          {
-            "type": "text",
-            "id": "button_label",
-            "label": "Button label",
-            "default": "View All"
-          },
-          {
-            "type": "url",
-            "id": "button_link",
-            "label": "Button link"
-          },
-          {
-            "type": "text",
-            "id": "tab_name",
-            "label": "Tab name",
-            "default": "Engines"
-          },
-          {
-            "type": "text",
-            "id": "match_keyword",
-            "label": "Product match keyword",
-            "info": "Products whose title or Part Type metafield contains this (case-insensitive) appear in the tab. Defaults to the tab name, e.g. Engine"
-          },
-          {
-            "type": "collection",
-            "id": "collection_product_list",
-            "label": "Collection"
-          },
-          {
-            "type": "product_list",
-            "id": "product_list",
-            "label": "Products",
-            "limit": 12
-          }
-        ]
-      }
-    ],
-    "presets": [
-      {
-        "name": "Tabbed product grid",
-        "category": "Products"
-      }
-    ]
-  }
-  {% endschema %}
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "main_image_tab",
+          "label": "Main image"
+        },
+        {
+          "type": "text",
+          "id": "main_image_asset",
+          "label": "Theme asset filename",
+          "info": "Fallback banner when no image is picked, e.g. banner-engines.jpg"
+        },
+        {
+          "type": "text",
+          "id": "tab_left_subheading",
+          "label": "Main image Subheading"
+        },
+        {
+          "type": "richtext",
+          "id": "tab_left_description",
+          "label": "Description"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "View All"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "text",
+          "id": "tab_name",
+          "label": "Tab name",
+          "default": "Engines"
+        },
+        {
+          "type": "text",
+          "id": "match_keyword",
+          "label": "Product match keyword",
+          "info": "Products whose title or Part Type metafield contains this (case-insensitive) appear in the tab. Defaults to the tab name, e.g. Engine"
+        },
+        {
+          "type": "collection",
+          "id": "collection_product_list",
+          "label": "Collection"
+        },
+        {
+          "type": "product_list",
+          "id": "product_list",
+          "label": "Products",
+          "limit": 12
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Tabbed product grid",
+      "category": "Products"
+    }
+  ]
+}
+{% endschema %}
 </section>
