@@ -48,6 +48,15 @@
         {%- assign is_vehicle_link = true -%}
       {%- endif -%}
       <li>
+        {%- comment -%} CLI-570: Returns is a modal trigger, not a destination — global.js
+          intercepts #HeaderMenu-returns / #HeaderDrawer-returns and opens the popup instead of
+          navigating. Whenever the menu points it at a real page (it used to point at
+          /pages/guarantee-after-sales) Shopify marks it current and the header highlights Returns
+          on a page the customer never reached through it. Modal triggers get no active state. {%- endcomment -%}
+        {%- assign link_current = link.current -%}
+        {%- if link.handle == 'returns' or link.url contains '#returns' -%}
+          {%- assign link_current = false -%}
+        {%- endif -%}
         {%- if link.links != blank -%}
           <header-menu>
             <details id="Details-HeaderMenu-{{ forloop.index }}">
@@ -124,19 +133,19 @@
             id="HeaderMenu-{{ link.handle }}"
             href="{{ link.url }}"
             class="header__menu-item list-menu__item link link--text focus-inset"
-            {% if link.current or is_part_link and part_filter_active %}
+            {% if link_current or is_part_link and part_filter_active %}
               aria-current="page"
             {% endif %}
-            {% if link.current or is_vehicle_link and vehicle_filter_active %}
+            {% if link_current or is_vehicle_link and vehicle_filter_active %}
               aria-current="page"
             {% endif %}
             style="color: {{ section.settings.menu_text_color }};"
           >
             <span
-              {%- if link.current or is_part_link and part_filter_active %}
+              {%- if link_current or is_part_link and part_filter_active %}
                 class="header__active-menu-item"
               {% endif %}
-              {%- if link.current or is_vehicle_link and vehicle_filter_active %}
+              {%- if link_current or is_vehicle_link and vehicle_filter_active %}
                 class="header__active-menu-item"
               {% endif %}
             >

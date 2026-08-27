@@ -23,6 +23,15 @@
             <ul class="menu-drawer__menu has-submenu list-menu" role="list">
               {%- for link in section.settings.menu.links -%}
                 <li>
+                  {%- comment -%} CLI-570: Returns is a modal trigger, not a destination — global.js
+                    intercepts #HeaderMenu-returns / #HeaderDrawer-returns and opens the popup instead of
+                    navigating. Whenever the menu points it at a real page (it used to point at
+                    /pages/guarantee-after-sales) Shopify marks it current and the header highlights Returns
+                    on a page the customer never reached through it. Modal triggers get no active state. {%- endcomment -%}
+                  {%- assign link_current = link.current -%}
+                  {%- if link.handle == 'returns' or link.url contains '#returns' -%}
+                    {%- assign link_current = false -%}
+                  {%- endif -%}
                   {%- if link.links != blank -%}
                     <details id="Details-menu-drawer-menu-item-{{ forloop.index }}">
                       <summary
@@ -123,8 +132,8 @@
                     <a
                       id="HeaderDrawer-{{ link.handle }}"
                       href="{{ link.url }}"
-                      class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.current %} menu-drawer__menu-item--active{% endif %} HeaderDrawer-{{ link.handle }}"
-                      {% if link.current %}
+                      class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link_current %} menu-drawer__menu-item--active{% endif %} HeaderDrawer-{{ link.handle }}"
+                      {% if link_current %}
                         aria-current="page"
                       {% endif %}
                     >
