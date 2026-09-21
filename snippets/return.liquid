@@ -18,8 +18,9 @@
         <div class="product-popup-content">
           <div class="product-popup-form">
             {% form 'contact', class: 'product-form', id: 'return-contact-form' %}
+            {% render 'form-honeypot', honeypot_id: 'returns' %}
               {% unless form.posted_successfully? %}
-                <input type="hidden" name="contact[tags]" value="Product Detail">
+                <input type="hidden" name="contact[tags]" value="Return Request">
                 <div
                   class="product-form__field-wrapper"
                 >
@@ -34,6 +35,7 @@
                       type="text"
                       id="productForm--return-name"
                       name="contact[{{ 'templates.contact.form.name' | t }}]"
+                      maxlength="100"
                       value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
                       
                       required
@@ -48,6 +50,9 @@
                       id="productForm--return-email"
                       type="email"
                       name="contact[email]"
+                      maxlength="254"
+                      {%- comment -%} CLI-670: require a TLD, matching Get Estimate. {%- endcomment -%}
+                      pattern="[^@\s]+@[^@\s]+\.[a-zA-Z]{2,}"
                       class="field__input"
                       value="{{ form.email }}"
                       aria-required="true"
@@ -78,7 +83,7 @@
                       </small>
                     {%- endif -%}
                   </div>
-                  <div class="field one-half">
+                  <div class="field one-half field--phone">
                     <label class="field__label" for="productForm--return-phone">
                       {{ 'templates.contact.form.phone' | t }}
                     </label>
@@ -111,6 +116,7 @@
                         autocomplete="tel"
                         inputmode="numeric"
                         name="contact[{{ 'templates.contact.form.phone' | t }}]"
+                        maxlength="20"
                         pattern="[0-9]*"
                         title="Enter numbers only"
                         value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
@@ -142,6 +148,7 @@
                       id="productForm--return-invoice"
                       type="text"
                       name="contact[Invoice]"
+                      maxlength="40"
                       class="field__input"
                       value=""
                       aria-required="true"
@@ -156,6 +163,7 @@
                       id="productForm--return-refrence"
                       type="text"
                       name="contact[Reference Number]"
+                      maxlength="40"
                       class="field__input"
                       value=""
                       aria-required="true"
@@ -201,6 +209,7 @@
                       id="ContactForm-description"
                       class="text-area field__input"
                       name="contact[Description]"
+                      maxlength="1000"
                       placeholder="Tell us about the issue..."
                       ></textarea>
                   </div>
@@ -237,8 +246,8 @@
                     type="submit"
                     class="product-form__button button button--primary"
                     name="commit"
-                    id="Subscribe"
-                    aria-label="{{ 'newsletter.button_label' | t }}"
+                    id="ReturnRequestSubmit"
+                    aria-label="Submit return request"
                     style="background-color: {{settings.form_button_color}}; color: {{settings.form_button_text_color}};"
                   >
                     Submit Return Request

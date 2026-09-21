@@ -218,6 +218,118 @@ input::-webkit-search-decoration {
 .success-wrapper {
   text-align: center;
 }
+/* Spares Plus (CLI-666): the design's "Find My Part" button sits to the right of
+   the four dropdowns, on the same row. The facet form is flex-column, so the
+   button lands underneath by default. Turning the form into a row is enough to
+   fix it without touching the dropdowns: they are pinned at
+   `flex: 0 0 calc(25% - 15px)`, so they re-measure against whatever width the
+   wrapper is left with once the button has taken its 180px.
+
+   Only from 990px up. Between 750 and 989 the form is still visible but only
+   ~700px wide, and squeezing a fifth item onto that row would leave each
+   dropdown around 125px - narrower than its own "Select Part Type" label. Below
+   990 the button keeps its own full-width row instead. */
+@media screen and (min-width: 990px) {
+  /* Both class names: facets.liquid emits `facets__form` when filter_type is
+     horizontal (which this section is) and `facets__form-vertical` otherwise,
+     and the setting is editable in the theme editor. */
+  .template-search .banner-content .facets__form,
+  .template-search .banner-content .facets__form-vertical {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  .template-search .banner-content .facets__form > .facets__wrapper,
+  .template-search .banner-content .facets__form-vertical > .facets__wrapper {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .template-search .banner-content .facets__search-cta {
+    flex: 0 0 auto;
+  }
+}
+.facets__search-cta-button {
+  min-width: 180px;
+  min-height: 44px;
+  background: var(--main-color);
+  color: var(--text-on-main-color, #fff);
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+@media screen and (max-width: 989px) {
+  .facets__search-cta {
+    margin-top: 16px;
+  }
+  .facets__search-cta-button {
+    width: 100%;
+  }
+}
+
+/* Spares Plus (CLI-682): design puts the page-size control bottom-left of the
+   results and pagination bottom-right, on one row. `pagination.liquid` brings
+   its own centred wrapper, so it is pushed right here rather than restyled -
+   the same snippet is used by blog, collection and account pages. */
+.search-results-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 32px;
+}
+.search-results-footer__page-size {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #414651;
+}
+.search-results-footer__page-size label {
+  margin: 0;
+}
+.search-results-footer__select {
+  border: 1px solid #D5D7DA;
+  border-radius: 4px;
+  padding: 8px 10px;
+  font-size: 14px;
+  min-height: 44px;
+  background: #fff;
+}
+.search-results-footer .pagination-wrapper {
+  margin: 0 0 0 auto;
+}
+@media screen and (max-width: 749px) {
+  .search-results-footer {
+    justify-content: center;
+  }
+  .search-results-footer .pagination-wrapper {
+    margin: 0 auto;
+  }
+}
+
+/* Spares Plus (CLI-653): the active-filter chips are reused from the sidebar,
+   where they stack in a narrow left-aligned column. The empty state is a
+   centred block, so they need to centre and wrap as a row instead. */
+.empty-search-wrapper .active-facets--empty-state {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 0 28px;
+}
+.empty-search-wrapper .active-facets--empty-state .active-facets__button {
+  margin: 0;
+}
+
+/* Spares Plus (CLI-664): the CTA is the answer to the "Submit a part request"
+   sentence directly above it, so it sits closer than the 44px block rhythm the
+   rest of the empty state uses - otherwise it reads as an unrelated block. */
+.empty-search-wrapper .custom-request-part-btn {
+  margin-top: 24px;
+}
 .empty-search-wrapper .custom-request-part-btn .request_parts {
   background: var(--main-color);
   color: var(--text-on-main-color, #000);

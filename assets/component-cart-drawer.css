@@ -405,6 +405,9 @@ cart-drawer-items {
   border:1px solid #D8D8D8;
   background-color:#ffffff;
   color:#1F251F;
+  /* CLI-651: View Cart is the secondary action — drop the brand --btn-shadow so
+     Check Out stays visually dominant. */
+  box-shadow:none;
 }
 
 .drawer__footer .cart__dynamic-checkout-buttons {

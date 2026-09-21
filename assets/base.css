@@ -4146,6 +4146,25 @@ line-height:normal;
   .product-popup-header{
     margin-bottom:25px;
   }
+  /* Spares Plus (CLI-663): .popup-close is absolutely positioned against the
+     outer .product-detail__popup, but it physically lives inside
+     .product-popup-wrapper, which is what actually scrolls. Once the modal was
+     scrolled the button stayed at a fixed y and came to rest on top of a field —
+     tapping the right-hand third of Email closed the modal and discarded
+     everything typed (measured 42x24px overlap at 375px). Pin the header to the
+     top of the scroller and anchor the button to the header instead of the shell.
+     Scoped to this breakpoint: the base rule is correct at desktop widths. */
+  .product-detail__popup .product-popup-header{
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    background: #fff;
+    padding-top: 8px;
+  }
+  .product-detail__popup .product-popup-header .popup-close{
+    top: 8px;
+    right: 0;
+  }
   .product-popup-content .product-form__field-wrapper.product-part__field-wrapper{
     padding-bottom:28px;
     margin-bottom:28px;
@@ -4158,6 +4177,17 @@ line-height:normal;
   }
   .product-popup-content .product-form .field.one-half{
     max-width:calc(50% - 2px);
+  }
+  /* Spares Plus (CLI-689): the phone field is the one half-column that cannot
+     survive being halved - it shares its width with the country-code selector,
+     so at 481px the input is 120px against a "+61 0412 345 678" placeholder
+     that needs 130px. Give it the whole row for the entire mobile band rather
+     than only under 480px. Get Estimate already renders its phone as a plain
+     full-width `.field`, which is why that form never showed the bug; this
+     brings Returns into line without reflowing the desktop pairs. */
+  .product-popup-content .product-form .field.one-half.field--phone{
+    max-width:100%;
+    flex:0 0 100%;
   }
   .product-popup-content .product-form .field{
     margin:0 0 10px;
@@ -4232,9 +4262,22 @@ line-height:normal;
   }
   .header-cart__icon {
     background: transparent;
+    /* Spares Plus (CLI-692): padding:0 collapsed this to the icon's own 18px width.
+       The desktop rule carries min-height:44px but nothing held the width, and once
+       the red button background is dropped here there is no padding left to give it
+       any. Square it off so the tap target matches the 44px the height already had. */
     padding: 0;
+    min-width: 44px;
+    justify-content: center;
     color: #000;
     box-shadow: none;
+  }
+  /* Spares Plus (CLI-661): below this breakpoint the icon leaves the red Cart
+     button and sits bare on the white header, so the white inline fill made it
+     invisible. `color` above cannot reach it — the path carries a hardcoded
+     fill attribute — but a CSS `fill` overrides a presentation attribute. */
+  .header-cart__icon .icon-cart path {
+    fill: #000;
   }
   .header-cart__icon .cart-text {
     display: none;
@@ -4283,6 +4326,20 @@ line-height:normal;
 width: 100%;
 max-width: 100%;
 }
+
+  /* Spares Plus (CLI-689): the popup forms kept their two-up field pairs all
+     the way down to 375px, where each column is only ~137px. Name and email
+     were merely cramped, but the Returns phone row shares its column with the
+     country-code selector, leaving the input 72px - not enough for its own
+     "+61 0412 345 678" placeholder, which needs ~130px. Stack the pairs
+     instead: the phone input goes 72px -> ~215px and the placeholder fits.
+     Get Estimate is unaffected in practice - its phone row is already
+     full-width - but it shares these classes, so its name/email stack too,
+     which is the same improvement. */
+  .product-popup-content .product-form .field.one-half{
+    max-width:100%;
+    flex:0 0 100%;
+  }
 }
 @media screen and (max-width:430px){
   .header{
@@ -4517,4 +4574,17 @@ a.request_quote.button {
   .header-cart__icon svg path {
     fill: #fff;
   }
+}
+
+/* Spares Plus (CLI-694): honeypot trap field. Deliberately positioned off-screen
+   rather than display:none or [hidden] - the spam bots worth catching skip
+   anything hidden that way. aria-hidden and tabindex="-1" on the markup keep it
+   away from screen readers and keyboard users. */
+.form-honeypot {
+  position: absolute !important;
+  left: -9999px !important;
+  top: auto !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
 }

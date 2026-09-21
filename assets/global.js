@@ -1723,7 +1723,10 @@ if(split_path[1] == 'products' && hashname == '#contact_form'){
 }
 
 if(searchname){
-    $('#thank-you__popup').addClass('is-active');
+    // CLI-676: this branch is the Get Estimate return trip (?contact_posted=true).
+    // It shared #thank-you__popup with the product page popup, and jQuery takes
+    // only the first match, so on a product page the wrong popup opened.
+    $('#get-estimate-thank-you').addClass('is-active');
     $('.theme-overlay').addClass('is-active');
     $('body').addClass('overflow-hidden');
 }
@@ -1768,9 +1771,24 @@ $(document).on('click', '.feild-input_wrapper .dropdown-menu li a', function (ev
 
   inputGroupBtn.find('.emoji').html(selectedEmoji);
   inputGroupAddon.html(selectedCountryCode);
-  inputGroupInput.attr("placeholder", selectedDialCode + " " + selectedExampleNumber);
+  inputGroupInput.attr("placeholder", formatPhonePlaceholder(selectedDialCode, selectedExampleNumber));
   $('.feild-input_wrapper .input-group-btn').removeClass("open");
 });
+
+// Spares Plus (CLI-687): the placeholder was built as dialCode + " " + exampleNumber,
+// giving "+61 0412 345 678" - the trunk prefix 0 is dropped once the country code is
+// present, so that number is not dialable as written. Strip one leading zero when
+// prefixing an international dial code.
+// Known exception: Italy (+39) keeps its leading 0. This is placeholder text only,
+// and the alternative - every trunk-prefix country (AU, UK, NZ, DE, FR, IN, ZA...)
+// showing an invalid example - is the worse trade.
+function formatPhonePlaceholder(dialCode, exampleNumber) {
+  var national = (exampleNumber || '').trim();
+  if (dialCode && dialCode.indexOf('+39') !== 0) {
+    national = national.replace(/^0/, '');
+  }
+  return (dialCode + ' ' + national).trim();
+}
 
 function applyDefaultCountryCode(wrapper) {
   var defaultItem = wrapper.querySelector('.dropdown-menu li.is-default');
@@ -1798,7 +1816,7 @@ function applyDefaultCountryCode(wrapper) {
   if (inputGroupBtn) inputGroupBtn.textContent = selectedEmoji;
   if (inputGroupAddon) inputGroupAddon.textContent = selectedEmoji;
   if (inputGroupInput && selectedDialCode && selectedExampleNumber) {
-    inputGroupInput.setAttribute('placeholder', selectedDialCode + ' ' + selectedExampleNumber);
+    inputGroupInput.setAttribute('placeholder', formatPhonePlaceholder(selectedDialCode, selectedExampleNumber));
   }
 }
 
@@ -1817,7 +1835,51 @@ $(".slider-button").click(function () {
     var getActiveNumber = Number($(".thumbnail[aria-current='true']").parent("li").attr("data-media-position")) - 1;
   }
   $(`.thumbnail-list__item.slider__slide[data-media-position="${getActiveNumber}"] button`).click();
+  syncProductGalleryArrows();
 });
+
+// Spares Plus (CLI-695): the handler above steps the position and clicks the
+// thumbnail at the new index. Past the last image there is no such thumbnail, so
+// nothing happened and the arrow stayed enabled - the customer got no signal they
+// had reached the end. Disable each arrow at its end of the set.
+//
+// Scoped to [data-name] deliberately: the main gallery arrows use data-name, while
+// the thumbnail strip and the other Dawn sliders use `name` and are driven by
+// slider-component, which manages its own disabled state. Matching on
+// .slider-button alone would fight it.
+function syncProductGalleryArrows() {
+  var slides = document.querySelectorAll('.thumbnail-list__item.slider__slide[data-media-position]');
+  if (!slides.length) return;
+
+  var positions = Array.prototype.map
+    .call(slides, function (li) { return Number(li.getAttribute('data-media-position')); })
+    .filter(function (n) { return !isNaN(n); });
+  if (!positions.length) return;
+
+  var active = document.querySelector(".thumbnail[aria-current='true']");
+  var activeLi = active && active.closest('[data-media-position]');
+  if (!activeLi) return;
+
+  var current = Number(activeLi.getAttribute('data-media-position'));
+  var first = Math.min.apply(null, positions);
+  var last = Math.max.apply(null, positions);
+
+  document.querySelectorAll('.slider-button[data-name="previous"]').forEach(function (b) {
+    b.disabled = current <= first;
+  });
+  document.querySelectorAll('.slider-button[data-name="next"]').forEach(function (b) {
+    b.disabled = current >= last;
+  });
+}
+
+// Thumbnails can be clicked directly, bypassing the arrows, so re-sync from there
+// too. Deferred a tick because aria-current is set by the thumbnail's own handler.
+document.addEventListener('click', function (event) {
+  if (event.target.closest && event.target.closest('.thumbnail')) {
+    setTimeout(syncProductGalleryArrows, 0);
+  }
+});
+document.addEventListener('DOMContentLoaded', syncProductGalleryArrows);
 
 // $(document).on('click', '.header-cart__icon', function(e) {
 //   e.preventDefault();
@@ -2153,3 +2215,28 @@ document.addEventListener('DOMContentLoaded', () => {
     link.textContent = `${qValue}`;
   }
 });
+
+
+// Spares Plus (CLI-694): honeypot guard. The trap field rendered by
+// snippets/form-honeypot.liquid is invisible and unreachable by keyboard, so any
+// value in it came from something filling every input on the page. Cancel those
+// submits.
+//
+// Browser-side only, and worth being honest about the limit: Shopify's contact
+// form gives the theme no server-side hook, so a bot POSTing directly to
+// /contact#ContactForm never runs this. It stops naive form-filling bots, not a
+// determined one. A real CAPTCHA (Settings > Customer privacy) is the fix if
+// spam actually becomes a problem.
+document.addEventListener(
+  'submit',
+  function (event) {
+    var form = event.target;
+    if (!form || !form.querySelector) return;
+    var trap = form.querySelector('.form-honeypot input');
+    if (trap && trap.value.trim() !== '') {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  },
+  true
+);

@@ -14,6 +14,7 @@
         <div class="product-popup-form">
           {% capture form_id %}product-form--get-estimate{% endcapture %}
           {% form 'contact', class: 'product-form', id: form_id %}
+          {% render 'form-honeypot', honeypot_id: 'get-estimate' %}
             {%- capture content_for_query_string -%}{{ content_for_header }}{%- endcapture -%}
           {%- liquid
             assign query_key = query_key | default: blank
@@ -21,11 +22,15 @@
           -%}
 
             <input type="hidden" name="return_to" value="{{page_url}}{%- if page_url contains '?' -%}&{%- else -%}?{%-endif-%}contact_posted=true">
-            <input type="hidden" name="contact[tags]" value="Product Estimate">
+            <input type="hidden" name="contact[tags]" value="Vehicle Estimate">
             <div
               class="product-form__field-wrapper"
             >
-              <input type="hidden" name="contact[Product Name]" value="{{ product.title }}">
+              {%- comment -%} CLI-678: this is a sell-your-car enquiry, so a field
+                called "Product Name" carrying whatever part page the customer happened
+                to be on reads, in the enquiry email, as if they were asking about that
+                part. Same value, honest label. {%- endcomment -%}
+              <input type="hidden" name="contact[Enquiry Page]" value="{{ product.title }}">
               <div class="field one-half">
                 <label class="field__label" for="productForm--get-estimate-name">
                   {{ 'templates.contact.form.name' | t }}<span>*</span>
@@ -35,6 +40,7 @@
                   type="text"
                   id="productForm--get-estimate-name"
                   name="contact[{{ 'templates.contact.form.name' | t }}]"
+                  maxlength="100"
                   value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
                   placeholder="{{ 'templates.contact.form.name' | t }}"
                   required
@@ -48,6 +54,9 @@
                   id="productForm--get-estimate-email"
                   type="email"
                   name="contact[email]"
+                  maxlength="254"
+                  {%- comment -%} CLI-670: type=email alone accepts "a@b"; require a TLD. {%- endcomment -%}
+                  pattern="[^@\s]+@[^@\s]+\.[a-zA-Z]{2,}"
                   class="field__input"
                   value="{{ form.email }}"
                   aria-required="true"
@@ -85,7 +94,10 @@
                     id="productForm--get-estimate-phone"
                     class="field__input phone__input"
                     autocomplete="tel"
+                    {%- comment -%} CLI-670: matches the Returns form, which already rejects letters. {%- endcomment -%}
+                    pattern="[0-9]*"
                     name="contact[{{ 'templates.contact.form.phone' | t }}]"
+                    maxlength="20"
                     value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
                     placeholder="{{ 'general.get_estimate.phone_placeholder' | t }}"
                   >
@@ -101,9 +113,14 @@
                 </label>
                 <input
                   type="text"
-                  id="sectionEstimateForm--get-estimate-year-range"
+                  {%- comment -%} CLI-694: was sectionEstimateForm--, while the label
+                    above points at productEstimateForm--. The label existed but was
+                    bound to nothing, so screen readers announced the field as
+                    unlabelled. {%- endcomment -%}
+                  id="productEstimateForm--get-estimate-year-range"
                   class="field__input"
                   name="contact[{{ 'general.get_estimate.year_make_model' | t }}]"
+                  maxlength="100"
                   value=""
                   placeholder="{{ 'general.get_estimate.year_make_model_placeholder' | t }}"
                   required
@@ -118,6 +135,7 @@
                   id="productEstimateForm--get-estimate-vin_number"
                   class="field__input"
                   name="contact[{{ 'general.get_estimate.plate_number' | t }}]"
+                  maxlength="17"
                   value=""
                   placeholder="{{ 'general.get_estimate.plate_number_placeholder' | t }}"
                 >
@@ -131,6 +149,7 @@
                   id="productEstimateForm--get-estimate-address"
                   class="field__input"
                   name="contact[{{ 'general.get_estimate.address' | t }}]"
+                  maxlength="200"
                   value=""
                   placeholder="{{ 'general.get_estimate.address_placeholder' | t }}"
                 >
@@ -145,6 +164,10 @@
                 </label>
                 <input
                   type="number"
+                  {%- comment -%} CLI-670: a desired price of 0 or a negative
+                    number was accepted before. {%- endcomment -%}
+                  min="1"
+                  step="0.01"
                   id="productEstimateForm--get-estimate-offer-amount"
                   class="field__input"
                   autocomplete="number"
@@ -163,6 +186,7 @@
                   id="ContactForm-body"
                   class="text-area field__input"
                   name="contact[{{ 'general.get_estimate.description_placeholder' | t }}]"
+                  maxlength="1000"
                   placeholder="{{ 'general.get_estimate.description_placeholder' | t }}"
                   required
                 >
@@ -175,8 +199,8 @@
                   type="submit"
                   class="product-form__button button button--primary"
                   name="commit"
-                  id="Subscribe"
-                  aria-label="{{ 'newsletter.button_label' | t }}"
+                  id="GetEstimateSubmit"
+                  aria-label="{{ 'general.get_estimate.submit_button' | t }}"
                   style="background-color: {{settings.form_button_color}}; color: {{settings.form_button_text_color}};"
                 >
                   {{ 'general.get_estimate.submit_button' | t }}
@@ -211,7 +235,7 @@
   </div>
 </div>
 
-<div class="thank-you__popup" id="thank-you__popup">
+<div class="thank-you__popup" id="get-estimate-thank-you">
   <div class="product-popup-wrapper">
     <div class="product-popup-wrapper__inner">
       <div class="product-popup-header">

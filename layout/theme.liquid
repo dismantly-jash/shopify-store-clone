@@ -18,8 +18,15 @@
     <meta name="theme-color" content="">
     <link rel="canonical" href="{{ canonical_url }}">
 
-    {%- if settings.favicon != blank -%}
-      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- comment -%} Spares Plus (CLI-680): settings.favicon is empty in admin, so the
+      site shipped with no tab icon at all and /favicon.ico 404s. Fall back to the
+      store logo, which is already uploaded and set - a 32px crop of it is a far
+      better default than nothing. Setting a proper favicon in Theme settings still
+      wins. {%- endcomment -%}
+    {%- assign favicon_image = settings.favicon | default: settings.logo -%}
+    {%- if favicon_image != blank -%}
+      <link rel="icon" type="image/png" href="{{ favicon_image | image_url: width: 32, height: 32 }}">
+      <link rel="apple-touch-icon" href="{{ favicon_image | image_url: width: 180, height: 180 }}">
     {%- endif -%}
 
     {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
@@ -39,9 +46,56 @@
       {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
     </title>
 
-    {% if page_description %}
-      <meta name="description" content="{{ page_description | escape }}">
-    {% endif %}
+    {%- comment -%} Spares Plus (CLI-680): a page's own SEO description wins, then the
+      shop description, then a template-specific default written here.
+
+      The theme-side defaults exist because both admin fields are empty on this
+      store, and the earlier version of this block made that worse rather than
+      better: `{% if meta_description %}` is true for an empty string in Liquid -
+      only nil and false are falsy - so every page shipped
+      `<meta name="description" content="">`, which is worse for SEO than having no
+      tag at all. Hence `!= blank` throughout.
+
+      Keyed on template.suffix rather than page.handle so the policy pages get the
+      right text whatever they end up being called in admin - and so it works via
+      the ?view= preview before those pages exist. {%- endcomment -%}
+    {%- liquid
+      assign meta_description = page_description
+      if meta_description == blank
+        assign meta_description = shop.description
+      endif
+
+      if meta_description == blank
+        case template.name
+          when 'index'
+            assign meta_description = 'Quality-tested used auto parts and dismantled vehicles from 417 Motoring in Nixa, Missouri. Shipped nationwide.'
+          when 'search'
+            assign meta_description = 'Search quality used auto parts and dismantled vehicles at 417 Motoring. Filter by year, make, model and part type.'
+          when 'collection'
+            assign meta_description = collection.description | strip_html | strip | truncate: 155
+          when 'page'
+            case template.suffix
+              when 'contact'
+                assign meta_description = 'Contact 417 Motoring in Nixa, Missouri for quality used auto parts. Call (417) 374-7733 or email parts@417motoring.com.'
+              when 'shipping-policy'
+                assign meta_description = 'Shipping and delivery from 417 Motoring: small packages ship the next business day via USPS, UPS or FedEx; large items ship by freight.'
+              when 'guarantee-after-sales'
+                assign meta_description = '417 Motoring parts warranty: a standard 1-year limited warranty on eligible used parts, with engine, transmission and drivetrain terms.'
+              when 'returns-policy'
+                assign meta_description = 'Returns and refunds at 417 Motoring: a 60-day return period from delivery on tested, quality-guaranteed used auto parts.'
+              else
+                assign meta_description = page.content | strip_html | strip | truncate: 155
+            endcase
+        endcase
+      endif
+
+      if meta_description == blank
+        assign meta_description = shop.name | append: ' - quality-tested used auto parts and dismantled vehicles, shipped nationwide.'
+      endif
+    -%}
+    {%- if meta_description != blank -%}
+      <meta name="description" content="{{ meta_description | strip_newlines | escape }}">
+    {%- endif -%}
 
     {% render 'meta-tags' %}
 

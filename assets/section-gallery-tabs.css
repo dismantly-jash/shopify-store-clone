@@ -151,8 +151,15 @@
   .section-gallery-tabs .tabs-nav {
     row-gap: 0;
   }
+  /* Spares Plus (CLI-692): zero horizontal padding meant each chip was exactly as
+     wide as its label, so the short makes fell under the 44px tap minimum - Ford
+     33px, Audi 36px, BMW 39px - while Holden/Mazda/Mercedes happened to clear it.
+     min-width squares up the short ones without changing the long ones or adding
+     padding that would shift the whole strip. */
   .section-gallery-tabs .tab-btn {
     padding: 10px 0;
+    min-width: 44px;
+    text-align: center;
   }
   .section-gallery-tabs .tab-slide-title {
     padding-bottom: 60px;

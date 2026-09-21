@@ -60,6 +60,22 @@
       <div class="tab-content">
         {% for block in section.blocks %}
           <div id="Tab{{ forloop.index }}" class="tab{% if forloop.first %} active{% endif %}">
+            {%- comment -%} CLI-683: the fitment caveat from the design. Rendered here,
+              above the branch below, so it shows whether or not fitment rows exist -
+              a customer needs the "confirm with your VIN" warning most when the table
+              is empty. Keyed on tab_html == 'fitment' rather than the tab title, which
+              is editable in the theme editor and would silently drop the caveat if
+              anyone renamed the tab. Copy is editable via the block settings. {%- endcomment -%}
+            {%- if block.settings.tab_html == 'fitment' -%}
+              <div class="fitment-note rte">
+                <p class="fitment-note__caveat">
+                  {{ block.settings.fitment_caveat | default: 'Fitment may vary. Please call us with your VIN to confirm compatibility before purchase.' }}
+                </p>
+                {%- if product.metafields.custom.fitment != blank and block.settings.fitment_intro != blank -%}
+                  <p class="fitment-note__intro">{{ block.settings.fitment_intro }}</p>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
             {% if pages[block.settings.page].content != blank %}
               <div class="tab-view-detail">
                 {{ pages[block.settings.page].content }}
@@ -203,6 +219,18 @@
           "id": "tab_html",
           "label": "Product Metafeild Key",
           "info": "If You Want Html in content so write metfield Key. Ex: size_guide"
+        },
+        {
+          "type": "textarea",
+          "id": "fitment_caveat",
+          "label": "Fitment caveat",
+          "info": "CLI-683. Shown above the fitment table and also when no rows exist. Only renders on the tab whose metafield key is fitment."
+        },
+        {
+          "type": "textarea",
+          "id": "fitment_intro",
+          "label": "Fitment table intro",
+          "info": "CLI-683. Shown only when fitment rows actually exist."
         },
         {
           "type": "page",

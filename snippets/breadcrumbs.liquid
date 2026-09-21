@@ -31,7 +31,7 @@
   }
 
   .breadcrumbs__link {
-    color: var(--brand-green, #3d6601);
+    color: var(--brand-green, #b3090f);
     font-weight: 400;
     line-height: normal;
     text-decoration: none;
@@ -44,10 +44,6 @@
     margin-left: 8px;
   }
 
-  .breadcrumbs__link[aria-current="page"]:hover,
-  .breadcrumbs__link[aria-current="page"]:focus {
-    text-decoration: underline;
-  }
   @media screen and (max-width:999px){
     .breadcrumbs__item:not(:last-child):after{
       margin:0 4px;
@@ -78,10 +74,10 @@
     if t == 'product'
       if product.metafields.custom.type == 'VEHICLE'
         assign crumb_root_label = 'Vehicles'
-        assign crumb_root_url = '/search?q=*&filter.p.m.custom.type=VEHICLE'
+        assign crumb_root_url = '/search?q=*&options%5Bprefix%5D=last&filter.p.m.custom.type=VEHICLE'
       else
         assign crumb_root_label = 'Parts'
-        assign crumb_root_url = '/search?q=*&filter.p.m.custom.type=PART'
+        assign crumb_root_url = '/search?q=*&options%5Bprefix%5D=last&filter.p.m.custom.type=PART'
       endif
     endif
   -%}
@@ -94,7 +90,7 @@
       {%- case t -%}
         {%- when 'page' -%}
           <li class="breadcrumbs__item">
-            <a class="breadcrumbs__link" href="{{ page.url }}" aria-current="page">{{ page.title }}</a>
+            <span class="breadcrumbs__link" aria-current="page">{{ page.title }}</span>
           </li>
         {%- when 'product' -%}
           {%- if collection.url -%}
@@ -102,35 +98,44 @@
               {{ collection.title | link_to: collection.url }}
             </li>
             <li class="breadcrumbs__item">
-              <a class="breadcrumbs__link" href="{{ product.url }}" aria-current="page">
+              <span class="breadcrumbs__link" aria-current="page">
                 {{ product.title }}
-              </a>
+              </span>
             </li>
 
           {%- else -%}
             <li class="breadcrumbs__item search-breadcrumb" style="display:none">
-              <a class="breadcrumbs__link" href="#" id="search-breadcrumb-link">
+              {%- comment -%} CLI-685: no href here. global.js sets one only when the
+                visitor arrived from a search; emitting href="#" meant the
+                markup carried an empty dead link the rest of the time.
+              {%- endcomment -%}
+              <a class="breadcrumbs__link" id="search-breadcrumb-link">
                 
               </a>
             </li>
             <li class="breadcrumbs__item">
-              <a class="breadcrumbs__link" href="{{ product.url }}" aria-current="page">
+              <span class="breadcrumbs__link" aria-current="page">
                 {{ product.metafields.custom.part_type | default: product.title }}
-              </a>
+              </span>
             </li>
           {%- endif -%}
+        {%- comment -%} CLI-685: was `when 'collection' and collection.handle`.
+          Liquid's `when` takes a value, or a comma/`or` list - never `and` - so the
+          parser hit the identifier `and` and threw "Expected end_of_string", which
+          failed the whole theme upload and 500'd every route. The handle check is
+          what was meant; it moves into the body. {%- endcomment -%}
         {%- when 'collection' -%}
-          {%- if current_tags -%}
+          {%- if current_tags and collection.handle -%}
             <li class="breadcrumbs__item">
               {{ collection.title | link_to: collection.url }}
             </li>
             <li class="breadcrumbs__item">
               {%- capture tag_url -%}{{ collection.url }}/{{ current_tags | join: "+"}}{%- endcapture -%}
-              <a class="breadcrumbs__link" href="{{ tag_url }}" aria-current="page">{{ current_tags | join: ' + ' }}</a>
+              <span class="breadcrumbs__link" aria-current="page">{{ current_tags | join: ' + ' }}</span>
             </li>
           {%- else -%}
             <li class="breadcrumbs__item">
-              <a class="breadcrumbs__link" href="{{ collection.url }}" aria-current="page">{{ collection.title }}</a>
+              <span class="breadcrumbs__link" aria-current="page">{{ collection.title }}</span>
             </li>
           {%- endif -%}
         {%- when 'blog' -%}
@@ -140,11 +145,11 @@
             </li>
             <li class="breadcrumbs__item">
               {%- capture tag_url -%}{{blog.url}}/tagged/{{ current_tags | join: "+" }}{%- endcapture -%}
-              <a class="breadcrumbs__link" href="{{ tag_url }}" aria-current="page">{{ current_tags | join: ' + ' }}</a>
+              <span class="breadcrumbs__link" aria-current="page">{{ current_tags | join: ' + ' }}</span>
             </li>
           {%- else -%}
             <li class="breadcrumbs__item">
-              <a class="breadcrumbs__link" href="{{ blog.url }}" aria-current="page">{{ blog.title }}</a>
+              <span class="breadcrumbs__link" aria-current="page">{{ blog.title }}</span>
             </li>
           {%- endif -%}
         {%- when 'article' -%}
@@ -152,23 +157,13 @@
             {{ blog.title | link_to: blog.url }}
           </li>
           <li class="breadcrumbs__item">
-            <a class="breadcrumbs__link" href="{{ article.url }}" aria-current="page">{{ article.title }}</a>
+            <span class="breadcrumbs__link" aria-current="page">{{ article.title }}</span>
           </li>
         {%- else -%}
           <li class="breadcrumbs__item">
-            <a class="breadcrumbs__link" href="{{ request.path }}" aria-current="page">{{ page_title }}</a>
+            <span class="breadcrumbs__link" aria-current="page">{{ page_title }}</span>
           </li>
       {%- endcase -%}
     </ol>
   </nav>
 {%- endunless -%}
-{% comment %}
-
-This file has been rewritten to preserve the original behavior.
-
----
-Changes:
-- from: "{%- when 'collection' and collection.handle -%}"
-  to: "{%- when 'collection' -%}"
-  position: 3791..3816
-{% endcomment %}

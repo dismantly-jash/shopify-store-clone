@@ -52,7 +52,14 @@
     .section-top-bar .top-bar .top-bar__item:not(:last-child){
         border-right:0;
     }
-    .section-top-bar .top-bar .top-bar__item:not(:last-child) {
+    /* Spares Plus (CLI-667): this used to hide every item except the LAST,
+       which dropped the phone number and kept the opening hours. On a phone the
+       tap-to-call number is the one that matters, so keep the first and drop
+       the rest. */
+    .section-top-bar .top-bar .top-bar__item:not(:first-child) {
         display: none;
+    }
+    .section-top-bar .top-bar .top-bar__item:first-child {
+        padding-bottom: 0;
     }
 }

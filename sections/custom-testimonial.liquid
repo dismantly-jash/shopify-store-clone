@@ -39,6 +39,9 @@
     {% endif %}
 {% endstyle %}
 
+{%- comment -%} CLI-643: let the section be hidden until genuine reviews exist,
+    without removing it from the template. {%- endcomment -%}
+{%- unless section.settings.hide_section -%}
 <div class="testimonial-section section-{{ section.id }}-padding section-{{ section.id }}">
   <div
     class="page-width"
@@ -103,10 +106,18 @@
     {% endif %}
   </div>
 </div>
+{%- endunless -%}
 {% schema %}
 {
   "name": "Testimonials",
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "hide_section",
+      "label": "Hide this section",
+      "info": "Hide the reviews carousel until genuine customer reviews are available.",
+      "default": false
+    },
     {
       "type": "inline_richtext",
       "id": "heading",

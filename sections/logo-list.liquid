@@ -94,12 +94,19 @@
     justify-content: center;
     padding: 0 16px;
   }
+  /* Spares Plus (CLI-696): width/height auto let each logo's box collapse to its
+     own aspect ratio, so a square source (Holden 400x400) rendered 40px wide
+     against 67px for the 250x150 ones and the strip looked uneven. object-fit
+     was already set but did nothing, because it only governs how content sits
+     inside a box - it cannot stop the box itself from shrinking. Fixing the box
+     and letting contain letterbox inside it gives every logo the same footprint
+     whatever the source proportions. */
   .logo-list-logo-item img {
     cursor: pointer;
+    width: 100%;
+    height: {{ section.settings.logo_max_height }}px;
     max-width: 100%;
     max-height: {{ section.settings.logo_max_height }}px;
-    height: auto;
-    width: auto;
     object-fit: contain;
   }
   .logo-list-logos .logo-list-logo-item a {

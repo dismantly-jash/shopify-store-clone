@@ -1,0 +1,32 @@
+{% comment %}
+  Spares Plus (CLI-694): honeypot spam trap for the enquiry forms.
+
+  Usage: {% render 'form-honeypot' %} immediately inside a {% form 'contact' %}.
+
+  A field no human can see or tab to. Bots that fill every input give themselves
+  away, and global.js cancels the submit when it has a value.
+
+  Deliberately NOT `display: none` / `hidden` / `type="hidden"`: the better spam
+  bots skip anything hidden that way, and a hidden input is not what they look
+  for. It is positioned off-screen instead, with aria-hidden and tabindex="-1"
+  so assistive technology and keyboard users never reach it.
+
+  This is a deterrent, not a guarantee. Shopify's contact form has no
+  server-side hook, so the check can only run in the browser - a bot posting
+  straight to /contact#ContactForm bypasses it entirely. Real protection would
+  need a CAPTCHA (Shopify's own, under Settings > Customer privacy) or an app.
+{% endcomment %}
+
+<div class="form-honeypot" aria-hidden="true">
+  <label for="ContactFormWebsite-{{ honeypot_id | default: 'default' }}">
+    Leave this field empty
+  </label>
+  <input
+    type="text"
+    id="ContactFormWebsite-{{ honeypot_id | default: 'default' }}"
+    name="contact[Leave this field empty]"
+    value=""
+    tabindex="-1"
+    autocomplete="off"
+  >
+</div>

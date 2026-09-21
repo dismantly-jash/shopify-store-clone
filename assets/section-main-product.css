@@ -2292,3 +2292,17 @@ a.product__text {
   display: block;
   background-color: #f9f9f9;
 }
+
+/* Spares Plus (CLI-695): the end-of-set state needs to be visible, not just
+   present in the DOM. Dawn's `.slider-button[disabled] .icon` rule does not reach
+   these arrows - they are inline SVGs with a hardcoded fill="#302B2B" presentation
+   attribute and no .icon class. CSS `fill` beats a presentation attribute, so the
+   path is recoloured directly. */
+.slider-button[data-name][disabled] {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.slider-button[data-name][disabled] svg path {
+  fill: #9A9A9A;
+}

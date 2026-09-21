@@ -64,7 +64,23 @@
 {%- capture type_url_probe -%}{{ content_for_header }}{%- endcapture -%}
 {%- liquid
   assign type_page_url = type_url_probe | split: '"pageurl":"' | last | split: '"' | first
-  if type_page_url contains 'type=PART' or type_page_url contains 'type=Part' or type_page_url contains 'type=part'
+
+  comment
+    Spares Plus (CLI-652): scope_type is checked FIRST because it is the only
+    signal that survives a sort. Sorting does not reload the page - facets.js
+    re-renders this section over AJAX using the facet form's own inputs, which
+    carry Dawn's `type=product`, not `type=PART`. The tests below then match
+    nothing, get_part_type comes back empty, and the fallback beneath sniffs the
+    first result's metafield - so one vehicle sorting first flips the entire
+    grid to vehicle scope on the Parts page. Reproduced: the re-render returned
+    8 vehicle links and 0 parts. facets.liquid echoes this value back into the
+    forms so the round-trip keeps it.
+  endcomment
+  if type_page_url contains 'scope_type=part'
+    assign get_part_type = 'part'
+  elsif type_page_url contains 'scope_type=vehicle'
+    assign get_part_type = 'vehicle'
+  elsif type_page_url contains 'type=PART' or type_page_url contains 'type=Part' or type_page_url contains 'type=part'
     assign get_part_type = 'part'
   elsif type_page_url contains 'type=VEHICLE' or type_page_url contains 'type=Vehicle' or type_page_url contains 'type=vehicle'
     assign get_part_type = 'vehicle'
@@ -178,27 +194,134 @@
 {% assign class_name = false %}
 {%- comment -%} CLI-552: show the customer's own query, and decide the scope from
   the explicit type filter. The old test matched any URL merely containing
-  "car" or "part", so q=carburettor rendered as "Vehicles". {%- endcomment -%}
-{% assign search_heading = search.terms | default: '*' %}
+  "car" or "part", so q=carburettor rendered as "Vehicles".
+
+  Spares Plus (CLI-660): the type filter used to overwrite search_heading as
+  well, so every search on the Parts page read 'Showing results for "Parts"'
+  no matter what the customer typed. Scope now drives only the body class and
+  the noun in the empty state; the heading echoes search.terms.
+
+  CLI-688: the nav reaches these pages with sentinel queries (q=*, q=PART,
+  q=Vehicles) that are routing values, not customer input. Those count as "no
+  term entered" so they are never printed back at the customer. A customer who
+  genuinely types "parts" is indistinguishable from the nav's own link and gets
+  the scope label instead — the lesser of the two wrong headings.
+
+  search.terms arrives HTML-escaped from Shopify ("<b>" renders as &lt;b&gt;),
+  so it is deliberately not passed through `escape` again. {%- endcomment -%}
+{% assign scope_label = 'Parts' %}
+{% assign scope_noun = 'parts' %}
 {% if page_url contains 'type=PART' or page_url contains 'type=Part' or page_url contains 'type=part' %}
   {% assign class_name = 'template-search-parts' %}
-  {% assign search_heading = 'Parts' %}
 {% elsif page_url contains 'type=VEHICLE' or page_url contains 'type=Vehicle' or page_url contains 'type=vehicle' %}
   {% assign class_name = 'template-search-vehicle' %}
-  {% assign search_heading = 'Vehicles' %}
+  {% assign scope_label = 'Vehicles' %}
+  {% assign scope_noun = 'vehicles' %}
 {% endif %}
 
-{% paginate search.results by 12 %}
+{%- liquid
+  assign search_heading = search.terms | default: '' | strip
+  assign has_search_term = false
+  if search_heading != blank
+    assign has_search_term = true
+    assign term_key = search_heading | downcase
+    assign nav_sentinels = '*|part|parts|vehicle|vehicles|car|cars' | split: '|'
+    for sentinel in nav_sentinels
+      if term_key == sentinel
+        assign has_search_term = false
+        break
+      endif
+    endfor
+  endif
+-%}
+
+{%- comment -%} Spares Plus (CLI-682): the design puts a "Showing [25]" page-size
+  control bottom-left of the results and pagination bottom-right. Pagination was
+  already wired (see the bottom of the grid) but 10 products against a hard-coded
+  page size of 12 meant paginate.pages was always 1, so it could never render -
+  which is why QA found no [class*=pagination] element.
+
+  page_size is read from the URL and validated against a fixed list, never used
+  raw: `paginate ... by` takes whatever it is given, so an unchecked ?page_size=
+  would let anyone ask the server to render the entire catalogue on one page.
+
+  base_query_url is the current URL minus `page` and `page_size`. Both the
+  selector and CLI-681's out-of-range link build on it, so switching page size
+  or going back to page 1 keeps the customer's query, filters and sort. {%- endcomment -%}
+{%- liquid
+  assign url_parts = page_url | split: '?'
+  assign url_path = url_parts[0]
+  assign kept_query = ''
+  assign query_pairs = url_parts[1] | split: '&'
+  for pair in query_pairs
+    assign pair_key = pair | split: '=' | first
+    unless pair_key == 'page' or pair_key == 'page_size'
+      if kept_query == ''
+        assign kept_query = pair
+      else
+        assign kept_query = kept_query | append: '&' | append: pair
+      endif
+    endunless
+  endfor
+  assign base_query_url = url_path
+  assign page_size_join = '?'
+  if kept_query != ''
+    assign base_query_url = url_path | append: '?' | append: kept_query
+    assign page_size_join = '&'
+  endif
+
+  assign page_size_options = '12,25,50,100' | split: ','
+  assign page_size = 25
+  assign size_probe = page_url | split: 'page_size=' | last | split: '&' | first
+  for allowed_size in page_size_options
+    if size_probe == allowed_size
+      assign page_size = allowed_size | plus: 0
+      break
+    endif
+  endfor
+  assign page_size_string = page_size | append: ''
+  comment
+    Shopify rebuilds paginate URLs from the parameters it recognises, so
+    page_size - our own - is dropped from every page link. Without this the
+    customer picks 50, clicks page 2 and is silently back on 25.
+  endcomment
+  assign page_size_param = '&page_size=' | append: page_size_string
+-%}
+{% paginate search.results by page_size %}
+  {%- comment -%} Spares Plus (CLI-681): ?page=99 renders no items, but
+    search.results.size == 0 is also how "your filters matched nothing" looks,
+    so the page showed the filter empty state and told customers to use fewer
+    filters when pagination, not filtering, was the cause. The counter kept
+    reporting the full result set at the same time, so the page contradicted
+    itself. Distinguish the two by the page number and handle them separately
+    below. {%- endcomment -%}
+  {%- liquid
+    assign page_out_of_range = false
+    if search.results.size == 0 and paginate.current_page > 1
+      assign page_out_of_range = true
+      comment
+        base_query_url is the current URL minus page/page_size, built above.
+        Using the theme's search_url here instead would silently drop the
+        customer's filters on the way back to page 1 - they would land on an
+        unfiltered list and think the link had reset their search.
+      endcomment
+      assign first_page_url = base_query_url
+    endif
+  -%}
   <div class="template-search {{ class_name }} {% unless search.performed and search.results_count > 0 %} template-search--empty{% endunless %} section-{{ section.id }} section-{{ section.id }}-padding">
     <div class="banner-content">
       <div class="content">
         <div class="content_inner">
           <div class="main-heading center">
+            {%- comment -%} Spares Plus (CLI-680): /search had no <h1> at all. This
+              hero title is the page's real subject, so it takes the h1 - same change
+              the homepage banner needed. `h2` stays in the class list so the visual
+              size is unchanged; only the element and its outline weight differ. {%- endcomment -%}
             {% if get_part_type == 'part' %}
-              <h2 class="h2 ">{{ 'templates.search.search_parts' | t }}</h2>
+              <h1 class="h2 ">{{ 'templates.search.search_parts' | t }}</h1>
             {% endif %}
             {% if get_part_type == 'vehicle' %}
-              <h2 class="h2 ">{{ 'templates.search.search_vehicle' | t }}</h2>
+              <h1 class="h2 ">{{ 'templates.search.search_vehicle' | t }}</h1>
             {% endif %}
           </div>
 
@@ -219,7 +342,9 @@
                 enable_sorting: section.settings.enable_sorting,
                 filter_type: section.settings.filter_type,
                 paginate: paginate,
-                active_value_only: false
+                active_value_only: false,
+                show_search_cta: true,
+                scope_type: get_part_type
               %}
             </aside>
           {%- endif -%}
@@ -227,7 +352,24 @@
       </div>
     </div>
 
-    {% if search.results_count == 0 %}
+    {%- comment -%} Spares Plus (CLI-681, second pass): whether an out-of-range page
+      lands here or in the grid below depends purely on the catalogue size, because
+      Shopify reports results_count as 0 once the page number runs past the end of a
+      small result set. The grid branch was handled; this one was not, so ?page=99
+      told customers "No parts found - we couldn't find any matching parts in our
+      catalog" when the catalogue was fine and only the page number was wrong. Same
+      message, both routes. {%- endcomment -%}
+    {% if search.results_count == 0 and page_out_of_range %}
+      <div class="empty-search-wrapper page-width">
+        <div class="empty-text-wrapper rte">
+          <h3>There is no page {{ paginate.current_page }} of these results.</h3>
+          <p>The page number is past the end of this list.</p>
+        </div>
+        <div class="custom-request-part-btn custom-offer-btn">
+          <a class="request_parts" href="{{ first_page_url }}">Back to the first page</a>
+        </div>
+      </div>
+    {% elsif search.results_count == 0 %}
       <div class="empty-search-wrapper page-width">
         <div>
           <svg width="108" height="109" viewBox="0 0 108 109" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -237,12 +379,102 @@
             <path d="M72.0004 72.5004L63.4004 63.9004" stroke="#717182" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
-        <div class="empty-text-wrapper rte">
-          <h3>No results for "{{ search_heading }}"</h3>
-          <p>We couldn't find any matching parts in our catalog.</p>
-          <div class="subheading">
-            It might still be available. Submit a part request and our team will find it for you.
+        {%- comment -%} Spares Plus (CLI-653): the whole facets block below is
+          wrapped in `unless search.results_count == 0`, so a customer who
+          filtered their way to nothing saw no filters and no way back. These
+          chips restate what is applied and let them drop one at a time or all
+          at once.
+
+          Deliberately NOT wrapped in <facet-remove>, unlike the sidebar chips:
+          that element's click handler calls preventDefault() and then
+          `document.querySelector('facet-filters-form').onActiveFilterClick()`.
+          There is no facet-filters-form on this page, so it would throw and the
+          link would do nothing at all. Plain links do a normal navigation,
+          which is what we want here anyway.
+
+          Values are title-cased the same way as the facet list (CLI-688) so a
+          chip reads "Type: Part", not "Type: PART". {%- endcomment -%}
+        {%- liquid
+          assign active_filter_count = 0
+          for search_filter in search.filters
+            assign active_filter_count = active_filter_count | plus: search_filter.active_values.size
+          endfor
+        -%}
+        {%- if active_filter_count > 0 -%}
+          {%- comment -%} Built with `assign`, not `capture`: a captured URL picks
+            up the template's own newlines and indentation, and `strip` only
+            trims the ends, so the href ends up with a literal newline inside
+            it. {%- endcomment -%}
+          {%- liquid
+            assign encoded_terms = search.terms | url_encode
+            assign clear_filters_url = routes.search_url | append: '?q=' | append: encoded_terms
+            if class_name == 'template-search-vehicle'
+              assign clear_filters_url = clear_filters_url | append: '&type=VEHICLE'
+            elsif class_name == 'template-search-parts'
+              assign clear_filters_url = clear_filters_url | append: '&type=PART'
+            endif
+          -%}
+          <div class="active-facets active-facets--empty-state">
+            {%- for search_filter in search.filters -%}
+              {%- for value in search_filter.active_values -%}
+                {%- liquid
+                  assign chip_value = value.label
+                  if chip_value == 'PART'
+                    assign chip_value = 'Part'
+                  elsif chip_value == 'VEHICLE'
+                    assign chip_value = 'Vehicle'
+                  endif
+                -%}
+                <a href="{{ value.url_to_remove }}" class="active-facets__button active-facets__button--light">
+                  <span class="active-facets__button-inner button button--tertiary">
+                    {{ search_filter.label | escape }}: {{ chip_value | escape }}
+                    <span class="svg-wrapper">
+                      {{- 'icon-close-small.svg' | inline_asset_content -}}
+                    </span>
+                    <span class="visually-hidden">{{ 'products.facets.clear_filter' | t }}</span>
+                  </span>
+                </a>
+              {%- endfor -%}
+            {%- endfor -%}
+            <a href="{{ clear_filters_url }}" class="active-facets__button-remove underlined-link">
+              <span>{{ 'products.facets.clear_all' | t }}</span>
+            </a>
           </div>
+        {%- endif -%}
+        <div class="empty-text-wrapper rte">
+          <h3>
+            {%- if has_search_term -%}
+              No results for "{{ search_heading }}"
+            {%- else -%}
+              No {{ scope_noun }} found
+            {%- endif -%}
+          </h3>
+          <p>We couldn't find any matching {{ scope_noun }} in our catalog.</p>
+          <div class="subheading">
+            {%- if class_name == 'template-search-vehicle' -%}
+              Looking for a part from one of these? Submit a part request and our team will find it for you.
+            {%- else -%}
+              It might still be available. Submit a part request and our team will find it for you.
+            {%- endif -%}
+          </div>
+        </div>
+        {%- comment -%} Spares Plus (CLI-664): the copy above told customers to
+          submit a part request and then gave them nothing to click, so every
+          failed search was a dead end. The opener is all that was missing —
+          `component-search.css` already styles
+          `.empty-search-wrapper .custom-request-part-btn .request_parts`, and
+          global.js's `.custom-offer-btn a` handler already names
+          `.empty-search-wrapper` as a parent to search up from. It finds the
+          modal via `.siblings('.product-detail__popup')`, so this button has to
+          sit inside .empty-search-wrapper and blank-request-form has to stay its
+          sibling — don't nest one inside the other.
+
+          The label says "Request Part" on both pages, including Vehicles: the
+          form's Part Type field is required, so it cannot serve as a vehicle
+          request. Hence the Vehicles copy above asks about parts rather than
+          promising a vehicle request that has nowhere to go. {%- endcomment -%}
+        <div class="custom-request-part-btn custom-offer-btn">
+          <a href="javascript:void(0)" class="request_parts">Request Part</a>
         </div>
       </div>
       {% render 'blank-request-form' %}
@@ -258,13 +490,19 @@
             id="main-search-filters"
             data-id="{{ section.id }}"
           >
+            {%- comment -%} CLI-652: this second render is the mobile/drawer facets.
+              On mobile facets.js rebuilds the request from ONLY
+              #FacetFiltersFormMobile, so scope_type has to be in this one too, not
+              just the hero's. A Liquid comment cannot live inside a render tag's
+              argument list - that is a syntax error that 500s every route. {%- endcomment -%}
             {% render 'facets',
               results: search,
               enable_filtering: section.settings.enable_filtering,
               enable_sorting: section.settings.enable_sorting,
               filter_type: section.settings.filter_type,
               paginate: paginate,
-              active_value_only: true
+              active_value_only: true,
+              scope_type: get_part_type
             %}
           </aside>
         {%- endif -%}
@@ -292,7 +530,13 @@
           <form class="facets-vertical-form" id="FacetSortForm">
             <div class="facet-filters-product-count-wrapper">
               <div class="facet-filters-product__label">
-                <span class="label">Showing results for "{{ search_heading }}"</span>
+                <span class="label">
+                  {%- if has_search_term -%}
+                    Showing results for "{{ search_heading }}"
+                  {%- else -%}
+                    Showing all {{ scope_label }}
+                  {%- endif -%}
+                </span>
                 {% comment %}
                   {% if search.terms != 'PARTS' and search.terms != 'Parts' and search.terms != 'parts' %}
                   {% else %}
@@ -303,7 +547,9 @@
               <div class="product-count-vertical light" role="status">
                 <h2 class="product-count__text text-body">
                   <span id="ProductCountDesktop">
-                    {%- if search.results_count -%}
+                    {%- if page_out_of_range -%}
+                      Page {{ paginate.current_page }} is past the end of these results
+                    {%- elsif search.results_count -%}
                       Showing
                       {{ 'templates.search.results_with_count' | t: terms: search.terms, count: search.results_count }}
                     {%- elsif search.products_count == search.all_products_count -%}
@@ -371,7 +617,22 @@
         {% endif %}
       >
         <div class="product-grid-container" id="ProductGridContainer">
-          {%- if search.results.size == 0 and search.filters != empty -%}
+          {%- if page_out_of_range -%}
+            <div
+              class="template-search__results collection collection--empty{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
+              id="product-grid"
+              data-id="{{ section.id }}"
+            >
+              <div class="loading-overlay gradient"></div>
+              <div class="title-wrapper center">
+                <h2 class="title title--primary">
+                  There is no page {{ paginate.current_page }} of these results.
+                  <br>
+                  <a class="underlined-link link" href="{{ first_page_url }}">Back to the first page</a>
+                </h2>
+              </div>
+            </div>
+          {%- elsif search.results.size == 0 and search.filters != empty -%}
             <div
               class="template-search__results collection collection--empty{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
               id="product-grid"
@@ -451,9 +712,28 @@
                   {%- endcase -%}
                 {%- endfor -%}
               </ul>
-              {%- if paginate.pages > 1 -%}
-              {%- endif -%}
-              {% render 'pagination', paginate: paginate %}
+              <div class="search-results-footer">
+                <div class="search-results-footer__page-size">
+                  <label for="ResultsPerPage">Showing</label>
+                  <select id="ResultsPerPage" class="search-results-footer__select">
+                    {%- for allowed_size in page_size_options -%}
+                      <option
+                        value="{{ base_query_url }}{{ page_size_join }}page_size={{ allowed_size }}"
+                        {% if allowed_size == page_size_string %}selected{% endif %}
+                      >
+                        {{ allowed_size }}
+                      </option>
+                    {%- endfor -%}
+                  </select>
+                  <span>per page</span>
+                </div>
+                {% render 'pagination', paginate: paginate, extra_params: page_size_param %}
+              </div>
+              <script>
+                document.getElementById('ResultsPerPage')?.addEventListener('change', function () {
+                  if (this.value) window.location.href = this.value;
+                });
+              </script>
             </div>
           {%- endif -%}
         </div>

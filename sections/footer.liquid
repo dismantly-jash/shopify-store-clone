@@ -168,6 +168,8 @@
                     </div>
                   {%- when 'image' -%}
                     <div class="footer-block__details-content footer-block-image {{ block.settings.alignment }}">
+                      {%- comment -%} CLI-646: the footer logo is expected to go home, same as the header's. {%- endcomment -%}
+                      <a href="{{ routes.root_url }}" class="footer-block__logo-link">
                       {%- if block.settings.image != blank -%}
                         {%- assign image_size_2x = block.settings.image_width | times: 2 | at_most: 5760 -%}
                         <div
@@ -196,6 +198,7 @@
                           >
                         </div>
                       {%- endif -%}
+                      </a>
                       <div class="powered-by__image extra-small-hide">
                         {%- if block.settings.powered_by_image != blank -%}
                           {%- assign p_image_size_2x = block.settings.powered_by_image_width | times: 2 | at_most: 5760 -%}
@@ -313,7 +316,7 @@
                       type="submit"
                       class="newsletter-form__button field__button"
                       name="commit"
-                      id="Subscribe"
+                      id="FooterNewsletterSubmit-{{ section.id }}"
                       aria-label="{{ 'newsletter.button_label' | t }}"
                     >
                       <span class="svg-wrapper">

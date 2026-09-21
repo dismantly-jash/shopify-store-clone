@@ -1,13 +1,24 @@
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
 <script>
-  /* CLI-561: the Storefront API returns amounts as bare strings ("10.0"), and
-     these cards printed them verbatim, so Similar Parts showed $10.0 while the
-     main product price on the same page showed $10.00. */
   function formatMoney(amount) {
     const n = Number(amount);
     return Number.isFinite(n) ? n.toFixed(2) : amount;
   }
+
+  /* CLI-665: zero results used to hide the whole section, so the cross-sell
+     vanished with no explanation. Reveal a message instead. Defined on window
+     because the callers live in later <script> blocks in this section. */
+  window.showSimilarPartsEmpty = function (sectionElement) {
+    if (!sectionElement) return;
+    sectionElement.style.display = "block";
+    const grid = sectionElement.querySelector("ul.product-grid");
+    if (grid) grid.style.display = "none";
+    const slider = sectionElement.querySelector("slider-component");
+    if (slider) slider.style.display = "none";
+    const empty = sectionElement.querySelector("[data-similar-empty]");
+    if (empty) empty.hidden = false;
+  };
 </script>
 
 {{ 'component-slider.css' | asset_url | stylesheet_tag }}
@@ -202,6 +213,18 @@
           {%- endif %}
         </div>
       {%- endif -%}
+    </div>
+
+    {%- comment -%} CLI-665: zero results used to hide the whole section, so the
+      cross-sell simply vanished with no explanation. Show this instead. {%- endcomment -%}
+    <div class="similar-parts-empty page-width center" data-similar-empty hidden>
+      <p>
+        {%- if product.metafields.custom.type == 'VEHICLE' -%}
+          No parts are listed for this vehicle yet.
+        {%- else -%}
+          We don't have similar parts listed right now.
+        {%- endif -%}
+      </p>
     </div>
 
     <slider-component class="slider-mobile-gutter{% if section.settings.full_width %} slider-component-full-width{% endif %}{% if show_mobile_slider == false %} page-width{% endif %}{% if show_desktop_slider == false and section.settings.full_width == false %} page-width-desktop{% endif %}{% if show_desktop_slider %} slider-component-desktop{% endif %}{% if settings.animations_reveal_on_scroll %} {% endif %}">
@@ -420,7 +443,7 @@
           document.querySelector(".product .product-form__buttons .custom-search-btn").style.display = "block";
         }
       }else {
-        sectionElement.style.display = "none";
+        window.showSimilarPartsEmpty(sectionElement);
       }
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -640,7 +663,7 @@ function redirectCheckout(id, quantity = 1) {
       const stockId = String(currentMeta.stock_id || "").trim();
       if (!stockId) {
         if (loader) loader.remove();
-        sectionElement.style.display = "none";
+        window.showSimilarPartsEmpty(sectionElement);
         updatePartSearchCache();
         return;
       }
@@ -657,7 +680,7 @@ function redirectCheckout(id, quantity = 1) {
         } else {
           updatePartSearchCache();
           if (totalCount === 0) {
-            sectionElement.style.display = "none";
+            window.showSimilarPartsEmpty(sectionElement);
           } else {
             if (loader) loader.remove();
             sectionElement.style.display = "block";

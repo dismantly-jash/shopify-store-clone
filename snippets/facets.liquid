@@ -7,6 +7,13 @@
   - enable_sorting: {Boolean} Show sorting when true
   - filter_type: {String} Type of filter
   - paginate: {Object}
+  - show_search_cta: {Boolean} (optional) Render the design's red "Find My Part" /
+      "Find My Vehicle" submit button after the last dropdown. Opt-in because
+      collection pages render this same snippet and must not get a parts CTA.
+  - scope_type: {String} (optional) 'part' or 'vehicle'. Echoed back as a hidden
+      input so the scope survives the AJAX re-render that sorting triggers - the
+      form otherwise carries only Dawn's type=product and the section loses track
+      of which list it is (CLI-652).
 
   Usage:
   {% render 'facets', results: collection, enable_filtering: true, enable_sorting: true, filter_type: 'vertical', paginate: paginate %}
@@ -17,8 +24,10 @@
 {%- liquid
   assign facets_page_url = facets_url_probe | split: '"pageurl":"' | last | split: '"' | first
   assign facets_hide_price_sort = false
+  assign facets_search_cta = 'Find My Part'
   if facets_page_url contains 'type=VEHICLE' or facets_page_url contains 'type=vehicle'
     assign facets_hide_price_sort = true
+    assign facets_search_cta = 'Find My Vehicle'
   endif
 -%}
 
@@ -56,6 +65,12 @@
           <input name="options[prefix]" type="hidden" value="last">
         {%- endif -%}
         <input type="hidden" name="type" value="product">
+        {%- comment -%} CLI-652: keeps the Parts/Vehicles scope across a sort. facets.js
+          rebuilds the request from this form's inputs, so anything not in here is lost.
+        {%- endcomment -%}
+        {%- if scope_type != blank -%}
+          <input type="hidden" name="scope_type" value="{{ scope_type }}">
+        {%- endif -%}
 
         {% if enable_filtering %}
           {% unless active_value_only %}
@@ -244,6 +259,21 @@
                                 if value.count == 0 and value.active == false
                                   assign is_disabled = true
                                 endif
+
+                                # Spares Plus (CLI-688): custom.type is an
+                                # internal routing enum, so the Type facet was
+                                # offering customers "PART" and "VEHICLE" in
+                                # raw caps. Only these two exact values are
+                                # rewritten - a blanket `capitalize` would turn
+                                # make names like BMW into "Bmw". The active
+                                # filter chips already skip them (lines 411,
+                                # 424, 898); this is the list they were missed in.
+                                assign value_display = value.label
+                                if value_display == 'PART'
+                                  assign value_display = 'Part'
+                                elsif value_display == 'VEHICLE'
+                                  assign value_display = 'Vehicle'
+                                endif
                               %}
                               {%- capture label_class -%}
                               facets__label facet-checkbox{% if is_disabled %} disabled{% endif %}{% if value.active %} active{% endif %}
@@ -251,10 +281,10 @@
   
                               {%- capture text_value -%}
                                 <span class="facet-checkbox__text" aria-hidden="true">
-                                  <span class="facet-checkbox__text-label">{{- value.label | escape }}</span> ({{- value.count -}})
+                                  <span class="facet-checkbox__text-label">{{- value_display | escape }}</span> ({{- value.count -}})
                                 </span>
                                 <span class="visually-hidden">
-                                  {{- value.label | escape }} (
+                                  {{- value_display | escape }} (
                                   {%- if value.count == 1 -%}
                                     {{- 'products.facets.product_count_simple.one' | t: count: value.count -}}
                                   {%- else -%}
@@ -467,6 +497,28 @@
           <input type="hidden" name="q" value="{{ results.current_vendor }}{{ results.current_type }}">
         {% endif %}
 
+        {%- comment -%} Spares Plus (CLI-666): the design's red submit button, which
+          had never been built - "Find My Part" appeared nowhere in the theme.
+
+          A plain type="submit" is deliberate. facets.js binds only `input` (debounced
+          800ms) and never `submit`, so this falls through to a native GET on the
+          form. The form's named inputs are exactly q, options[prefix], type and the
+          checked facet checkboxes, so the browser builds the same filter URL the
+          AJAX path would - it just does a full navigation instead. That keeps the
+          button working with JS disabled and makes it deterministic rather than
+          racing the 800ms debounce.
+
+          Rendered only when the caller opts in: main-collection-product-grid.liquid
+          renders this same snippet and must not sprout a "Find My Part" button.
+        {%- endcomment -%}
+        {%- if show_search_cta -%}
+          <div class="facets__search-cta">
+            <button type="submit" class="facets__search-cta-button button">
+              {{ facets_search_cta }}
+            </button>
+          </div>
+        {%- endif -%}
+
         {% comment %}
         {%- if filter_type == 'horizontal' -%}
           {% comment %} Sorting and product count are the last elements when filter type is horizontal {% endcomment %}
@@ -560,6 +612,13 @@
       </summary>
       <facet-filters-form>
         <form id="FacetFiltersFormMobile" class="mobile-facets">
+          {%- comment -%} CLI-652: keeps the Parts/Vehicles scope across a sort. facets.js
+            rebuilds the request from this form's inputs, so anything not in here is lost.
+          {%- endcomment -%}
+          {%- if scope_type != blank -%}
+            <input type="hidden" name="scope_type" value="{{ scope_type }}">
+          {%- endif -%}
+
           <div class="mobile-facets__inner gradient">
             <div class="mobile-facets__header">
               <div class="mobile-facets__header-inner">
@@ -660,6 +719,21 @@
                                 if value.count == 0 and value.active == false
                                   assign is_disabled = true
                                 endif
+
+                                # Spares Plus (CLI-688): custom.type is an
+                                # internal routing enum, so the Type facet was
+                                # offering customers "PART" and "VEHICLE" in
+                                # raw caps. Only these two exact values are
+                                # rewritten - a blanket `capitalize` would turn
+                                # make names like BMW into "Bmw". The active
+                                # filter chips already skip them (lines 411,
+                                # 424, 898); this is the list they were missed in.
+                                assign value_display = value.label
+                                if value_display == 'PART'
+                                  assign value_display = 'Part'
+                                elsif value_display == 'VEHICLE'
+                                  assign value_display = 'Vehicle'
+                                endif
                               %}
 
                               {%- capture label_class -%}
@@ -668,10 +742,10 @@
 
                               {%- capture text_value -%}
                                 <span class="facet-checkbox__text" aria-hidden="true">
-                                  <span class="facet-checkbox__text-label">{{- value.label | escape }}</span> ({{- value.count -}})
+                                  <span class="facet-checkbox__text-label">{{- value_display | escape }}</span> ({{- value.count -}})
                                 </span>
                                 <span class="visually-hidden">
-                                  {{- value.label | escape }} (
+                                  {{- value_display | escape }} (
                                   {%- if value.count == '1' -%}
                                     {{- 'products.facets.product_count_simple.one' | t: count: value.count -}}
                                   {%- else -%}

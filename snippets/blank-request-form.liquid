@@ -7,7 +7,7 @@
                 <h2
                   class="section-main-title inline-richtext h2"
                 >
-                  Request  Part
+                  Request Part
                 </h2>
           </div>
           <div class="popup-close">
@@ -21,8 +21,24 @@
       <div class="product-popup-content">
         <div class="product-popup-form">
           {% form 'contact', class: 'product-form' %}
+          {% render 'form-honeypot', honeypot_id: 'part-request' %}
             {%- unless form.posted_successfully? -%}
-            <input type="hidden" name="contact[tags]" value="Product Detail">
+            <input type="hidden" name="contact[tags]" value="Part Request">
+            {%- liquid
+              assign request_stock_ref = product.metafields.custom.tag_id.value
+              if request_stock_ref == blank
+                assign request_stock_ref = product.metafields.custom.stock_id.value
+              endif
+              comment
+                CLI-677: the product page labels this data "Year Range" on a part and
+                "Year" on a vehicle, so the form followed neither. Match whichever page
+                the form was opened from.
+              endcomment
+              assign request_year_label = 'Year'
+              if product.metafields.custom.type == 'PART'
+                assign request_year_label = 'Year Range'
+              endif
+            -%}
             <div class="product-form__field-wrapper">
               <input type="hidden" name="contact[Product Name]" value="{{ product.title | escape }}">
               <div class="field one-half">
@@ -32,6 +48,7 @@
                   type="text"
                   id="productForm--custom-request-name"
                   name="contact[Name]"
+                  maxlength="100"
                   value=""
                   placeholder="Name"
                   required=""
@@ -43,6 +60,7 @@
                   id="productForm--custom-request-email"
                   type="email"
                   name="contact[email]"
+                  maxlength="254"
                   class="field__input"
                   value=""
                   aria-required="true"
@@ -85,6 +103,7 @@
                     autocomplete="tel"
                     inputmode="numeric"
                     name="contact[Phone number]"
+                    maxlength="20"
                     pattern="[0-9]*"
                     value=""
                     placeholder="5550000000"
@@ -94,6 +113,12 @@
               </div>
             </div>
             <div class="product-form__field-wrapper product-part__field-wrapper">
+              {%- comment -%} CLI-677: these are readonly, so a blank one is a field the
+                customer can look at and never fill - dead space that also reaches the
+                enquiry email as an empty row. The ticket asked for this on VIN; the same
+                reasoning applies to every prefilled field, so they all drop out when their
+                source metafield is empty. {%- endcomment -%}
+              {%- if request_stock_ref != blank -%}
               <div class="field one-half">
                 <label class="field__label" for="ProductForm-custom-request-stock"> Stock # </label>
                 <input
@@ -101,25 +126,36 @@
                   id="ProductForm-custom-request-stock"
                   class="field__input"
                   name="contact[Stock #]"
-                  value="{{ product.metafields.custom.stock_id.value | escape }}"
+                  maxlength="40"
+                  {%- comment -%} CLI-677: was custom.stock_id, which is empty on parts.
+                    The Details table on the same page reads custom.tag_id (main-product
+                    block table_details_description_1), which is where the Tag # the
+                    customer can see actually lives. stock_id kept as a fallback because
+                    other surfaces (buy-buttons, stock-parts-data) still read it. {%- endcomment -%}
+                  value="{{ request_stock_ref | escape }}"
                   placeholder="Stock #"
                   readonly
                 >
               </div>
+              {%- endif -%}
 
+              {%- if product.metafields.custom.year.value != blank -%}
               <div class="field one-half">
-                <label class="field__label" for="ProductForm-custom-request-year"> Year </label>
+                <label class="field__label" for="ProductForm-custom-request-year"> {{ request_year_label }} </label>
                 <input
                   type="text"
                   id="ProductForm-custom-request-year"
                   class="field__input"
                   name="contact[Year]"
+                  maxlength="4"
                   value="{{ product.metafields.custom.year.value | escape }}"
                   placeholder="Year"
                   readonly
                 >
               </div>
+              {%- endif -%}
 
+              {%- if product.metafields.custom.make.value != blank -%}
               <div class="field one-half">
                 <label class="field__label" for="ProductForm-custom-request-make"> Make </label>
                 <input
@@ -127,12 +163,15 @@
                   id="ProductForm-custom-request-make"
                   class="field__input"
                   name="contact[Make]"
+                  maxlength="60"
                   value="{{ product.metafields.custom.make.value | escape }}"
                   placeholder="Make"
                   readonly
                 >
               </div>
+              {%- endif -%}
 
+              {%- if product.metafields.custom.model.value != blank -%}
               <div class="field one-half">
                 <label class="field__label" for="ProductForm-custom-request-model"> Model </label>
                 <input
@@ -140,12 +179,15 @@
                   id="ProductForm-custom-request-model"
                   class="field__input"
                   name="contact[Model]"
+                  maxlength="60"
                   value="{{ product.metafields.custom.model.value | escape }}"
                   placeholder="Model"
                   readonly
                 >
               </div>
+              {%- endif -%}
 
+              {%- if product.metafields.custom.series.value != blank -%}
               <div class="field one-half">
                 <label class="field__label" for="ProductForm-custom-request-series"> Series </label>
                 <input
@@ -153,12 +195,15 @@
                   id="ProductForm-custom-request-series"
                   class="field__input"
                   name="contact[Series]"
+                  maxlength="60"
                   value="{{ product.metafields.custom.series.value | escape }}"
                   placeholder="Series"
                   readonly
                 >
               </div>
+              {%- endif -%}
 
+              {%- if product.metafields.custom.vin.value != blank -%}
               <div class="field one-half">
                 <label class="field__label" for="ProductForm-custom-request-vin"> VIN </label>
                 <input
@@ -166,11 +211,13 @@
                   id="ProductForm-custom-request-vin"
                   class="field__input"
                   name="contact[VIN]"
+                  maxlength="17"
                   value="{{ product.metafields.custom.vin.value | escape }}"
                   placeholder="VIN"
                   readonly
                 >
               </div>
+              {%- endif -%}
             </div>
             <div class="">
               <label class="field__label" for="ProductForm-custom-request-part-type"> Part Type<span>*</span> </label>
@@ -179,6 +226,7 @@
                 id="ProductForm-custom-request-part-type"
                 class="custom_field__input"
                 name="contact[Part Type]"
+                maxlength="60"
                 value="{{ product.metafields.custom.part_type.value | escape }}"
                 placeholder="Part Type"
                 required
@@ -189,8 +237,8 @@
                 type="submit"
                 class="product-form__button button button--primary"
                 name="commit"
-                id="Subscribe"
-                aria-label="Subscribe"
+                id="PartRequestSubmit-{{ product.id }}"
+                aria-label="Submit part request"
               >
                 Submit Part Request
               </button>

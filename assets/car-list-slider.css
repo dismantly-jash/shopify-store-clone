@@ -16,7 +16,11 @@
 }
 .product-card-list__slider .card_media {
   position: relative;
-  padding-bottom: 70%;
+  /* Spares Plus (CLI-655): was 70% (1.43:1) while product cards use a 4:3 band,
+     so vehicle photos — which are mostly 4:3 — got cropped top and bottom to
+     fill a wider box. Match the product-card ratio so both grids frame
+     identically and a 4:3 source crops not at all. */
+  padding-bottom: 75%;
 }
 .product-card-list__slider .card_media .media {
   position: absolute;
@@ -225,4 +229,31 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* Spares Plus (CLI-649): the whole Currently Dismantling card is a link, not just
+   the image and title. Same stretched-link pattern as CLI-508 on product cards. */
+.car_detail {
+  position: relative;
+}
+.car_detail .main_product_title a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* Spares Plus (CLI-684): shown in place of the slider when nothing is being
+   dismantled, so the section reads as "no stock right now" rather than as a
+   broken band between a heading and a View All button. */
+.car-list-slider__empty {
+  text-align: center;
+  padding: 32px 20px 8px;
+}
+.car-list-slider__empty p {
+  margin: 0 auto;
+  max-width: 62ch;
+  color: #414651;
+  font-size: 16px;
+  line-height: 1.5;
 }

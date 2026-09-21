@@ -39,23 +39,57 @@
       </div>
     {% endif %}
 
+    {%- comment -%} CLI-492 / Spares Plus (CLI-684): resolve the vehicle source and
+        whether anything will render BEFORE any markup that depends on it. This block
+        used to sit inside .swiper-wrapper, below the empty-state test - Liquid
+        evaluates top to bottom, so has_vehicles read as nil there and the empty
+        message showed over a fully populated slider. {%- endcomment -%}
+    {% assign collection = section.settings.collection %}
+    {%- liquid
+      assign fallback_vehicles_exist = false
+      if collection == blank or collection.products_count == 0
+        for product in collections.all.products
+          if product.metafields.custom.type == 'VEHICLE'
+            assign fallback_vehicles_exist = true
+            break
+          endif
+        endfor
+      endif
+
+      comment
+        Three sources feed the slider: a configured collection, the
+        VEHICLE-metafield fallback, and manually picked section blocks. When all
+        three come up empty the wrapper rendered with no children, so the section
+        was a heading, a blank band and a View All button - a customer could not
+        tell whether the site was broken or the yard simply had nothing in it.
+      endcomment
+      assign has_vehicles = false
+      if collection and collection.products_count > 0
+        assign has_vehicles = true
+      elsif fallback_vehicles_exist
+        assign has_vehicles = true
+      else
+        for block in section.blocks
+          if block.settings.product != blank
+            assign has_vehicles = true
+            break
+          endif
+        endfor
+      endif
+    -%}
+
+    {%- unless has_vehicles -%}
+      <div class="car-list-slider__empty">
+        <p>{{ section.settings.empty_message | default: 'No vehicles are being dismantled right now. Check back soon, or submit a part request and our team will source it for you.' }}</p>
+      </div>
+    {%- endunless -%}
+
+    {%- comment -%} Skipped entirely rather than hidden: Swiper's stylesheet sets
+        display on .swiper, which beats the [hidden] attribute, so the collapsed
+        slider still occupied its full height under the empty message. {%- endcomment -%}
+    {%- if has_vehicles -%}
     <div class="car_detail_list swiper">
       <div class="swiper-wrapper">
-        {% assign collection = section.settings.collection %}
-
-        {%- comment -%} CLI-492: when no collection is configured (or it is empty),
-            fall back to all products typed VEHICLE so the section never renders bare {%- endcomment -%}
-        {%- liquid
-          assign fallback_vehicles_exist = false
-          if collection == blank or collection.products_count == 0
-            for product in collections.all.products
-              if product.metafields.custom.type == 'VEHICLE'
-                assign fallback_vehicles_exist = true
-                break
-              endif
-            endfor
-          endif
-        -%}
 
         {% if collection and collection.products_count > 0 %}
           {%- comment -%} Each slide is a column of 2. Pair them row-major (item c on top,
@@ -179,6 +213,7 @@
       <div class="car-slider-prev swiper-button-prev">
       {{ 'icon-prev.svg' | inline_asset_content }}
     </div>
+    {%- endif -%}
 
     {% if section.settings.btn_label != blank or section.settings.btn_link != blank %}
       <div class="center collection__view-all">
@@ -198,6 +233,12 @@
   "tag": "section",
   "class": "car_list_slider",
   "settings": [
+    {
+      "type": "text",
+      "id": "empty_message",
+      "label": "Empty state message",
+      "info": "Shown instead of the slider when no vehicles are being dismantled (CLI-684)."
+    },
     {
       "type": "inline_richtext",
       "id": "title",

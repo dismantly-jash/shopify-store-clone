@@ -9,6 +9,11 @@
   Accepts:
   - paginate: {Object}
   - anchor: {String} (optional) This can be added so that on page reload it takes you to wherever you've placed your anchor tag.
+  - extra_params: {String} (optional) Query pairs to carry onto every page link,
+      e.g. '&page_size=50'. Shopify builds part.url from the parameters it knows
+      about, so any custom one is silently dropped when you turn the page — the
+      Parts search uses this so a chosen page size survives paging (CLI-682).
+      Must start with '&'; paginate URLs always already have a query string.
 {% endcomment %}
 
 {{ 'component-pagination.css' | asset_url | stylesheet_tag }}
@@ -20,7 +25,7 @@
         {%- if paginate.previous -%}
           <li>
             <a
-              href="{{ paginate.previous.url }}{{ anchor }}"
+              href="{{ paginate.previous.url }}{{ extra_params }}{{ anchor }}"
               class="pagination__item pagination__item--next pagination__item-arrow link motion-reduce"
               aria-label="{{ 'general.pagination.previous' | t }}"
             >
@@ -35,7 +40,7 @@
           <li>
             {%- if part.is_link -%}
               <a
-                href="{{ part.url }}{{ anchor }}"
+                href="{{ part.url }}{{ extra_params }}{{ anchor }}"
                 class="pagination__item link"
                 aria-label="{{ 'general.pagination.page' | t: number: part.title }}"
               >
@@ -62,7 +67,7 @@
         {%- if paginate.next -%}
           <li>
             <a
-              href="{{ paginate.next.url }}{{ anchor }}"
+              href="{{ paginate.next.url }}{{ extra_params }}{{ anchor }}"
               class="pagination__item pagination__item--prev pagination__item-arrow link motion-reduce"
               aria-label="{{ 'general.pagination.next' | t }}"
             >

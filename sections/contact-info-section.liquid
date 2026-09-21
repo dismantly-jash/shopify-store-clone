@@ -113,10 +113,44 @@
         {% endif %}
 
         <!-- Social -->
-        <div class="social-links">
-          <p class="follow-us">{{ section.settings.follow_label }}</p>
-          {% render 'social-icons' %}
-        </div>
+        {%- comment -%} Spares Plus (CLI-668): the heading rendered unconditionally while
+          social-icons emitted an empty <ul>, so the page showed "FOLLOW US" with blank
+          space under it - which reads as broken rather than as "no socials yet". The
+          ticket allows hiding the heading until links exist, so the whole block is
+          gated on at least one link being set.
+
+          Same nine networks social-icons itself checks, in the same order, so the two
+          can't disagree - if the snippet would render nothing, this renders nothing.
+          Set any social_*_link in theme settings and the heading and icons both
+          reappear with no code change. {%- endcomment -%}
+        {%- liquid
+          assign contact_has_social = false
+          if settings.social_twitter_link != blank
+            assign contact_has_social = true
+          elsif settings.social_facebook_link != blank
+            assign contact_has_social = true
+          elsif settings.social_instagram_link != blank
+            assign contact_has_social = true
+          elsif settings.social_youtube_link != blank
+            assign contact_has_social = true
+          elsif settings.social_tiktok_link != blank
+            assign contact_has_social = true
+          elsif settings.social_pinterest_link != blank
+            assign contact_has_social = true
+          elsif settings.social_snapchat_link != blank
+            assign contact_has_social = true
+          elsif settings.social_tumblr_link != blank
+            assign contact_has_social = true
+          elsif settings.social_vimeo_link != blank
+            assign contact_has_social = true
+          endif
+        -%}
+        {%- if contact_has_social -%}
+          <div class="social-links">
+            <p class="follow-us">{{ section.settings.follow_label }}</p>
+            {% render 'social-icons' %}
+          </div>
+        {%- endif -%}
       </div>
 
       <!-- Right Column -->
