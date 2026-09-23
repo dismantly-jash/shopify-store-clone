@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "page_hero": {
@@ -16,13 +25,13 @@
         "contact_heading": "CONTACT INFORMATION",
         "address": "708 Napier Road, Whakarongo, Palmerston North 4470, New Zealand",
         "phone": "<p><a href=\"tel:+6463592386\" title=\"tel:+6463592386\">+64 6359 2386</a></p>",
-        "email": "<p><a href=\"mailto:admin@totalspares.co.nz\" title=\"mailto:admin@totalspares.co.nz\">admin@totalspares.co.nz</a></p>",
+        "email": "<p><a href=\"mailto:admin@totalspares.co.nz\" title=\"mailto:admin@totalspares.co.nz\">sales@totalspares.co.nz</a></p>",
         "email_2": "",
         "open_hours": "Monday to Friday from 8:00AM – 5:00PM",
         "color_scheme": "scheme-17e9329f-936c-49cd-b549-17a84bedc631",
         "follow_label": "FOLLOW US",
-        "map_embed": "<iframe src=\"https://www.google.com/maps?q=708+Napier+Road,+Whakarongo,+Palmerston+North+4470,+New+Zealand&output=embed\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"strict-origin-when-cross-origin\"></iframe>",
-        "company_description": "<p>Welcome to Total Spares – New Zealand’s trusted specialists in van, 4WD and SUV parts.</p><p>Proudly 100% Kiwi owned and operated, we’ve been helping customers throughout New Zealand since 2009. What started as a local dismantling business has grown into one of the region’s leading suppliers of quality recycled, genuine and aftermarket vehicle parts.</p><p>At Total Spares, we specialise in dismantling and supplying parts for vans, utes, four-wheel drives and SUVs. Whether you’re a workshop, fleet operator, tradie or weekend adventurer, our experienced team is committed to finding the right part at the right price.</p><p>Our constantly expanding inventory includes thousands of quality parts, from complete engines and gearboxes to body panels, suspension, driveline components, interiors and everything in between. If we don’t have what you’re looking for today, we’ll do our best to source it for you.</p><p>We also purchase vehicles in any condition. Whether your vehicle is accident damaged, broken down, end-of-life or simply no longer needed, we’ll offer a fair price and make the process quick and hassle-free.</p><p>Why Choose Total Spares?</p><ul><li>Specialists in vans, 4WDs and SUVs</li><li>Established in 2009</li><li>100% Kiwi owned and operated</li><li>Huge range of quality recycled, genuine and aftermarket parts</li><li>Nationwide overnight shipping available on most items</li><li>Friendly, knowledgeable team with years of industry experience</li><li>Fast, reliable service and honest advice</li><li>We buy vehicles in any condition</li></ul><p>Our reputation has been built on providing quality parts, competitive pricing and outstanding customer service. Whether you’re repairing a daily driver, maintaining a work vehicle or building your next off-road project, we’re here to help.</p><p>We proudly supply customers right across New Zealand and are committed to making finding the right part as easy as possible.</p>",
+        "map_embed": "<iframe src=\"https://www.google.com/maps?q=708+Napier+Road,+Whakarongo,+Palmerston+North+4470,+New+Zealand&amp;output=embed\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"strict-origin-when-cross-origin\"></iframe>",
+        "company_description": "<p>Welcome to Total Spares – New Zealand’s trusted specialists in van, 4WD and SUV parts.</p><p>Proudly 100% Kiwi owned and operated, we’ve been helping customers throughout New Zealand since 2009. What started as a local dismantling business has grown into one of the region’s leading suppliers of quality recycled, genuine and aftermarket vehicle parts.</p><p>At Total Spares, we specialise in dismantling and supplying parts for vans, utes, four-wheel drives and SUVs. Whether you’re a workshop, fleet operator, tradie or weekend adventurer, our experienced team is committed to finding the right part at the right price.</p><p>Our constantly expanding inventory includes thousands of quality parts, from complete engines and gearboxes to body panels, suspension, driveline components, interiors and everything in between. If we don’t have what you’re looking for today, we’ll do our best to source it for you.</p><p>We also purchase vehicles in any condition. Whether your vehicle is accident damaged, broken down, end-of-life or simply no longer needed, we’ll offer a fair price and make the process quick and hassle-free.</p><p>Why Choose Total Spares?</p><ul>\n<li>Specialists in vans, 4WDs and SUVs</li>\n<li>Established in 2009</li>\n<li>100% Kiwi owned and operated</li>\n<li>Huge range of quality recycled, genuine and aftermarket parts</li>\n<li>Nationwide overnight shipping available on most items</li>\n<li>Friendly, knowledgeable team with years of industry experience</li>\n<li>Fast, reliable service and honest advice</li>\n<li>We buy vehicles in any condition</li>\n</ul><p>Our reputation has been built on providing quality parts, competitive pricing and outstanding customer service. Whether you’re repairing a daily driver, maintaining a work vehicle or building your next off-road project, we’re here to help.</p><p>We proudly supply customers right across New Zealand and are committed to making finding the right part as easy as possible.</p>",
         "sales_heading": "",
         "sales_body": "",
         "sales_contact_label_1": "",
@@ -32,16 +41,15 @@
         "padding_top": 50,
         "padding_bottom": 50,
         "mobile_padding_top": 25,
-        "mobile_padding_bottom": 0,
-        "map_image": ""
+        "mobile_padding_bottom": 0
       }
     },
     "main": {
       "type": "main-page",
       "settings": {
+        "show_title": false,
         "padding_top": 36,
-        "padding_bottom": 36,
-        "show_title": false
+        "padding_bottom": 36
       }
     }
   },

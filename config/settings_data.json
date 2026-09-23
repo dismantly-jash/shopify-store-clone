@@ -9,8 +9,8 @@
  */
 {
   "current": {
-    "logo": "shopify://shop_images/tcs-logo.png",
-    "logo_width": 180,
+    "logo": "shopify://shop_images/F522E7D1-3F32-41CF-9EF6-9E8BC5926400.png",
+    "logo_width": 300,
     "favicon": "shopify://shop_images/tcs-logo.png",
     "type_header_font": "figtree_n7",
     "heading_scale": 100,
@@ -158,6 +158,13 @@
       }
     },
     "content_for_index": [],
+    "blocks": {
+      "4096659318022801403": {
+        "type": "shopify://apps/moosedesk-ai-chatbot/blocks/md-help-form-widget/93b7f24a-a2e1-418d-ba5c-fd925adb43e1",
+        "disabled": false,
+        "settings": {}
+      }
+    },
     "color_schemes": {
       "scheme-1": {
         "settings": {
@@ -198,7 +205,7 @@
           "background": "#000000",
           "background_gradient": "",
           "text": "#ffffff",
-          "button": "#ffffff",
+          "button": "#f6f4f4",
           "button_label": "#000000",
           "secondary_button_label": "#ffffff",
           "shadow": "#121212"
