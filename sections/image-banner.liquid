@@ -23,6 +23,23 @@
   {%- endstyle -%}
 {%- endif -%}
 
+{%- comment -%} Gazza: the new hero reads fine on a desktop but a phone only showed the
+  middle of it. The banner is a flat 34rem tall below 749px (.banner--medium rule in
+  section-image-banner.css) while the photo is painted object-fit: cover, so anything
+  wider than 390 x 340 gets centre-cropped. Sizing the banner to the photo's own aspect
+  ratio leaves cover nothing to crop, so the whole photo shows. min-height, not height:
+  if the overlay ever needs more room the box grows rather than clipping the text.
+  Desktop keeps its 62rem rule. {%- endcomment -%}
+{%- if section.settings.image != blank and section.settings.image_height != 'adapt' -%}
+  {%- style -%}
+    @media screen and (max-width: 749px) {
+      #Banner-{{ section.id }} .banner__content {
+        min-height: calc(100vw / {{ section.settings.image.aspect_ratio }});
+      }
+    }
+  {%- endstyle -%}
+{%- endif -%}
+
 {%- style -%}
   #Banner-{{ section.id }}::after {
     opacity: {{ section.settings.image_overlay_opacity | divided_by: 100.0 }};
