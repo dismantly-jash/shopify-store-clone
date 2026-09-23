@@ -4435,3 +4435,74 @@ a.request_quote.button {
 .custom-api-feature .field__button {
   color: #000000;
 }
+
+/* CLI-873 / CLI-874: header treatment, moved out of the theme editor's
+   custom_css array on sections/header-group.json so it lives with the rest of
+   the theme instead of silently overriding it. The !important flags are carried
+   over from that editor CSS on purpose: the colour-scheme classes paint the
+   header wrapper from an inline <style> block in theme.liquid, which would
+   otherwise win on source order. */
+.header-wrapper,
+.header {
+  background: #000 !important;
+}
+.header__icon {
+  color: #fff !important;
+}
+.header__menu-item,
+.header__menu-item span,
+.header__active-menu-item {
+  color: var(--accent-color, #d7fd10) !important;
+}
+.header__menu-item:hover,
+.header__menu-item:hover span {
+  color: #fff !important;
+}
+
+/* CLI-874: the logo read as off-centre on phones. The editor CSS pinned the
+   heading to the start of its cell and forced the logo to 210px, so a 210px
+   image sat in a ~110px left-aligned third and spilled to the right — measured
+   32px right of the viewport centre. Centring it on its cell is not enough
+   either: the three flex thirds do not resolve symmetrically here, so the cell
+   itself sits left of centre. Taking the logo out of flow and pinning it to the
+   header's own centre makes it exact whatever the thirds do, and the icons keep
+   the right edge via margin-left: auto. Capped at 150px so it clears the
+   hamburger and the icon cluster rather than overlapping them. */
+@media screen and (max-width: 989px) {
+  .header {
+    position: relative;
+  }
+  .header .header-main-wrapper .header__heading,
+  .header .header-main-wrapper > .header__heading-link {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: none;
+    width: auto;
+    margin: 0;
+    /* the heading box is wider than the logo, so centre the image inside it too */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .header .header-main-wrapper .header__heading .header__heading-link,
+  .header .header-main-wrapper .header__heading .header__heading-logo-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    max-width: none;
+    margin: 0;
+  }
+  .header .header-main-wrapper .header__heading-logo,
+  .header .header-main-wrapper > .header__heading-link img {
+    width: 150px;
+    max-width: 150px;
+    height: auto;
+  }
+  .header .header-main-wrapper .header__icons {
+    margin-left: auto;
+  }
+}
