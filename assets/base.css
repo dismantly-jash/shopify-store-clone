@@ -4449,14 +4449,21 @@ a.request_quote.button {
 .header__icon {
   color: #fff !important;
 }
+/* CLI-898: inactive links white, the current page (and hover) lime. Together with
+   the bold weight and underline from .header__active-menu-item above, the active
+   link differs in colour, weight and underline, as in Figma. The !important
+   beats the inline menu_text_color style on each link. */
 .header__menu-item,
-.header__menu-item span,
-.header__active-menu-item {
+.header__menu-item span {
+  color: #fff !important;
+}
+.header__menu-item .header__active-menu-item,
+.header__menu-item:hover span {
   color: var(--accent-color, #d7fd10) !important;
 }
-.header__menu-item:hover,
-.header__menu-item:hover span {
-  color: #fff !important;
+.header__menu-item .header__active-menu-item::before,
+.header__menu-item span:hover::before {
+  background: var(--accent-color, #d7fd10);
 }
 
 /* CLI-874: the logo read as off-centre on phones. The editor CSS pinned the
