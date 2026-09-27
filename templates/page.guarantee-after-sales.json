@@ -1,9 +1,19 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "page_hero": {
       "type": "page-hero",
       "settings": {
         "title": "Guarantee & After-Sales Service",
+        "image": "shopify://shop_images/91384EC9-9C94-41AE-B617-C60FC030D199.png",
         "image_asset": "hero-returns.jpg",
         "overlay_opacity": 46,
         "height": 300
@@ -12,9 +22,9 @@
     "main": {
       "type": "main-page",
       "settings": {
+        "show_title": false,
         "padding_top": 60,
-        "padding_bottom": 60,
-        "show_title": false
+        "padding_bottom": 60
       }
     },
     "image_with_text_cta": {
@@ -52,7 +62,7 @@
       ],
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
-        "image": "shopify://shop_images/cta-quality-parts.jpg",
+        "image": "shopify://shop_images/IMG_0603.jpg",
         "image_asset": "cta-quality-parts.jpg",
         "height": "small",
         "desktop_image_width": "medium",

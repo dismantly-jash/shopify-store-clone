@@ -13,6 +13,7 @@
       "type": "page-hero",
       "settings": {
         "title": "Contact Us",
+        "image": "shopify://shop_images/C961E83C-85FC-4B43-9562-78C07C00675E.png",
         "image_asset": "hero-contact.jpg",
         "overlay_opacity": 46,
         "height": 300
@@ -25,7 +26,7 @@
         "contact_heading": "CONTACT INFORMATION",
         "address": "708 Napier Road, Whakarongo, Palmerston North 4470, New Zealand",
         "phone": "<p><a href=\"tel:+6463592386\" title=\"tel:+6463592386\">+64 6359 2386</a></p>",
-        "email": "<p><a href=\"mailto:admin@totalspares.co.nz\" title=\"mailto:admin@totalspares.co.nz\">sales@totalspares.co.nz</a></p>",
+        "email": "<p><a href=\"mailto:admin@totalspares.co.nz\" title=\"mailto:admin@totalspares.co.nz\">info@totalspares.co.nz</a></p>",
         "email_2": "",
         "open_hours": "Monday to Friday from 8:00AM – 5:00PM",
         "color_scheme": "scheme-17e9329f-936c-49cd-b549-17a84bedc631",

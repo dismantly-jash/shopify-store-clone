@@ -80,6 +80,7 @@
         "payment_enable": true,
         "show_policy": false,
         "show_copyright": false,
+        "powered_by_image_mobile": "shopify://shop_images/Screenshot_2026-09-23_132845.png",
         "margin_top": 0,
         "padding_top": 60,
         "padding_bottom": 44
