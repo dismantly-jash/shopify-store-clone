@@ -4505,4 +4505,9 @@ a.request_quote.button {
   .header .header-main-wrapper .header__icons {
     margin-left: auto;
   }
+  /* The cart svg's fill comes from the cart_text_icon_color setting (#000, right for the
+     lime desktop button). On the black mobile header it has to be white. */
+  .header-cart__icon svg path {
+    fill: #fff;
+  }
 }

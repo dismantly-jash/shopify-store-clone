@@ -28,7 +28,8 @@
       #Banner-{{ section.id }}::before,
       #Banner-{{ section.id }} .banner__media::before,
       #Banner-{{ section.id }}:not(.banner--mobile-bottom) .banner__content::before {
-        padding-bottom: {{ 1 | divided_by: section.settings.image-mobile.aspect_ratio | times: 100 }}%;
+        {%- assign mobile_ratio_image = section.settings.image-mobile | default: section.settings.image -%}
+        padding-bottom: {{ 1 | divided_by: mobile_ratio_image.aspect_ratio | times: 100 }}%;
         content: '';
         display: block;
       }
