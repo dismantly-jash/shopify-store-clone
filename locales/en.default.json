@@ -47,7 +47,7 @@
       "year_make_model_placeholder": "2020 BMW 5 Series",
       "plate_number_placeholder": "WVWZZZ1JZ3W386752",
       "address_placeholder": "123 Main Street",
-      "submit_button": "Sell My Car",
+      "submit_button": "Get a quote",
       "desired_price": "Desired Price",
       "desired_price_placeholder": "$2400",
       "description": "Description",
@@ -242,7 +242,7 @@
       },
       "reset": "Reset",
       "sort_button": "Sort",
-      "sort_by_label": "Sort by:",
+      "sort_by_label": "Sort By:",
       "to": "To",
       "clear_filter": "Remove filter"
     }

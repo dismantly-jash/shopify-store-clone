@@ -53,7 +53,7 @@
           "settings": {
             "table_heading": "Details",
             "info_bg": "#ffffff",
-            "table_detail_title_1": "Tag #",
+            "table_detail_title_1": "Tag Number",
             "table_details_description_1": "{{ product.metafields.custom.tag_id.value }}",
             "table_detail_title_2": "Year Range",
             "table_details_description_2": "{{ product.metafields.custom.year.value }}",

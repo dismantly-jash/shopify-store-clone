@@ -3,7 +3,7 @@
     "page_hero": {
       "type": "page-hero",
       "settings": {
-        "title": "Guarantee & After-Sales Service",
+        "title": "Returns",
         "image_asset": "hero-returns.jpg",
         "overlay_opacity": 46,
         "height": 300

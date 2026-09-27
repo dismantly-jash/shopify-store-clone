@@ -1608,7 +1608,10 @@ function cleanURL() {
   window.history.replaceState({}, document.title, url.pathname + url.search);
 }
 // Popup Js
-$(document).on('click', '.section-car-estimate a.first_btn, #HeaderMenu-sell-my-car, #HeaderDrawer-sell-my-car', function(e){
+// Spares Plus: [data-modal] is emitted by header-dropdown-menu / header-drawer and
+// survives a menu rename; the #HeaderMenu-* ids are derived from the item's title
+// and do not. Both kept so this works before and after the admin URLs are updated.
+$(document).on('click', '.section-car-estimate a.first_btn, [data-modal="estimate"], #HeaderMenu-sell-my-car, #HeaderDrawer-sell-my-car', function(e){
   e.preventDefault();
   $('#get_estimate__popup').addClass('is-active');
   $('.theme-overlay').addClass('is-active');
@@ -1675,7 +1678,10 @@ setInterval(function () {
       .addClass('is-submited');
   }
 }, 300);
-$(document).on('click', '.link[href="#returns"], #HeaderMenu-returns, #HeaderDrawer-returns', function(e){
+// Spares Plus: see the [data-modal] note above. Returns matters most here - its menu
+// URL is a real page, so a failed match navigates instead of opening the modal and
+// the breakage is invisible.
+$(document).on('click', '.link[href="#returns"], [data-modal="returns"], #HeaderMenu-returns, #HeaderDrawer-returns', function(e){
   e.preventDefault();
   $('#product-return__popup').addClass('is-active');
   $('.theme-overlay').addClass('is-active');
@@ -1880,6 +1886,38 @@ document.addEventListener('click', function (event) {
   }
 });
 document.addEventListener('DOMContentLoaded', syncProductGalleryArrows);
+
+// Spares Plus (CLI-655): card photos fill a fixed 4:3 band with object-fit: cover.
+// That suits the usual landscape shot, but a portrait photo loses ~44% of its
+// height top and bottom, and a panorama as much from its sides. Letterbox only
+// those: when cover would trim more than a fifth of the photo, show all of it.
+//
+// Decided per image on load rather than in Liquid because card photos render
+// three ways (card-product, card-car-product, and the API-built Similar Parts),
+// and a capturing load listener also reaches cards added later - facet
+// re-renders, Similar Parts, hidden tab panes.
+var CARD_IMAGE_SELECTOR = '.card__media .media img, .card_media .media img';
+var CARD_IMAGE_MAX_CROP = 0.2;
+
+function fitCardImage(img) {
+  if (!img.naturalWidth || !img.naturalHeight) return;
+  var box = img.parentElement.getBoundingClientRect();
+  // Images in a hidden tab pane measure 0x0; both card grids use a 4:3 band.
+  var frame = box.width && box.height ? box.width / box.height : 4 / 3;
+  var photo = img.naturalWidth / img.naturalHeight;
+  var cropped = 1 - Math.min(photo / frame, frame / photo);
+  img.classList.toggle('card-image--letterbox', cropped > CARD_IMAGE_MAX_CROP);
+}
+
+document.addEventListener('load', function (event) {
+  var img = event.target;
+  if (img.tagName === 'IMG' && img.matches(CARD_IMAGE_SELECTOR)) fitCardImage(img);
+}, true);
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll(CARD_IMAGE_SELECTOR).forEach(function (img) {
+    if (img.complete) fitCardImage(img);
+  });
+});
 
 // $(document).on('click', '.header-cart__icon', function(e) {
 //   e.preventDefault();

@@ -784,7 +784,7 @@
                       {% capture title %}table_detail_title_{{ i }}{% endcapture %}
                       {% capture description %}table_details_description_{{ i }}{% endcapture %}
                       {% assign show_tab = true %}
-                      {% if block.settings[title] contains "Tag #" or block.settings[title] contains "Part Number" or block.settings[title] == "Part type" or block.settings[title] == "Year Range" %}
+                      {% if block.settings[title] contains "Tag #" or block.settings[title] contains "Tag Number" or block.settings[title] contains "Part Number" or block.settings[title] == "Part type" or block.settings[title] == "Year Range" %}
                         {% if product.metafields.custom.type == "VEHICLE" or product.metafields.custom.type == "VEHICLES" %}
                           {% assign show_tab = false %}
                         {% endif %}

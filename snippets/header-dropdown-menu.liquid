@@ -48,15 +48,33 @@
         {%- assign is_vehicle_link = true -%}
       {%- endif -%}
       <li>
-        {%- comment -%} CLI-570: Returns is a modal trigger, not a destination — global.js
-          intercepts #HeaderMenu-returns / #HeaderDrawer-returns and opens the popup instead of
-          navigating. Whenever the menu points it at a real page (it used to point at
-          /pages/guarantee-after-sales) Shopify marks it current and the header highlights Returns
-          on a page the customer never reached through it. Modal triggers get no active state. {%- endcomment -%}
-        {%- assign link_current = link.current -%}
-        {%- if link.handle == 'returns' or link.url contains '#returns' -%}
-          {%- assign link_current = false -%}
-        {%- endif -%}
+        {%- comment -%} CLI-570 / Spares Plus: Returns and Sell My Car are modal triggers,
+          not destinations. global.js opens the popup and preventDefaults the click, so they
+          must never take an active state either.
+
+          The trigger used to be matched purely on the menu item's handle
+          (#HeaderMenu-returns), which is derived from its TITLE. Renaming the item in
+          Shopify admin - which CLI-686 and CLI-693 both call for - silently changes the
+          handle, the selector stops matching, and the modal stops opening. Returns makes
+          that failure invisible: its URL is a real page, so the click just navigates there
+          and nothing looks broken.
+
+          data-modal is emitted here instead, so the binding travels with the markup. The
+          URL sentinel (#returns / #sell-my-car) is the stable identifier - a title can be
+          renamed freely, a URL is set deliberately. Handle matching is kept as a fallback
+          so nothing breaks before the menu URLs are updated in admin. {%- endcomment -%}
+        {%- liquid
+          assign link_modal = ''
+          if link.url contains '#returns' or link.handle == 'returns'
+            assign link_modal = 'returns'
+          elsif link.url contains '#sell-my-car' or link.handle == 'sell-my-car'
+            assign link_modal = 'estimate'
+          endif
+          assign link_current = link.current
+          if link_modal != ''
+            assign link_current = false
+          endif
+        -%}
         {%- if link.links != blank -%}
           <header-menu>
             <details id="Details-HeaderMenu-{{ forloop.index }}">
@@ -132,6 +150,7 @@
           <a
             id="HeaderMenu-{{ link.handle }}"
             href="{{ link.url }}"
+            {% if link_modal != '' %}data-modal="{{ link_modal }}"{% endif %}
             class="header__menu-item list-menu__item link link--text focus-inset"
             {% if link_current or is_part_link and part_filter_active %}
               aria-current="page"
