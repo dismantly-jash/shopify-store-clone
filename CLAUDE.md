@@ -7,7 +7,10 @@ shopify theme dev --store=417motoring-zahnadke
 ```
 
 Nothing has been pushed to this store yet and no theme id is bound. The first
-`theme dev` / `theme push` will ask which theme to use.
+`theme dev` / `theme push` will ask which theme to use. The store's only theme
+is the default **Horizon** (`#156476473536`, live). The storefront is
+password-protected, so `theme dev` prompts for the store password. Run it in
+your own terminal, or pass `--store-password`.
 
 ## Where this came from
 
@@ -48,8 +51,9 @@ need a fix or a pattern, a sibling usually has it:
 git fetch ../SparesPlus && git log --oneline FETCH_HEAD -20
 ```
 
-⚠️ **Worth cherry-picking**: these landed in siblings after Total Commercial was
-forked, so this repo does *not* have them:
+✅ **Cherry-picked on 2026-10-05**: `83f84fd` (a5c1819), `b055bab` (4fb2c0d, wording
+set to the 417 Figma), `8537028` (CLI-654 from 5425502), plus `d544fa7` (a theme-check
+fix). These were the picks, landed in siblings after Total Commercial was forked:
 
 | Repo | Commit | What |
 |---|---|---|
@@ -200,11 +204,13 @@ store binding) was not copied.
 
 ## Still to do — theme side
 
-Suggested order: cherry-picks → recolour → identity and the NZ→US country pass →
+✅ Cherry-picks and ✅ recolour (`357ddef`) are done. Next: identity and the NZ→US country pass →
 the frames, one at a time (header/footer first, since every frame shares them).
 
-**Colours.** Brand variables in [layout/theme.liquid:249-255](layout/theme.liquid)
-still hold Total Commercial's palette. Suggested 417 mapping:
+**Colours: done in `357ddef`.** The table below is the mapping that was applied. Still
+Total Commercial: the black header and white/lime nav CSS (CLI-873/898), and the
+benefit icons (`assets/icon-benefit-*.svg`, now red, but black outline icons in
+Figma). The brand variables are in [layout/theme.liquid](layout/theme.liquid), around line 303:
 
 ```
 variable              TC now    → 417        role
@@ -284,7 +290,9 @@ Figma exports anyway.
 The full procedure is the Linear doc **Setup Shopify store**
 (https://linear.app/dismantly/document/setup-shopify-store-71fa7b662c78). In short:
 
-1. **Metafield definitions**: `python3 ../create_metafield_definitions.py` against this
+1. ✅ **Metafield definitions**: all 17 created on 2026-10-05. (The script's closing
+   "Next:" hint is hardcoded to the Rosco store and theme. Ignore it.)
+   Originally: `python3 ../create_metafield_definitions.py` against this
    store. This has to happen before the first theme push, because Shopify rejects
    `templates/product.json` while a referenced definition is missing.
 2. **Search & Discovery app**: install it and add filters for `custom.make`,
