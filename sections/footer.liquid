@@ -357,15 +357,14 @@
             </div>
           {%- endif -%}
 
-          {%- if section.settings.show_social and has_social_icons -%}
-            {%- render 'social-icons', class: 'footer__list-social' -%}
-          {%- endif -%}
+          {%- comment -%} 417: the section-level social icons render in the bottom row,
+            beside the legal links (Figma 18046-9418), not here. {%- endcomment -%}
         </div>
       </div>
     {%- endunless -%}
   {%- endif -%}
 
-  {% if section.settings.enable_language_selector or section.settings.enable_country_selector or section.settings.payment_enable or section.settings.show_copyright %}
+  {% if section.settings.enable_language_selector or section.settings.enable_country_selector or section.settings.payment_enable or section.settings.show_copyright or section.settings.legal_menu != blank or section.settings.show_social and has_social_icons %}
   <div
     class="footer__content-bottom{% if settings.animations_reveal_on_scroll %} {% endif %}"
     {% if settings.animations_reveal_on_scroll %}
@@ -399,6 +398,27 @@
           {%- endif -%}
         </div>
         <div class="footer__column footer__column--info">
+          {%- comment -%} 417 (Figma 18046-9418): Terms of Service and Privacy Policy, then
+            the round social icons, along the bottom right. The links come from a menu
+            so they point at the themed pages rather than Shopify's /policies/ ones. {%- endcomment -%}
+          {%- if section.settings.legal_menu != blank -%}
+            <ul class="footer__legal-links list-unstyled" role="list">
+              {%- for link in section.settings.legal_menu.links -%}
+                <li>
+                  <a
+                    href="{{ link.url }}"
+                    class="footer__legal-link{% if link.active %} footer__legal-link--active{% endif %}"
+                    {% if link.active %}aria-current="page"{% endif %}
+                  >
+                    {{- link.title | escape -}}
+                  </a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+          {%- if section.settings.show_social and has_social_icons -%}
+            {%- render 'social-icons', class: 'footer__list-social' -%}
+          {%- endif -%}
           {%- if section.settings.payment_enable -%}
             <div class="footer__payment">
               <span class="visually-hidden">{{ 'sections.footer.payment' | t }}</span>
@@ -667,6 +687,12 @@
       "default": true,
       "label": "t:sections.footer.settings.enable_language_selector.label",
       "info": "t:sections.footer.settings.enable_language_selector.info"
+    },
+    {
+      "type": "link_list",
+      "id": "legal_menu",
+      "label": "Legal links menu",
+      "info": "Shown along the bottom of the footer, e.g. Terms of Service and Privacy Policy."
     },
     {
       "type": "checkbox",

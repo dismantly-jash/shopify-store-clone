@@ -24,7 +24,7 @@
           "type": "image",
           "settings": {
             "image": "",
-            "image_width": 265,
+            "image_width": 190,
             "alignment": "",
             "powered_by_image": "shopify://shop_images/Screenshot_2026-09-23_132845.png",
             "powered_by_image_width": 550
@@ -57,7 +57,7 @@
             "text_1": "<p><a href=\"tel:+14173747733\" title=\"tel:+14173747733\">(417) 374-7733</a></p>",
             "brand_address_svg": "<svg width=\"28\" height=\"28\" viewbox=\"0 0 28 28\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<circle cx=\"14\" cy=\"14\" r=\"13.5\" fill=\"#E4332B\" stroke=\"#E4332B\"></circle>\n<g clip-path=\"url(#clip0_18046_7185)\">\n<path d=\"M13.9996 17.5565C15.237 16.5566 16.1713 15.5942 16.8025 14.6693C17.4337 13.7444 17.7493 12.8757 17.7493 12.0632C17.7493 10.9383 17.3993 10.0134 16.6994 9.28846C15.9994 8.56352 15.0995 8.20105 13.9996 8.20105C12.8997 8.20105 11.9997 8.56352 11.2998 9.28846C10.5999 10.0134 10.2499 10.9383 10.2499 12.0632C10.2499 12.8757 10.5655 13.7444 11.1967 14.6693C11.8279 15.5942 12.7622 16.5566 13.9996 17.5565ZM13.9996 19.4501C12.2372 18.1502 10.9217 16.8878 10.053 15.6629C9.18434 14.438 8.75 13.2381 8.75 12.0632C8.75 10.5009 9.23746 9.21659 10.2124 8.21042C11.1873 7.20426 12.4497 6.70117 13.9996 6.70117C15.5494 6.70117 16.8118 7.20426 17.7868 8.21042C18.7617 9.21659 19.2492 10.5009 19.2492 12.0632C19.2492 13.2381 18.8148 14.438 17.9461 15.6629C17.0775 16.8878 15.7619 18.1502 13.9996 19.4501ZM13.9996 13.4506C14.412 13.4506 14.7651 13.3038 15.0589 13.01C15.3526 12.7163 15.4995 12.3632 15.4995 11.9507C15.4995 11.5383 15.3526 11.1852 15.0589 10.8915C14.7651 10.5977 14.412 10.4509 13.9996 10.4509C13.5871 10.4509 13.234 10.5977 12.9403 10.8915C12.6466 11.1852 12.4997 11.5383 12.4997 11.9507C12.4997 12.3632 12.6466 12.7163 12.9403 13.01C13.234 13.3038 13.5871 13.4506 13.9996 13.4506ZM8.75 21.7V20.2001H19.2492V21.7H8.75Z\" fill=\"#FFFFFF\"></path>\n</g>\n<defs>\n<clippath id=\"clip0_18046_7185\">\n<rect width=\"18\" height=\"18\" fill=\"white\" transform=\"translate(5 5.20117)\"></rect>\n</clippath>\n</defs>\n</svg>",
             "brand_address": "<p>825 N Gerald St, Nixa, MO 65714, USA</p>",
-            "show_social": true
+            "show_social": false
           }
         }
       },
@@ -68,22 +68,23 @@
         "text_QtwEpB"
       ],
       "settings": {
-        "color_scheme": "scheme-3",
-        "footer_background_color": "#000000",
-        "text_color": "#ffffff",
+        "color_scheme": "scheme-9a153970-6b13-4d7d-a853-4259c033f4be",
+        "footer_background_color": "#ffffff",
+        "text_color": "#000000",
         "newsletter_enable": false,
         "newsletter_heading": "Subscribe to our emails",
         "enable_follow_on_shop": false,
-        "show_social": false,
+        "show_social": true,
         "enable_country_selector": false,
         "enable_language_selector": false,
-        "payment_enable": true,
+        "payment_enable": false,
         "show_policy": false,
         "show_copyright": false,
         "powered_by_image_mobile": "shopify://shop_images/Screenshot_2026-09-23_132845.png",
         "margin_top": 0,
-        "padding_top": 60,
-        "padding_bottom": 44
+        "padding_top": 40,
+        "padding_bottom": 44,
+        "legal_menu": "footer-legal"
       }
     }
   },

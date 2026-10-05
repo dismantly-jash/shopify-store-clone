@@ -632,3 +632,77 @@
   font-weight: 700;
   line-height: 1.1;
 }
+
+/* 417 Motoring footer (Figma 18046-9418, 1440 wide, white, 360px tall).
+   Logo 190px and the Dismantly badge stacked at the left; Shop and Contact
+   columns 260px wide and the contact list 306px wide, 32px apart, from x445.
+   Headings Figtree Bold 16, links Figtree Medium 16, 22px between rows.
+   Bottom right: Terms of Service and Privacy Policy, then the three round red
+   social icons. The current page's link is red, semibold and underlined. */
+.footer__legal-links {
+  display: flex;
+  align-items: center;
+  gap: 56px;
+  margin: 0;
+  padding: 0;
+}
+.footer__legal-link {
+  color: #000;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+}
+.footer__legal-link:hover,
+.footer__legal-link--active,
+.footer-block__details-content .list-menu__item--link.list-menu__item--active {
+  color: var(--accent-color, #e4332b);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.footer__column--info .footer__list-social {
+  margin: 0;
+}
+@media screen and (min-width: 990px) {
+  /* Top spacing is the section's padding_top (40px in footer-group.json). */
+  .footer__content-top {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .footer__content-top .footer__blocks-wrapper {
+    display: grid;
+    grid-template-columns: 333px 260px 260px 306px;
+    column-gap: 32px;
+    margin: 0;
+  }
+  .footer__content-top .footer__blocks-wrapper .grid__item {
+    width: auto;
+    max-width: none;
+    padding: 0;
+  }
+  /* the columns start 22px below the logo */
+  .footer .footer__content-top .footer-block.footer-block--menu,
+  .footer .footer__content-top .footer-block.footer-block--text {
+    padding-top: 22px;
+  }
+  .footer-block--menu .footer-block__heading {
+    margin-bottom: 22px;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .footer-block--menu .footer-block__details-content li {
+    margin-bottom: 22px;
+  }
+  .footer__content-bottom {
+    border-top: 0;
+    padding-top: 4px;
+    padding-bottom: 0;
+  }
+  .footer__content-bottom .footer__column--info {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 65px;
+    padding-right: 127px;
+  }
+}
