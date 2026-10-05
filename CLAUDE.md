@@ -19,18 +19,26 @@ mobile cart icon fix (`a244ad0`), and the CLI-570 "never highlight Returns" nav 
 (`315963f`). Its repo was also synced with its live theme on 2026-09-2x
 (`b1e49dc`, `86da064`), so it isn't stale against Shopify.
 
-**Country: Total Commercial is New Zealand.** Phone fields default to NZ
-(`snippets/country-code-list.liquid:1282` marks NZ `is-default`,
-`assets/global.js` ~line 1780 falls back to `'NZ'`, and the country chips in
-`snippets/blank-request-form.liquid`, `snippets/get-estimate.liquid` and
-`snippets/return.liquid` show NZ). **The 417 Motoring country has not been
-confirmed.** "417" is a US area code (south-west Missouri), so check the Figma
-contact frame first. If it's the US, this is a full pass: default country, phone
-placeholders/format (+1), address and ZIP wording, the "New Zealand-wide" /
-"North Island / South Island" shipping copy, the fallback meta descriptions in
-`layout/theme.liquid`, and currency/market in admin. `1c6b7ac` in
-AustralianAutoParts (NZ default) and `c36b3c0` in SparesPlus (NZ→AU) show every
-file such a pass touches.
+**Country: 417 Motoring is in the USA** (Nixa, Missouri; confirmed from the Figma
+contact frame `18046-9248` and the home frame's "Trusted US Dismantler"). Total
+Commercial is New Zealand, so this needs a **full NZ→US pass**:
+- Phone fields default to NZ: `snippets/country-code-list.liquid:1282` marks NZ
+  `is-default`, `assets/global.js` ~line 1780 falls back to `'NZ'`, and the
+  country chips in `snippets/blank-request-form.liquid`, `snippets/get-estimate.liquid`
+  and `snippets/return.liquid` show NZ. Figma shows **"United States"** with
+  placeholders like `+1 (417) 123 4567`.
+- Sell My Car form (`18046-7214`) still says "Registration Number" and "Suburb /
+  Address", with "2015 Holden Commodore" as the example. Those are AU/NZ leftovers in
+  the design itself. Ask whether to use VIN / License Plate and Address / ZIP.
+- Shipping copy: "New Zealand-wide", "North Island / South Island", Palmerston North
+  pickup. Replace it with the Figma's USPS/UPS/FedEx, "lower 48 states" and freight
+  terms (`18046-9356`).
+- Fallback meta descriptions in `layout/theme.liquid`, and currency/market (USD) in
+  admin. The cart drawer frame `18046-9056` shows `£156.86`, a stale placeholder;
+  prices elsewhere are `$`.
+
+`1c6b7ac` in AustralianAutoParts (NZ default) and `c36b3c0` in SparesPlus (NZ→AU)
+show every file a country pass touches.
 
 The full git history came with the fork, so `git log` covers the sibling stores'
 work too. All of these themes descend from the same Find A Part base, so when you
@@ -74,60 +82,113 @@ them). Keep them, or every diff of that file becomes a whole-file rewrite.
 
 ## Design source — 34 frames
 
-Figma: **417-Motoring**: `https://www.figma.com/design/jiBJEOIgREJEpHSD8QtWVp/417-Motoring`
-(fileKey `jiBJEOIgREJEpHSD8QtWVp`)
+Figma: **417 Motoring** (team "Web Shops"):
+`https://www.figma.com/design/jiBJEOIgREJEpHSD8QtWVp/417-Motoring`
+(fileKey `jiBJEOIgREJEpHSD8QtWVp`). MCP tools want colon form: `18046:6572`.
 
-| | | | |
-|---|---|---|---|
-| `18046-6572` | `20020-3477` | `20020-3577` | `20020-3677` |
-| `20020-3823` | `20020-3869` | `18046-7429` | `18046-7495` |
-| `22009-4129` | `18046-7561` | `18046-7627` | `18046-7462` |
-| `18046-7528` | `18046-7594` | `18046-6481` | `18046-7214` |
-| `18046-7288` | `18046-7378` | `18046-9423` | `18046-9498` |
-| `18046-9684` | `18046-8658` | `18046-8903` | `18046-7707` |
-| `18046-7955` | `18046-8205` | `18046-8432` | `18046-9056` |
-| `18046-9356` | `18046-9385` | `22038-3808` | `22039-4206` |
-| `22038-3967` | `18046-9248` | | |
+**Confirmed on 2026-10-05**: the 417 Motoring file was open, and every node below
+was screenshotted through the MCP and showed 417 branding.
 
-(Listed in the order the user gave them. MCP tools want colon form: `18046:6572`.)
+| Node | Frame | Maps to |
+|---|---|---|
+| `18046-6572` | **Home**, desktop, full page | `templates/index.json` |
+| `20020-3477` | Home tabbed grid: **Engines** tab | tabbed-product-grid |
+| `20020-3577` | …Transmissions & Gearboxes tab | 〃 |
+| `20020-3677` | …Headlights & Taillights tab | 〃 |
+| `20020-3823` | …ECU's tab (tab row adds "Gearboxes") | 〃 |
+| `20020-3869` | …Exterior Parts tab | 〃 |
+| `18046-7429` | **Shop Parts By Makes**: Acura | make carousel |
+| `18046-7495` | …Audi | 〃 |
+| `22009-4129` | …Bentley | 〃 |
+| `18046-7561` | …BMW M Sport | 〃 |
+| `18046-7627` | …Corvette (tab row above the title in this one) | 〃 |
+| `18046-7462` | …Ferrari | 〃 |
+| `18046-7528` | …GTR | 〃 |
+| `18046-7594` | …McLaren | 〃 |
+| `18046-6481` | **Parts / search results** ("Search Parts" hero with Year/Make/Model/Part Type + Find My Part, sort, grid, Showing 25, pagination) | `templates/search.json` / collection |
+| `18046-7214` | **Sell My Car** modal ("Get a Quote") | `snippets/get-estimate.liquid` |
+| `18046-7288` | **Returns** modal, with the reason-for-return dropdown open | `snippets/return.liquid` |
+| `18046-7378` | Return Request Submitted Successfully modal | 〃 |
+| `18046-9423` | **Vehicles** listing ("Search Vehicles" hero, Search Part / Vehicle Details) | vehicles collection |
+| `18046-9498` | **Vehicle detail** page (details table, Request Part, Available Parts grid) | vehicle product template |
+| `18046-9684` | **Request Part** modal | `snippets/blank-request-form.liquid` |
+| `18046-8658` | **Part page, no price**: Make an Offer variant, Fitment table tab | `sections/main-product.liquid` |
+| `18046-8903` | **Make an Offer** modal | `snippets/product-card-form.liquid` |
+| `18046-7707` | **Part page, priced** ($449.99, Buy It Now + Add to Cart): Fitment table tab | `sections/main-product.liquid` |
+| `18046-7955` | …Grading Rules tab (A/B/C graded table, green/amber/red rows) | 〃 |
+| `18046-8205` | …Shipping tab | 〃 |
+| `18046-8432` | …Warranty tab | 〃 |
+| `18046-9056` | **Cart drawer** | cart-drawer |
+| `18046-9356` | **Shipping & Delivery** page (Small Package + Freight) | `page.shipping-policy` |
+| `18046-9385` | **Warranty** page (1-year parts warranty, engine/transmission/axle/body/SRS terms) | `page.guarantee-after-sales` |
+| `22038-3808` | **Returns** page ("Returns and Refunds", File a Return button) | `page.returns-policy` |
+| `22039-4206` | **Privacy Policy** page | no template yet; `page.service-policy.json` is the nearest to copy |
+| `22038-3967` | **Terms of Service** page | no template yet; copy `page.service-policy.json` |
+| `18046-9248` | **Contact Us** page (info block, map, "Established in 2018" copy) | `page.contact` |
 
-**Only seen through the user's screenshot of the Figma app.** During setup the
-Figma Dev Mode MCP tools kept saying the server wasn't enabled, even with the
-file open (the Claude app needs a restart after the server is enabled), so the MCP
-read nothing. The user's screenshot of the Figma app confirmed this much:
-- The file **417 Motoring** (team "Web Shops") was open with all 34 frames selected.
-  Figma estimated about 469k tokens for the lot, so pull design context **one frame
-  at a time**.
-- Logo: "417 MOTORING", black and red wordmark with a car silhouette (layer "ChatGPT
-  Image Sep 24…"). Header bar looks white with the logo left, not Total
-  Commercial's black header.
-- Accent is **red**: buttons, the footer contact icons, and the "Quality Parts,
-  Ready When You Are!" CTA button. Page heroes are dark photo banners (headlight,
-  engine bay).
-- Frames visible: **Returns**, **Privacy Policy**, **Terms of Service** and
-  **Contact Us** (desktop, with a map embed). The layer list starts "Frame
-  1597883340", "Home - Desktop", "Frame 1597883341…".
-
-Exact hexes, the contact details and the country weren't readable, so
-`get_variable_defs` is still needed. By node id, these look like the same set of
-frames as the other stores (`18046-6572` was the home desktop frame in other
-brands, and `18046-9253` was the contact block in SparesPlus). The `20020-*`,
-`22009-*`, `22038-*` and `22039-*` nodes are newer than the base set, so they're
-likely 417-specific additions. Look at those closely.
+Things the frames show that differ from Total Commercial:
+- **Header is white**, with a black top bar ("(417) 374-7733 Hotline 5 days a
+  week | Nationwide Shipping Available | Monday to Friday from 9:00am to 5:00pm").
+  Logo on the left; search and a red Cart button; nav underneath. Active nav
+  link is red and bold with an underline, inactive links are black. This replaces
+  TC's black header and lime/white nav (CLI-873/898).
+- Section titles use the slanted black label with grey and red stripes ("Shop Parts
+  By Makes", "Get a Quote", "Returns").
+- Page heroes are dark photo banners with a centred white title.
+- Pages end with a "Quality Parts, Ready When You Are!" CTA (Jost Medium 36) above
+  the footer.
+- Footer is white: logo, "Powered by Dismantly", Shop (Shop Parts, Currently
+  Dismantling), Contact (Contact Us, Warranty, Shipping & Delivery), contact
+  lines with red icons, Terms of Service / Privacy Policy, and red round X /
+  Facebook / Instagram icons. The contact page also lists YouTube.
+- Part page: "Tested Quality Part" (green), "Grade A" (amber) and "Pickup Allowed"
+  badges; Make an Offer when there's no price; payment icons; the four benefit
+  icons (World Wide Delivery, Secure Payments, Right Parts The First Time,
+  5 Star Rated Service); and the fitment caveat "Fitment may vary. Please call us
+  with your VIN…" (CLI-683 in the `a5c1819` cherry-pick).
+- Privacy Policy and Terms of Service are new pages. The source only has
+  `page.contact`, `page.guarantee-after-sales`, `page.returns-policy`,
+  `page.service-policy`, `page.shipping-policy`, `page.json` and `page.temp`.
+- In the **Warranty frame's** nav, the active "Returns" link uses
+  `--primaries/red-dark` with fallback `#5b635f`. That's inconsistent with
+  every other frame. Treat active as accent red everywhere.
 
 ⚠️ **The Figma desktop MCP has no fileKey parameter.** It reads whichever file is
 *open* in the Figma desktop app. The brand files in this family are duplicates of one
 another and **share node IDs**, so asking for a node with the wrong file open
 silently returns another brand's design. **Call `get_screenshot` first and confirm
-the 417 Motoring branding before pulling anything.**
+the 417 Motoring branding before pulling anything.** All 34 frames together are
+about 469k tokens, so pull design context one frame at a time.
 
 Invoke the `figma:figma-design-to-code` skill before `get_design_context`, and
 export image assets into `assets/` early, because the localhost URLs Figma hands back
-expire.
+expire. The logo layer is `ChatGPT Image Sep 24, 2025, 06_56_23 PM 1/Light mode`
+(component `2048:4523`, inner image `20059:3753`).
 
-Most of these frames map to pages the source already implements (hero, tabbed grid,
-Shop Parts By Makes, contact, policy pages). Diff each design against what is built
-rather than rebuilding from scratch.
+Most of these frames map to pages the source already implements. Diff each
+design against what is built rather than rebuilding from scratch.
+
+### Palette and type (from `get_variable_defs` on `18046:6572`)
+
+```
+Primaries/Accent      #e4332b   red: buttons, active nav, icons, links
+Primaries/Primary     #070302   near-black: headings, top bar, title labels
+Title/Title Dark      #000000
+Grey/Grey Dark        #222020
+Grey/Grey Accent      #535353   body copy on policy pages
+GreyScale/Grey-700    #585858   Body Text/Grey
+GreyScale/Grey-300    #ACACAC
+Stroke/Default        #d8d8d8
+BG/Light BG           #f9f9f9   CTA band, contact info panel
+RAG/Amber             #f9c543   "Only 1 Left" / Grade badges (same as TC --badge-amber)
+icon/Blue, text/Blue  #145da0   Dismantly badge only
+Primaries/Red Dark    #df7f20   (an orange despite the name; little used)
+text/primary #222530, text/secondary #525866, stroke/soft #e1e4ea
+```
+
+Type: **Figtree** for everything (UI 14–16 Medium/SemiBold, page body 18/28,
+policy headings Bold 24 uppercase, hero titles Medium 36). The theme already uses
+`figtree_n7` / `figtree_n4`. **Jost Medium 36** is used for the CTA heading only.
 
 ## Already done in the fork
 
@@ -139,21 +200,26 @@ store binding) was not copied.
 
 ## Still to do — theme side
 
-Suggested order: cherry-picks → confirm Figma → recolour → identity (and country)
-→ frames one at a time.
+Suggested order: cherry-picks → recolour → identity and the NZ→US country pass →
+the frames, one at a time (header/footer first, since every frame shares them).
 
 **Colours.** Brand variables in [layout/theme.liquid:249-255](layout/theme.liquid)
-still hold Total Commercial's palette:
+still hold Total Commercial's palette. Suggested 417 mapping:
 
 ```
---text-on-main-color  #000      label colour on the accent      (line 249)
---main-heading-color  #0F172A   headings                        (line 251)
---accent-color        #d7fd10   lime accent                     (line 252)
---brand-green         #3d6601   dark green, accent-as-text      (line 253)
---brand-dark          #050708   near-black header/footer        (line 254)
---badge-amber         #f9c543   badges                          (line 255)
+variable              TC now    → 417        role
+--text-on-main-color  #000      → #ffffff    label on the accent         (line 249)
+--main-heading-color  #0F172A   → #070302    headings                    (line 251)
+--accent-color        #d7fd10   → #e4332b    accent                      (line 252)
+--brand-green         #3d6601   → #e4332b?   accent-as-text on white     (line 253)
+--brand-dark          #050708   → #070302    top bar, title labels       (line 254)
+--badge-amber         #f9c543   → #f9c543    unchanged (RAG/Amber)       (line 255)
 --main-color          {{ primary_scheme.settings.primary_color }} (line 245, from the colour scheme in settings_data.json)
 ```
+
+The 417 red is already dark enough to read as text on white, so `--brand-green`
+can probably just be the accent (or a slightly darker red for hover). Check it
+against the frames.
 
 `--brand-green` keeps its misleading name on purpose: renaming it would conflict on
 every cherry-pick from the siblings. It is the dark companion of the accent, the one
@@ -167,27 +233,31 @@ templates: `#d7fd10` ×63 in 19 files, `#3d6601` ×45 in 17, `#050708` ×15 in 7
 grep -rIin "d7fd10\|3d6601\|050708\|f9c543" assets sections snippets layout config templates
 ```
 
-Total Commercial's accent is *light* (lime, black text on it). The 417 accent
-looks like a *dark* red with white labels, so this flips. Also sweep the label colours that pair with it: `--text-on-main-color` and
+Total Commercial's accent is *light* (lime, black text on it). The 417 accent is a
+*dark* red with white labels, so this flips. Also sweep the label colours that pair with it: `--text-on-main-color` and
 `var(--text-on-main-color, …)` fallbacks, `button_label` in the colour schemes whose
 `button` is the accent, `form_button_text_color`, and every `*_button_text_color` in
 the JSON templates.
 
-**Identity**: still Total Commercial / Total Spares everywhere:
+**Identity**: still Total Commercial / Total Spares everywhere. New values come from
+the Figma contact frame `18046-9248`:
 
-| | Current value |
-|---|---|
-| Phone | `+64 6359 2386`, href `tel:+6463592386` (7 links) |
-| Email | `admin@totalspares.co.nz` (href) shown as `sales@…` / `info@…` |
-| Address | `708 Napier Road, Whakarongo, Palmerston North 4470, New Zealand`, plus `31A Atkinson Avenue, Otahuhu, Auckland 1062` |
+| | Current (TC) | 417 Motoring |
+|---|---|---|
+| Name | Total Commercial / Total Spares | **417 Motoring** (legal: **417 Motoring LLC** in the warranty copy) |
+| Phone | `+64 6359 2386`, href `tel:+6463592386` (7 links) | **(417) 374-7733**, href `tel:+14173747733` |
+| Email | `admin@totalspares.co.nz` (href), shown as `sales@…` / `info@…` | **parts@417motoring.com** |
+| Address | `708 Napier Road, Whakarongo, Palmerston North 4470, New Zealand`, plus `31A Atkinson Avenue, Otahuhu, Auckland 1062` | **825 N Gerald St, Nixa, MO 65714, USA** (one location) |
+| Hours | TC's | **Monday to Friday 9:00am – 5:00pm**; top bar says "Hotline 5 days a week" |
+| Social | cleared | X, Instagram, Facebook (footer), plus YouTube (contact page). URLs not in Figma, so ask |
+| About | n/a | "Established in 2018, 417 Motoring has become…" (contact page, 3 paragraphs) |
 
 They live in `sections/header-group.json:21` (top bar), `sections/footer-group.json:55-57`,
 `templates/page.contact.json:28-29` (and the Google Maps `q=` embed),
 `sections/main-product.liquid:726` ("Ask a Specialist"), the schema defaults in
 `sections/contact-info-section.liquid`, and the shipping policy copy (NZ-wide,
 North/South Island delivery times, Palmerston North pickup). `PAGE-CONTENT.md`
-(103 lines) is Total Commercial's admin page copy and needs rewriting too. The 417
-Motoring details come from the Figma contact frame.
+(103 lines) is Total Commercial's admin page copy and needs rewriting too.
 
 **Brand images.** These are Shopify **Files** references inherited from Total
 Commercial. They won't resolve on this store until files with the same names are
