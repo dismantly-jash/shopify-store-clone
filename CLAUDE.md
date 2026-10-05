@@ -204,7 +204,10 @@ store binding) was not copied.
 
 ## Still to do — theme side
 
-✅ Cherry-picks and ✅ recolour (`357ddef`) are done. Next: identity and the NZ→US country pass →
+✅ Cherry-picks, ✅ recolour (`357ddef`), ✅ identity and NZ→US pass (`71065c0`, `76cbd86`:
+contact details, US phone default, product Shipping/Warranty tabs, 417 logo,
+PAGE-CONTENT.md) are done. Still open from that pass: the social URLs (not in Figma),
+and `assets/tcs-hero.jpg`, which the home hero still uses. Next →
 the frames, one at a time (header/footer first, since every frame shares them).
 
 **Colours: done in `357ddef`.** The table below is the mapping that was applied. Still
