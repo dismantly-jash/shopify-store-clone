@@ -91,10 +91,25 @@ Figma: **417-Motoring**: `https://www.figma.com/design/jiBJEOIgREJEpHSD8QtWVp/41
 
 (Listed in the order the user gave them. MCP tools want colon form: `18046:6572`.)
 
-**Not yet seen.** During setup the Figma Dev Mode MCP server wasn't enabled in
-the Figma desktop app, and the `plugin:figma` connector needed authorising, so no
-frame was screenshotted and the palette wasn't read. The brand, frame names and
-palette are all still to confirm. By node id, these look like the same set of
+**Only seen through the user's screenshot of the Figma app.** During setup the
+Figma Dev Mode MCP tools kept saying the server wasn't enabled, even with the
+file open (the Claude app needs a restart after the server is enabled), so the MCP
+read nothing. The user's screenshot of the Figma app confirmed this much:
+- The file **417 Motoring** (team "Web Shops") was open with all 34 frames selected.
+  Figma estimated about 469k tokens for the lot, so pull design context **one frame
+  at a time**.
+- Logo: "417 MOTORING", black and red wordmark with a car silhouette (layer "ChatGPT
+  Image Sep 24…"). Header bar looks white with the logo left, not Total
+  Commercial's black header.
+- Accent is **red**: buttons, the footer contact icons, and the "Quality Parts,
+  Ready When You Are!" CTA button. Page heroes are dark photo banners (headlight,
+  engine bay).
+- Frames visible: **Returns**, **Privacy Policy**, **Terms of Service** and
+  **Contact Us** (desktop, with a map embed). The layer list starts "Frame
+  1597883340", "Home - Desktop", "Frame 1597883341…".
+
+Exact hexes, the contact details and the country weren't readable, so
+`get_variable_defs` is still needed. By node id, these look like the same set of
 frames as the other stores (`18046-6572` was the home desktop frame in other
 brands, and `18046-9253` was the contact block in SparesPlus). The `20020-*`,
 `22009-*`, `22038-*` and `22039-*` nodes are newer than the base set, so they're
@@ -152,8 +167,8 @@ templates: `#d7fd10` ×63 in 19 files, `#3d6601` ×45 in 17, `#050708` ×15 in 7
 grep -rIin "d7fd10\|3d6601\|050708\|f9c543" assets sections snippets layout config templates
 ```
 
-Total Commercial's accent is *light* (lime, black text on it). If the 417 accent is
-dark, also sweep the label colours that pair with it: `--text-on-main-color` and
+Total Commercial's accent is *light* (lime, black text on it). The 417 accent
+looks like a *dark* red with white labels, so this flips. Also sweep the label colours that pair with it: `--text-on-main-color` and
 `var(--text-on-main-color, …)` fallbacks, `button_label` in the colour schemes whose
 `button` is the accent, `form_button_text_color`, and every `*_button_text_color` in
 the JSON templates.
