@@ -4499,21 +4499,24 @@ a.request_quote.button {
    the theme instead of silently overriding it. The !important flags are carried
    over from that editor CSS on purpose: the colour-scheme classes paint the
    header wrapper from an inline <style> block in theme.liquid, which would
-   otherwise win on source order. */
+   otherwise win on source order.
+   417 Motoring (Figma 18046-6573): the header is white under the black top bar,
+   so this is now white with dark icons, where Total Commercial's was black. */
 .header-wrapper,
 .header {
-  background: #000 !important;
+  background: #fff !important;
 }
 .header__icon {
-  color: #fff !important;
+  color: var(--main-heading-color, #070302) !important;
 }
-/* CLI-898: inactive links white, the current page (and hover) lime. Together with
-   the bold weight and underline from .header__active-menu-item above, the active
-   link differs in colour, weight and underline, as in Figma. The !important
-   beats the inline menu_text_color style on each link. */
+/* CLI-898, reworked for 417: inactive links black (Figtree Medium 16), the current
+   page and hover red. Together with the bold weight and underline from
+   .header__active-menu-item above, the active link differs in colour, weight and
+   underline, as in Figma. The !important beats the inline menu_text_color style
+   on each link. */
 .header__menu-item,
 .header__menu-item span {
-  color: #fff !important;
+  color: #000 !important;
 }
 .header__menu-item .header__active-menu-item,
 .header__menu-item:hover span {
@@ -4522,6 +4525,45 @@ a.request_quote.button {
 .header__menu-item .header__active-menu-item::before,
 .header__menu-item span:hover::before {
   background: var(--accent-color, #e4332b);
+}
+
+/* 417 Motoring header layout, desktop (Figma 18046-6573, 1440 wide): 42px black
+   top bar, then a 148px white band. Logo 180px wide at the left. Search field and
+   red Cart button run from x311 to the right edge (field 929px including its 44px
+   button, 17px gap, Cart 101x44). Nav row underneath: Figtree Medium 16, 36px
+   between labels, first label at x97. There is no account icon in the design. */
+@media screen and (min-width: 990px) {
+  /* Vertical rhythm comes from the section settings in header-group.json
+     (padding 8/12, logo 180x70; the logo link adds 7.5px around it), which the
+     section prints as an inline style. */
+  .header .header-main-wrapper {
+    gap: 36px;
+  }
+  .header .header-main-wrapper .header__heading {
+    flex: 0 0 auto;
+  }
+  .header .header-main-wrapper .header__icons {
+    flex: 1 1 auto;
+  }
+  .header .header-main-wrapper .header-search-wrapper {
+    flex: 1 1 auto;
+  }
+  .header .header-main-wrapper .header-search-wrapper predictive-search {
+    flex: 1 1 auto;
+  }
+  .header-cart__icon {
+    min-width: 101px;
+    justify-content: center;
+  }
+  .header .header__icon--account {
+    display: none;
+  }
+  .header-nav-wrapper {
+    margin-top: 3px;
+  }
+  .header__inline-menu {
+    margin-left: -1px;
+  }
 }
 
 /* CLI-874: the logo read as off-centre on phones. The editor CSS pinned the
@@ -4561,20 +4603,27 @@ a.request_quote.button {
     max-width: none;
     margin: 0;
   }
+  /* 417: the logo is about 2.8:1 (much squarer than Total Spares' wordmark), so at
+     150px it stood 53px tall in a 48px bar and overflowed into the top bar and hero.
+     120px wide (43px tall) fits, and its box follows the image, not the 70px
+     desktop logo_height. */
   .header .header-main-wrapper .header__heading-logo,
   .header .header-main-wrapper > .header__heading-link img {
-    width: 150px;
-    max-width: 150px;
+    width: 120px;
+    max-width: 120px;
     height: auto;
+  }
+  .header .header-main-wrapper .header__heading-logo-wrapper {
+    height: auto;
+  }
+  .header .header-main-wrapper .header__heading-link {
+    padding: 0;
   }
   .header .header-main-wrapper .header__icons {
     margin-left: auto;
   }
-  /* The cart svg's fill comes from the cart_text_icon_color setting (#000, right for the
-     lime desktop button). On the black mobile header it has to be white. */
-  .header-cart__icon svg path {
-    fill: #fff;
-  }
+  /* (Total Commercial forced the bare mobile cart icon white here for its black
+     header. On 417's white header the CLI-661 rule above keeps it black.) */
 }
 
 /* Spares Plus (CLI-694): honeypot trap field. Deliberately positioned off-screen
