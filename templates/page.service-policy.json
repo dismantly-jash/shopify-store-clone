@@ -40,8 +40,8 @@
             "button_label": "Shop Now",
             "button_link": "/search?q=*&options%5Bprefix%5D=last&filter.p.m.custom.type=PART",
             "button_style_secondary": false,
-            "button_color": "#d7fd10",
-            "button_text_color": "#000000"
+            "button_color": "#e4332b",
+            "button_text_color": "#ffffff"
           }
         }
       },

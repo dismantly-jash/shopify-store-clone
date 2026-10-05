@@ -6,7 +6,7 @@
 
 .section-title-banner {
   position: relative;
-  background: var(--brand-dark, #050708);
+  background: var(--brand-dark, #070302);
   transform: skewX(-20deg);
   padding: 1.5rem 4rem;
 }
@@ -22,13 +22,14 @@
 .section-title-banner::before {
   left: -1.4rem;
   width: 0.7rem;
-  background: var(--brand-green, #3d6601);
+  background: var(--brand-green, #e4332b);
 }
 
 .section-title-banner::after {
   left: -2.4rem;
   width: 0.4rem;
-  background: var(--accent-color, #d7fd10);
+  /* 417: the outer stripe is grey, the inner one red */
+  background: #535353;
 }
 
 .section-title-banner__heading {

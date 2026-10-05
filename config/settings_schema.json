@@ -44,13 +44,13 @@
             "type": "color",
             "id": "primary_color",
             "label": "Primary color",
-            "default": "#3d6601"
+            "default": "#e4332b"
           },
           {
             "type": "color",
             "id": "secondary_color",
             "label": "Secondary color",
-            "default": "#3d6601"
+            "default": "#e4332b"
           },
           {
             "type": "color",

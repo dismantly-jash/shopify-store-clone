@@ -43,7 +43,7 @@
   line-height: 1.2;
   font-weight: 500;
   margin: 0;
-  color: var(--brand-green, #3d6601);
+  color: var(--brand-green, #e4332b);
   text-decoration: none;
   display: block;
 }
@@ -134,7 +134,7 @@
   justify-content: center;
 }
 .contact-sales-team__badge {
-  color: #3d6601;
+  color: #e4332b;
   display: inline-block;
   height: 20px;
   position: relative;
@@ -155,7 +155,7 @@
   width: 14px;
 }
 .contact-sales-team__heading {
-  color: #3d6601;
+  color: #e4332b;
   font-family: var(--font-heading-family);
   font-size: 24px;
   font-weight: 600;
@@ -193,7 +193,7 @@
 }
 .contact-sales-team__phone {
   align-items: center;
-  color: #3d6601;
+  color: #e4332b;
   display: inline-flex;
   font-family: var(--font-body-family);
   font-size: 18px;
@@ -204,7 +204,7 @@
   text-decoration: none;
 }
 .contact-sales-team__phone-icon {
-  color: #3d6601;
+  color: #e4332b;
   display: inline-flex;
   height: 24px;
   width: 24px;

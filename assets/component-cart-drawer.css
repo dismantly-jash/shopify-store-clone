@@ -399,7 +399,7 @@ cart-drawer-items {
 }
 .cart-drawer .cart__checkout-button {
   background-color: var(--main-color);
-  color:#000;
+  color: var(--text-on-main-color, #fff);
 }
 .cart-drawer .cart__view-button{
   border:1px solid #D8D8D8;

@@ -1527,7 +1527,7 @@ a.product__text {
 }
 .product .product-form__buttons .custom-offer-btn.make_an_offer_btn .button {
   background: var(--main-color);
-  color: var(--text-on-main-color, #000);
+  color: var(--text-on-main-color, #fff);
 }
 .product .product-form__buttons .custom-offer-btn a.button.button--secondary  {
   max-width: 100%;
@@ -1562,15 +1562,15 @@ a.product__text {
   min-height: 52px;
   letter-spacing: .5px;
   background: var(--main-color);
-  color: var(--text-on-main-color, #000);
+  color: var(--text-on-main-color, #fff);
 }
 .product .product-form__buttons .custom-offer-btn.custom-request-part-btn {
   flex: 0 0 calc(220px - 10px);
   max-width: calc(220px - 10px);
 }
 .product .product-form__buttons .custom-offer-btn.custom-request-part-btn a {
-  background: var(--main-color, #d7fd10);
-  color: #000;
+  background: var(--main-color, #e4332b);
+  color: var(--text-on-main-color, #fff);
   justify-content: center;
   font-size: 18px;
   font-weight: 500;
@@ -1626,7 +1626,7 @@ a.product__text {
   margin-top:20px;
 }
 .custom-product-information h3{
-  color: var(--brand-green, #3d6601);
+  color: var(--brand-green, #e4332b);
   font-size: 18px;
   font-weight: 500;
   line-height: 1.3;
@@ -1714,12 +1714,12 @@ a.product__text {
   height: 18px;
 }
 .product-short-info .product-info-details .product-short-icon svg path{
-  fill: var(--brand-green, #3d6601)
+  fill: var(--brand-green, #e4332b)
 }
 
 .custom-request-part-btn .request_parts{
-  background-color: var(--main-color, #d7fd10);
-  color: #000;
+  background-color: var(--main-color, #e4332b);
+  color: var(--text-on-main-color, #fff);
   margin-top: 0;
   box-shadow: var(--btn-shadow);
 }

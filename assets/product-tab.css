@@ -6,8 +6,8 @@
     display: block;
 }
 .product-tab-view  .tab-button.active{
-    border-bottom:2px solid #050708;
-    color:#050708;
+    border-bottom:2px solid #070302;
+    color:#070302;
     font-weight:700;
 }
 /* ------ */

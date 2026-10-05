@@ -51,7 +51,7 @@
       "settings": {
         "logo_height": 90,
         "logo_width": 270,
-        "cart_text_icon_color": "#000000",
+        "cart_text_icon_color": "#ffffff",
         "menu_text_color": "#000000",
         "mobile_logo_position": "left",
         "menu": "main-menu",

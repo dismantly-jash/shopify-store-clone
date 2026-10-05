@@ -467,7 +467,7 @@
   min-width: 184px;
   min-height: 42px;
   background-color: var(--main-color);
-  color: #000;
+  color: var(--text-on-main-color, #fff);
   font-size: 15px;
   line-height: normal;
 }
@@ -481,7 +481,7 @@
 .page-service-policy .image-with-text .image-with-text__content .image-with-text__heading strong,
 .page-guarantee-after-sales .image-with-text .image-with-text__content .image-with-text__heading strong,
 .page-shipping-policy .image-with-text .image-with-text__content .image-with-text__heading strong{
-  color: var(--brand-green, #3d6601);
+  color: var(--brand-green, #e4332b);
 }
 /* responsive */
 @media screen and (max-width: 1280px){
