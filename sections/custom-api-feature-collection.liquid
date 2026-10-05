@@ -1,6 +1,9 @@
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
 <script>
+  /* CLI-561: the Storefront API returns amounts as bare strings ("10.0"), and
+     these cards printed them verbatim, so Similar Parts showed $10.0 while the
+     main product price on the same page showed $10.00. */
   function formatMoney(amount) {
     const n = Number(amount);
     return Number.isFinite(n) ? n.toFixed(2) : amount;
@@ -8,7 +11,7 @@
 
   /* CLI-665: zero results used to hide the whole section, so the cross-sell
      vanished with no explanation. Reveal a message instead. Defined on window
-     because the callers live in later <script> blocks in this section. */
+     because the callers live in later script blocks in this section. */
   window.showSimilarPartsEmpty = function (sectionElement) {
     if (!sectionElement) return;
     sectionElement.style.display = "block";
