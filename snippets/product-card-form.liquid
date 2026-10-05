@@ -73,7 +73,9 @@
                   class="field__input"
                   autocomplete="tel"
                   name="contact[{{ 'templates.contact.form.phone' | t }}]"
-                  pattern="[0-9\-]*"
+                  {%- comment -%} CLI-654: the old pattern rejected spaces and "+", so a number typed the way our own placeholder shows it blocked the submit with no useful message. {%- endcomment -%}
+                  pattern="\+?[0-9\s\(\)\.\-]*"
+                  title="Digits, spaces and + ( ) - only"
                   value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
                   placeholder="{{ 'templates.contact.form.phone' | t }}"
                 >
