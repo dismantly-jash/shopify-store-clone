@@ -1801,7 +1801,7 @@ function applyDefaultCountryCode(wrapper) {
   if (!defaultItem) {
     defaultItem = Array.from(wrapper.querySelectorAll('.dropdown-menu li')).find(function (item) {
       var code = item.querySelector('.country-code');
-      return code && code.textContent.trim() === 'NZ';
+      return code && code.textContent.trim() === 'US';
     });
   }
   if (!defaultItem) return;
