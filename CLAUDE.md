@@ -204,7 +204,8 @@ store binding) was not copied.
 
 ## Still to do — theme side
 
-✅ Cherry-picks, ✅ recolour (`357ddef`), ✅ identity and NZ→US pass (`71065c0`, `76cbd86`:
+✅ Header (`b894dd7`) and ✅ footer (`b117351`) done: white, matched to Figma at 1440
+and checked at 375. ✅ Cherry-picks, ✅ recolour (`357ddef`), ✅ identity and NZ→US pass (`71065c0`, `76cbd86`:
 contact details, US phone default, product Shipping/Warranty tabs, 417 logo,
 PAGE-CONTENT.md) are done. Still open from that pass: the social URLs (not in Figma),
 and `assets/tcs-hero.jpg`, which the home hero still uses. Next →
@@ -304,6 +305,14 @@ The full procedure is the Linear doc **Setup Shopify store**
 3. **Navigation**: Home / Parts / Vehicles / Contact Us / Sell My Car / Returns. Sell My
    Car and Returns are modal triggers: give them `#` as the URL, never a page, or the
    header highlights them on that page (CLI-570).
+   The footer reads three more menus by handle (`sections/footer-group.json`):
+   - `shop`: Shop Parts, Currently Dismantling
+   - `contact-1`: Contact Us, Warranty, Shipping & Delivery
+   - `footer-legal`: Terms of Service, Privacy Policy (bottom row, beside the
+     social icons). Point these at the themed pages, not `/policies/…`.
+   Social icons show once the `social_*_link` theme settings are filled. The
+   design has X, Instagram and Facebook in the footer, plus YouTube on the
+   contact page. We don't have the URLs yet.
 4. **Pages**: create the policy pages and the contact page, and assign the matching
    `page.*` templates.
 5. **Dismantly connection**: section 4 of the Setup doc. Use the trimmed scope list, and
