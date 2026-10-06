@@ -4,11 +4,14 @@
   margin-bottom: 4rem;
 }
 
+/* 417 Section Header (Figma 12009:1104): the label and both stripes lean 15.15deg
+   (15.6px across a 57.6px height). Each stripe is 6px wide with a 3.6px gap to the
+   next, and the label is 31.8px wider than the text on each side at mid-height. */
 .section-title-banner {
   position: relative;
   background: var(--brand-dark, #070302);
-  transform: skewX(-20deg);
-  padding: 1.5rem 4rem;
+  transform: skewX(-15.15deg);
+  padding: 1.56rem 3.18rem;
 }
 
 .section-title-banner::before,
@@ -17,24 +20,23 @@
   position: absolute;
   top: 0;
   bottom: 0;
+  width: 0.6rem;
 }
 
 .section-title-banner::before {
-  left: -1.4rem;
-  width: 0.7rem;
+  left: -0.96rem;
   background: var(--brand-green, #e4332b);
 }
 
 .section-title-banner::after {
-  left: -2.4rem;
-  width: 0.4rem;
+  left: -1.92rem;
   /* 417: the outer stripe is grey, the inner one red */
-  background: #535353;
+  background: #5b635f;
 }
 
 .section-title-banner__heading {
   margin: 0;
-  transform: skewX(20deg);
+  transform: skewX(15.15deg);
   color: #ffffff;
   font-size: 2.4rem;
   font-weight: 700;

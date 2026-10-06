@@ -3645,9 +3645,12 @@ h2.has-border {
   height: 100%;
   background: var(--brand-dark, #070302);
   z-index: -1;
-  transform: matrix(1, 0, -0.2, 1, 0, 0);
+  /* 417 Section Header: 15.15deg lean, the same as the stripes below */
+  transform: skewX(-15.15deg);
 }
 
+/* Stripes: 6px wide with 3.6px gaps, measured at mid-height (skew pivots there),
+   so the red one ends 3.6px before the label's left edge at 16px. */
 .title-line{
   position:relative;
   width:fit-content;
@@ -3658,17 +3661,17 @@ h2.has-border {
   content: "";
   position: absolute;
   top: 0;
-  left: 7px;
-  width:5px;
+  left: 6.4px;
+  width:6px;
   height: 100%;
   background: var(--brand-green, #e4332b);
   z-index:-1;
-  transform: skewX(-11.5deg);
+  transform: skewX(-15.15deg);
 }
 .title-line::before {
-  left: -2px;
+  left: -3.2px;
   /* 417: the outer stripe is grey, the inner one red */
-  background: #535353;
+  background: #5b635f;
 }
 @media screen and (max-width:749px){
   .section-main-title{
