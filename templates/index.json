@@ -22,7 +22,7 @@
         "button": {
           "type": "buttons",
           "settings": {
-            "button_label_1": "Search Parts",
+            "button_label_1": "Find My Part",
             "button_link_1": "/search?q=*&options%5Bprefix%5D=last&filter.p.m.custom.type=PART",
             "button_style_secondary_1": false,
             "button_label_2": "",
@@ -36,10 +36,10 @@
         "button"
       ],
       "settings": {
-        "image": "shopify://shop_images/image0.jpg",
-        "image_asset": "tcs-hero.jpg",
-        "brand_logo": "shopify://shop_images/F522E7D1-3F32-41CF-9EF6-9E8BC5926400_82c32305-3cac-42db-8786-73951914a4f6.png",
-        "show_brand_logo": true,
+        "image": "",
+        "image_asset": "417-home-hero.jpg",
+        "brand_logo": "",
+        "show_brand_logo": false,
         "heading_color": "#ffffff",
         "heading_secondary_color": "#ffffff",
         "banner_button_color": "#e4332b",

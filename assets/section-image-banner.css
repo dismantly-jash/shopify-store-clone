@@ -593,3 +593,21 @@
     padding-bottom: 36px;
   }
 }
+
+/* 417 home hero (Figma 18046-6606, 1440x614): heading text centred at y216, the
+   220x44 Find My Part button at y329, so the pair sits above the vertical centre.
+   Total Commercial's brand logo used to fill the space above the heading. The design
+   has no logo, so the gap goes between heading and button instead (74px from the
+   heading's line box), with the same amount added below to lift the pair. */
+@media screen and (min-width: 990px) {
+  .template__index .banner--medium .banner__box .banner__buttons {
+    margin-top: 81px;
+  }
+  .template__index .banner--medium .banner__box {
+    padding-bottom: 106px;
+  }
+}
+.template__index .banner--medium .banner__buttons .button {
+  min-width: 220px;
+  font-weight: 600;
+}
