@@ -2306,3 +2306,73 @@ a.product__text {
 .slider-button[data-name][disabled] svg path {
   fill: #9A9A9A;
 }
+
+/* 417 part page (Figma 18046-7707). */
+@media screen and (min-width: 990px) {
+  /* gallery and info start 100px under the header (46px under the breadcrumb) */
+  .main-product-section .product.grid {
+    padding-top: 7px; /* a margin collapses into the breadcrumb's */
+  }
+  /* main image: a 585x586 white box, 16px radius, photo inset ~22px. Photos are
+     contained rather than cropped, since part photos come in every aspect ratio. */
+  .product__media-list .product-media-container {
+    background: #fff;
+    border-radius: 16px;
+  }
+  .product__media-list .product-media-container .media {
+    padding-top: 100.17% !important;
+  }
+  .product__media-list .product-media-container .media img {
+    inset: 22px;
+    width: calc(100% - 44px);
+    height: calc(100% - 44px);
+    object-fit: contain;
+  }
+  /* round 48px arrows sitting on the box edges */
+  .product__media-wrapper .slider-button {
+    width: 48px;
+    height: 48px;
+    border: 1px solid #d8d8d8;
+    background: #fff;
+  }
+}
+/* Details panel label and the specialist line (Figma 18046-7774, 18053-7120) */
+.product .table-heading,
+.product-details-table h3,
+.product .product-details-title {
+  color: var(--main-heading-color, #070302);
+}
+.seller-details-right > span {
+  font-size: 16px;
+  line-height: 28px;
+  color: #868e96;
+}
+.seller-details-right .seller-number {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 28px;
+  color: var(--main-heading-color, #070302);
+}
+/* specificity matches for the rules above that existing CSS outranks */
+.product .custom-product-information h3 {
+  color: var(--main-heading-color, #070302);
+}
+.product__info-wrapper .product-seller-details .seller-details-right > span {
+  font-size: 16px;
+  line-height: 28px;
+}
+@media screen and (min-width: 990px) {
+  .product--thumbnail_slider .slider-mobile-gutter .slider-button.slider-button--prev {
+    left: -5px;
+  }
+  .product--thumbnail_slider .slider-mobile-gutter .slider-button.slider-button--next {
+    right: -4px;
+  }
+  /* 134px square thumbnails, 16px apart, 16px under the main image */
+  .thumbnail-list.slider--tablet-up .thumbnail-list__item.slider__slide {
+    height: 134px;
+  }
+  .product__media-wrapper .thumbnail-slider .thumbnail-list.slider--tablet-up {
+    padding-left: 0; /* thumbnails start flush with the main image (x80) */
+  }
+}
