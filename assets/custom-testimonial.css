@@ -114,25 +114,26 @@
     right:-4px;
     line-height:0;
 }
+/* 417: same 60px grey arrows as the product carousels (Figma 18046:6957). The
+   reviews sit on white here, so the grey fill reads fine (CLI-489 was about a
+   white circle on a light background). */
 .testimonial-section .swiper-button-prev,
 .testimonial-section .swiper-button-next{
-    width:44px;
-    height:44px;
+    width:60px;
+    height:60px;
     border-radius:50%;
-    background:var(--brand-dark,#070302);
-    border:1px solid var(--brand-dark,#070302);
-    box-shadow:0 2px 6px rgba(0,0,0,0.15);
+    background:#eaeaea;
+    border:1px solid rgba(0,0,0,0.1);
+    box-shadow:none;
 }
-/* CLI-489: white circles with a #eaeaea hairline were near-invisible on the
-   light testimonial background. */
 .testimonial-section .swiper-button-prev svg path,
 .testimonial-section .swiper-button-next svg path{
-    stroke:var(--accent-color,#e9eb71);
+    stroke:#000;
 }
 .testimonial-section .swiper-button-prev svg,
 .testimonial-section .swiper-button-next svg{
-    width:16px;
-    height:16px;
+    width:20px;
+    height:20px;
 }
 .testimonial-section .review-swiper-pagination{
     position:static;
