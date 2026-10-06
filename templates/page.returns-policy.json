@@ -4,16 +4,17 @@
       "type": "page-hero",
       "settings": {
         "title": "Returns",
-        "image_asset": "hero-returns.jpg",
+        "image_asset": "417-hero-returns.jpg",
         "overlay_opacity": 46,
-        "height": 300
+        "height": 300,
+        "image": ""
       }
     },
     "main": {
       "type": "main-page",
       "settings": {
         "padding_top": 60,
-        "padding_bottom": 60,
+        "padding_bottom": 32,
         "show_title": false
       }
     },
@@ -52,8 +53,8 @@
       ],
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
-        "image": "shopify://shop_images/cta-quality-parts.jpg",
-        "image_asset": "cta-quality-parts.jpg",
+        "image": "",
+        "image_asset": "417-cta.jpg",
         "height": "small",
         "desktop_image_width": "medium",
         "layout": "text_first",
@@ -67,11 +68,21 @@
         "padding_top": 40,
         "padding_bottom": 40
       }
+    },
+    "file_a_return": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "{%- comment -%} 417 (Figma 22038-3820): opens the Returns form. The form is rendered on every page from layout/theme.liquid, and global.js binds [data-modal=\"returns\"] on document. {%- endcomment -%}\n<div class=\"page-width page-width--narrow returns-file-cta\">\n  <a href=\"#returns\" class=\"button\" data-modal=\"returns\" role=\"button\">File a Return</a>\n</div>",
+        "color_scheme": "scheme-9a153970-6b13-4d7d-a853-4259c033f4be",
+        "padding_top": 0,
+        "padding_bottom": 60
+      }
     }
   },
   "order": [
     "page_hero",
     "main",
+    "file_a_return",
     "image_with_text_cta"
   ]
 }

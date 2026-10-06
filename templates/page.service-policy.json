@@ -4,9 +4,10 @@
       "type": "page-hero",
       "settings": {
         "title": "",
-        "image_asset": "hero-shipping.jpg",
+        "image_asset": "417-hero-policy.jpg",
         "overlay_opacity": 46,
-        "height": 300
+        "height": 300,
+        "image": ""
       }
     },
     "main": {
@@ -52,8 +53,8 @@
       ],
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
-        "image": "shopify://shop_images/cta-quality-parts.jpg",
-        "image_asset": "cta-quality-parts.jpg",
+        "image": "",
+        "image_asset": "417-cta.jpg",
         "height": "small",
         "desktop_image_width": "medium",
         "layout": "text_first",

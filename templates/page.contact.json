@@ -13,8 +13,8 @@
       "type": "page-hero",
       "settings": {
         "title": "Contact Us",
-        "image": "shopify://shop_images/C961E83C-85FC-4B43-9562-78C07C00675E.png",
-        "image_asset": "hero-contact.jpg",
+        "image": "",
+        "image_asset": "417-hero-contact.jpg",
         "overlay_opacity": 46,
         "height": 300
       }

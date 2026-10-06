@@ -14,8 +14,8 @@ The node ids are given per page.
 | Shipping & Delivery | `shipping-delivery` | `page.shipping-policy` | `18046-9356` |
 | Returns | `returns` | `page.returns-policy` | `22038-3808` |
 | Warranty | `warranty` | `page.guarantee-after-sales` | `18046-9385` |
-| Privacy Policy | `privacy-policy` | `page.privacy-policy` (to build; until then `page.service-policy`) | `22039-4206` |
-| Terms of Service | `terms-of-service` | `page.terms-of-service` (to build; until then `page.service-policy`) | `22038-3967` |
+| Privacy Policy | `privacy-policy` | `page.privacy-policy` | `22039-4206` |
+| Terms of Service | `terms-of-service` | `page.terms-of-service` | `22038-3967` |
 | Contact Us | `contact` | `page.contact` (leave Content empty; the template holds everything) | `18046-9248` |
 
 ---
@@ -63,8 +63,8 @@ The node ids are given per page.
 - No returns on international orders.
 - Any special-order items such as body cuts, frame cuts, etc. are final sale. No refunds will be issued.
 
-*(Below the list the design has a red **File a Return** button that opens the
-Returns modal. That button belongs to the theme, not to this Content field.)*
+*(The red **File a Return** button below the list is already part of the
+`page.returns-policy` template. Don't add it here.)*
 
 ---
 

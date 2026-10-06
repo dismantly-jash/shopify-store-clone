@@ -13,8 +13,8 @@
       "type": "page-hero",
       "settings": {
         "title": "Warranty",
-        "image": "shopify://shop_images/91384EC9-9C94-41AE-B617-C60FC030D199.png",
-        "image_asset": "hero-returns.jpg",
+        "image": "",
+        "image_asset": "417-hero-warranty.jpg",
         "overlay_opacity": 46,
         "height": 300
       }
@@ -62,8 +62,8 @@
       ],
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
-        "image": "shopify://shop_images/IMG_0603.jpg",
-        "image_asset": "cta-quality-parts.jpg",
+        "image": "",
+        "image_asset": "417-cta.jpg",
         "height": "small",
         "desktop_image_width": "medium",
         "layout": "text_first",

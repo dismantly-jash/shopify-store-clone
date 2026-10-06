@@ -126,8 +126,8 @@ was screenshotted through the MCP and showed 417 branding.
 | `18046-9356` | **Shipping & Delivery** page (Small Package + Freight) | `page.shipping-policy` |
 | `18046-9385` | **Warranty** page (1-year parts warranty, engine/transmission/axle/body/SRS terms) | `page.guarantee-after-sales` |
 | `22038-3808` | **Returns** page ("Returns and Refunds", File a Return button) | `page.returns-policy` |
-| `22039-4206` | **Privacy Policy** page | no template yet; `page.service-policy.json` is the nearest to copy |
-| `22038-3967` | **Terms of Service** page | no template yet; copy `page.service-policy.json` |
+| `22039-4206` | **Privacy Policy** page | `page.privacy-policy` |
+| `22038-3967` | **Terms of Service** page | `page.terms-of-service` |
 | `18046-9248` | **Contact Us** page (info block, map, "Established in 2018" copy) | `page.contact` |
 
 Things the frames show that differ from Total Commercial:
@@ -150,9 +150,12 @@ Things the frames show that differ from Total Commercial:
   icons (World Wide Delivery, Secure Payments, Right Parts The First Time,
   5 Star Rated Service); and the fitment caveat "Fitment may vary. Please call us
   with your VIN…" (CLI-683 in the `a5c1819` cherry-pick).
-- Privacy Policy and Terms of Service are new pages. The source only has
-  `page.contact`, `page.guarantee-after-sales`, `page.returns-policy`,
-  `page.service-policy`, `page.shipping-policy`, `page.json` and `page.temp`.
+- Privacy Policy and Terms of Service are new pages, with templates
+  `page.privacy-policy` / `page.terms-of-service` (`git log` for when). Every policy
+  page and the contact page use committed 417 photos: `assets/417-hero-*.jpg`
+  (2000x909 crops of the Figma heroes) and `assets/417-cta.jpg`. No Files upload
+  is needed. The Returns page has the File a Return button as a custom-liquid
+  section (`data-modal="returns"`).
 - In the **Warranty frame's** nav, the active "Returns" link uses
   `--primaries/red-dark` with fallback `#5b635f`. That's inconsistent with
   every other frame. Treat active as accent red everywhere.

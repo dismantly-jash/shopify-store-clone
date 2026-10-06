@@ -13,9 +13,9 @@
       "type": "page-hero",
       "settings": {
         "title": "Shipping & Delivery",
-        "image": "shopify://shop_images/1FEC2816-82A5-43B0-8E19-D3D900B8A0E4.png",
-        "image_asset": "hero-shipping.jpg",
-        "overlay_opacity": 46,
+        "image": "",
+        "image_asset": "417-hero-shipping.jpg",
+        "overlay_opacity": 60,
         "height": 300
       }
     },
@@ -62,8 +62,8 @@
       ],
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
-        "image": "shopify://shop_images/IMG_0602.jpg",
-        "image_asset": "cta-quality-parts.jpg",
+        "image": "",
+        "image_asset": "417-cta.jpg",
         "height": "small",
         "desktop_image_width": "medium",
         "layout": "text_first",
