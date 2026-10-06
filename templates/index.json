@@ -193,80 +193,44 @@
     "custom_testimonial_LqJyjy": {
       "type": "custom-testimonial",
       "blocks": {
-        "customer_review_tcs_1": {
+        "customer_review_417_1": {
           "type": "customer_review",
           "settings": {
             "content_for_index": 5,
-            "review_text": "<p>This place had some fair prices on cars. Stop for a look. Shame I couldn't tell if someone was around or not. I would stop there again hopefully I find someone next visit.</p>",
+            "review_text": "<p>“Outstanding experience from start to finish. The parts arrived in perfect condition and installation was straightforward.”</p>",
             "width": 312,
-            "customer_name": "DK",
-            "profile_background": "#fffdef",
-            "profile_text": "#ca8504"
+            "customer_name": "Sarah J.",
+            "profile_background": "#ffecc0",
+            "profile_text": "#624c18"
           }
         },
-        "customer_review_tcs_2": {
+        "customer_review_417_2": {
           "type": "customer_review",
           "settings": {
             "content_for_index": 5,
-            "review_text": "<p>Got my car from here exallent service</p>",
+            "review_text": "<p>“Outstanding quality and attention to detail. The parts look and perform exactly as advertised.”</p>",
             "width": 312,
-            "customer_name": "Jason White",
-            "profile_background": "#ebf8ff",
-            "profile_text": "#18658b"
+            "customer_name": "James W",
+            "profile_background": "#c0eaff",
+            "profile_text": "#124b68"
           }
         },
-        "customer_review_tcs_3": {
+        "customer_review_417_3": {
           "type": "customer_review",
           "settings": {
             "content_for_index": 5,
-            "review_text": "<p>Really impressed. Purchased a towbar and roof rack setup.</p><ul><li>Quick communication</li><li>Items were ready for pickup quickly</li><li>A piece was missed, and they had it on my doorstep in under 24hours.</li></ul>",
+            "review_text": "<p>“Premium quality parts at competitive prices. Fast shipping and great customer service.”</p>",
             "width": 312,
-            "customer_name": "JK",
-            "profile_background": "#e1e4ea",
-            "profile_text": "#222530"
-          }
-        },
-        "customer_review_tcs_4": {
-          "type": "customer_review",
-          "settings": {
-            "content_for_index": 5,
-            "review_text": "<p>Great place to purchase all second hand car parts that you might need for your Toyota vehicles. Staff is very friendly and helpful. Good knowledge of car parts. Highly recommended.</p>",
-            "width": 312,
-            "customer_name": "Pedja Stanich",
-            "profile_background": "#f3ebff",
-            "profile_text": "#6b21a8"
-          }
-        },
-        "customer_review_tcs_5": {
-          "type": "customer_review",
-          "settings": {
-            "content_for_index": 5,
-            "review_text": "<p>These guys were really terrific in finding &amp; supplying me a side window glass for my old Suzuki. The old banger can now keep taking me fishing for another few years yet! Great service fellas, thanks a lot.</p>",
-            "width": 312,
-            "customer_name": "John Akers",
-            "profile_background": "#ffecec",
-            "profile_text": "#b42318"
-          }
-        },
-        "customer_review_tcs_6": {
-          "type": "customer_review",
-          "settings": {
-            "content_for_index": 5,
-            "review_text": "<p>Absolutely awesome people, and cheap parts, and they help install if they can 10/10</p>",
-            "width": 312,
-            "customer_name": "Indy Rose",
-            "profile_background": "#eaf2ff",
-            "profile_text": "#1d4ed8"
+            "customer_name": "Christopher B",
+            "profile_background": "#c0d5ff",
+            "profile_text": "#122368"
           }
         }
       },
       "block_order": [
-        "customer_review_tcs_1",
-        "customer_review_tcs_2",
-        "customer_review_tcs_3",
-        "customer_review_tcs_4",
-        "customer_review_tcs_5",
-        "customer_review_tcs_6"
+        "customer_review_417_1",
+        "customer_review_417_2",
+        "customer_review_417_3"
       ],
       "settings": {
         "heading": "What Our Clients Say About Us",
@@ -276,8 +240,8 @@
         "text_color": "#000000",
         "background": "",
         "review_block_bg": "#f9f9f9",
-        "padding_top": 0,
-        "padding_bottom": 76,
+        "padding_top": 24,
+        "padding_bottom": 52,
         "padding_top_mobile": 36,
         "padding_bottom_mobile": 36
       }

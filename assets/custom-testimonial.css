@@ -150,3 +150,21 @@
 .testimonial-section .review-swiper-pagination .swiper-pagination-bullet-active{
     background:var(--brand-dark,#070302);
 }
+
+/* 417 home reviews (Figma 18049-6478): three 392px cards in a 1240px row (x100),
+   with the cards 81.6px below the title label's top. That's 24px under the 57.6px
+   label, where the shared section-title wrap gives 40. */
+@media screen and (min-width: 990px) {
+  .testimonial-section .review_slider {
+    max-width: 1240px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .testimonial-section .section-title-banner-wrap {
+    margin-bottom: 24px;
+  }
+}
+/* 417: the review avatars are plain initials (Figma 18049-6562), no verified tick. */
+.testimonial-section .customer-profile__verified {
+  display: none;
+}
