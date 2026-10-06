@@ -671,13 +671,15 @@
   }
   .footer__content-top .footer__blocks-wrapper {
     display: grid;
-    grid-template-columns: 333px 260px 260px 306px;
+    /* Figma widths at a 1280 page width; the tracks shrink together below that */
+    grid-template-columns: minmax(0, 333px) minmax(0, 260px) minmax(0, 260px) minmax(0, 306px);
     column-gap: 32px;
     margin: 0;
   }
   .footer__content-top .footer__blocks-wrapper .grid__item {
     width: auto;
     max-width: none;
+    min-width: 0; /* overrides the old 420px min-width on the text block */
     padding: 0;
   }
   /* the columns start 22px below the logo */
@@ -693,16 +695,22 @@
   .footer-block--menu .footer-block__details-content li {
     margin-bottom: 22px;
   }
+  /* the legal row's text sits at y~292 of the 360px footer */
   .footer__content-bottom {
     border-top: 0;
-    padding-top: 4px;
+    padding-top: 69px;
     padding-bottom: 0;
   }
+  /* Terms of Service starts at x776 in Figma (696px into the 1280 page width),
+     then Privacy Policy, then the social icons 65px on. Anchored on the left so the
+     links stay put whether or not any social URL is set. */
   .footer__content-bottom .footer__column--info {
     flex-direction: row;
     align-items: center;
-    justify-content: flex-end;
-    gap: 65px;
-    padding-right: 127px;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 24px 65px;
+    /* 696/1280 of the page width, so narrower desktops keep it on screen */
+    padding-left: 54.375%;
   }
 }
