@@ -135,7 +135,7 @@
     height: 100%;
     left: 0;
     top: 0;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.5); /* 417: Figma 18046-6484 */
   }
   .section-{{ section.id }} .banner-content > * {
     position: relative;
@@ -725,7 +725,7 @@
                       </option>
                     {%- endfor -%}
                   </select>
-                  <span>per page</span>
+                  {%- comment -%} 417 (Figma 18046-6553): "Showing [25]", no "per page". {%- endcomment -%}
                 </div>
                 {% render 'pagination', paginate: paginate, extra_params: page_size_param %}
               </div>

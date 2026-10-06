@@ -160,7 +160,25 @@
                 {% when 'boolean', 'list' %}
                     {% assign filter_label = filter.label | handle %}
                     {% comment %} {% if filter_label == 'type' %}{% continue %}{% endif %} {% endcomment %}
+                    {%- liquid
+                      comment
+                        417: Year, Make, Model, Part Type always sit in that order (Figma
+                        18046-6481), whether a dropdown is real or the placeholder below.
+                      endcomment
+                      assign facet_order = 9
+                      case filter.param_name
+                        when 'filter.p.m.custom.year'
+                          assign facet_order = 1
+                        when 'filter.p.m.custom.make'
+                          assign facet_order = 2
+                        when 'filter.p.m.custom.model'
+                          assign facet_order = 3
+                        when 'filter.p.m.custom.part_type'
+                          assign facet_order = 4
+                      endcase
+                    -%}
                     <details
+                      style="order: {{ facet_order }};"
                       id="Details-{{ filter.param_name | escape }}-{{ section.id }}"
                       class="{% if filter_type == 'horizontal' %}disclosure-has-popup facets__disclosure{% else %} facets__disclosure-vertical{% endif %} js-filter {% if filter_label == 'part-variant-description' %}disable{% endif %} details-for-hide-{{filter_label}} {% if search.terms == 'car' %}details-{{filter_label}}{% endif %}"
                       data-index="{{ forloop.index }}"
@@ -430,6 +448,39 @@
                   </details>
               {% endcase %}
             {%- endfor -%}
+
+            {%- comment -%}
+              417 (Figma 18046-6481 / 18046-9423): the hero always shows Year, Make, Model
+              (and Part Type on Parts). Shopify only returns a filter when at least one
+              product in the results has a value for it, so with a small catalogue whole
+              dropdowns vanished. Any expected filter Shopify didn't return gets a
+              look-alike placeholder that can't be opened. It carries no js-filter class,
+              so facets.js ignores it.
+            {%- endcomment -%}
+            {%- if show_search_cta and filter_type == 'horizontal' -%}
+              {%- liquid
+                assign expected_facets = 'filter.p.m.custom.year|Select Year|1,filter.p.m.custom.make|Select Make|2,filter.p.m.custom.model|Select Model|3,filter.p.m.custom.part_type|Select Part Type|4' | split: ','
+                assign present_params = results.filters | map: 'param_name' | join: ','
+              -%}
+              {%- for expected in expected_facets -%}
+                {%- assign expected_parts = expected | split: '|' -%}
+                {%- if scope_type == 'vehicle' and expected_parts[0] == 'filter.p.m.custom.part_type' -%}{%- continue -%}{%- endif -%}
+                {%- if present_params contains expected_parts[0] -%}{%- continue -%}{%- endif -%}
+                <details
+                  class="disclosure-has-popup facets__disclosure facets__disclosure--placeholder"
+                  style="order: {{ expected_parts[2] }};"
+                  aria-disabled="true"
+                  ontoggle="this.open && this.removeAttribute('open')"
+                >
+                  <summary class="facets__summary caption-large focus-offset" tabindex="-1" aria-label="{{ expected_parts[1] | escape }} (no options yet)">
+                    <div>
+                      <span class="facets__summary-label">{{ expected_parts[1] }}</span>
+                      {{- 'icon-down-arrow.svg' | inline_asset_content -}}
+                    </div>
+                  </summary>
+                </details>
+              {%- endfor -%}
+            {%- endif -%}
           </div>
         {% endunless %}
           {% comment %} Pills after filtes on filter type horizontal {% endcomment %}

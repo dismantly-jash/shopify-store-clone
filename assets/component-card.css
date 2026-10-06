@@ -812,8 +812,9 @@
 /* Total Spares: uniform product-card layout — fixed 4:3 image band regardless of
    each photo's aspect ratio, and Buy Now / Add to Cart pinned to the card bottom
    so rows stay level when titles/descriptions differ in length */
+/* 417: 3:2, as on every card in the 417 design (405x270 search, 400x270 home) */
 .product-card-wrapper .card--standard .card__inner.ratio::before {
-  padding-bottom: 75% !important;
+  padding-bottom: 66.667% !important;
 }
 .product-card-wrapper .card__content {
   display: flex;
@@ -839,4 +840,10 @@
 .product-card-wrapper .vehicle-btns {
   position: relative;
   z-index: 2;
+}
+
+/* 417 (Figma 18046-6532): Buy Now / Add to Cart are 48px tall */
+.product-card-wrapper .quick-add .quick-add__submit,
+.product-card-wrapper .quick-add .custom_buy_it_now_btn {
+  min-height: 48px;
 }

@@ -122,6 +122,7 @@ input::-webkit-search-decoration {
   max-width: 100%;
   display: none;
 }
+.template-search .banner-content .content .content_inner .main-heading h1,
 .template-search .banner-content .content .content_inner .main-heading h2 {
   margin: 0 0 20px;
   font-weight: 500;
@@ -356,7 +357,8 @@ input::-webkit-search-decoration {
   .template-search .banner-content .main-banner img {
     min-height: 120px;
   }
-  .template-search .banner-content .content .content_inner .main-heading h2 {
+  .template-search .banner-content .content .content_inner .main-heading h1,
+.template-search .banner-content .content .content_inner .main-heading h2 {
     margin: 0;
   }
   .template-search .banner-content .content .content_inner {
@@ -372,4 +374,79 @@ input::-webkit-search-decoration {
   .sticky-header .template-search .banner-content {
     top: 96px;
   }
+}
+
+/* 417 search hero (Figma 18046-6483 Parts / 18046-9423 Vehicles, 1440x154): title
+   Medium 36 white on a 54px line from y19, controls at y92. Dropdowns are white,
+   4px radius, 0 4px 2px rgba(0,0,0,.25) shadow, 14px #666, widths 208/200/200/204,
+   20px apart, then the 180x44 red Find My Part. */
+@media screen and (min-width: 990px) {
+  .template-search .banner-content .content .content_inner .main-heading h1 {
+    line-height: 54px;
+    margin: 1px 0 19px;
+  }
+  .template-search .banner-content .facets__disclosure > summary {
+    box-shadow: 0 4px 2px rgba(0, 0, 0, 0.25);
+  }
+  /* the wrapper sizes them as flex items (0 0 calc(25% - 15px)) */
+  .template-search .banner-content .facets__disclosure[style*="order: 1"] { flex: 0 0 208px; max-width: none; }
+  .template-search .banner-content .facets__disclosure[style*="order: 2"],
+  .template-search .banner-content .facets__disclosure[style*="order: 3"] { flex: 0 0 200px; max-width: none; }
+  .template-search .banner-content .facets__disclosure[style*="order: 4"] { flex: 0 0 204px; max-width: none; }
+  .template-search .banner-content .facets__wrapper {
+    flex-wrap: nowrap; /* 872px of dropdowns in a 870px row */
+  }
+  .template-search .banner-content .facets__form {
+    column-gap: 20px; /* was 35px; Figma puts Find My Part 20px after Part Type */
+    margin-bottom: 0; /* 5px here made the hero 159 tall, not 154 */
+  }
+}
+/* placeholders look like the real dropdowns but can't be opened */
+.facets__disclosure--placeholder > summary {
+  cursor: default;
+}
+
+/* 417 results footer (Figma 18046-6552): a white bar, 8px radius, 8px 20px padding,
+   44px below the grid. "Showing" 16px black, then a 36px select with a #d8d8d8
+   border, 8px radius, 14px semibold value and a chevron. Pagination on the right. */
+.search-results-footer {
+  background: #fff;
+  border-radius: 8px;
+  padding: 8px 20px;
+  margin-top: 44px;
+  min-height: 56px;
+}
+.search-results-footer__page-size {
+  gap: 12px;
+  font-size: 16px;
+  color: #000;
+}
+.search-results-footer__select {
+  -webkit-appearance: none;
+  appearance: none;
+  min-height: 36px;
+  padding: 8px 36px 8px 12px;
+  border: 1px solid #d8d8d8;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #000;
+  line-height: 1;
+  cursor: pointer;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='20' height='20'%3E%3Cpath d='M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z' fill='%23000'/%3E%3C/svg%3E") no-repeat right 8px center / 20px 20px;
+}
+
+/* 417 results heading (Figma 18046-6503): 40px under the hero, title 18/600 black,
+   count 14px #535353, grid 99px under the title. */
+@media screen and (min-width: 990px) {
+  /* beats component-facets.css's .facets-vertical-sort .facets-vertical-form, which loads later */
+  .template-search .facets-vertical-sort .facets-vertical-form {
+    padding-top: 11px;
+  }
+}
+.template-search .facet-filters-product__label .label {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 23px;
+  color: #000;
 }
