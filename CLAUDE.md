@@ -10,7 +10,15 @@ First pushed 2026-10-06 (at `b74ed8b`) as the unpublished theme **"417 Motoring"
 id **`158937645248`**. Update it with
 `shopify theme push --store=417motoring-zahnadke --theme=158937645248`. The live
 theme is still the default **Horizon** (`#156476473536`) until someone publishes
-417 Motoring. `theme dev` runs on its own development theme (`158904582336`). The storefront is
+417 Motoring. `theme dev` runs on its own development theme (`158904582336`).
+417 Motoring was published on 2026-10-06, so it is **live**: pushes need
+`--allow-live`, and pull-before-push applies from now on.
+
+⚠️ **New section settings: push the section before the templates that use it.**
+If a template arrives before its section's schema defines a setting, Shopify
+silently drops that setting. `default_copy` on the policy pages was lost
+this way once. So push in two steps, `--only sections/<file>` first and then the
+rest, and pull a template back to check. The storefront is
 password-protected, so `theme dev` prompts for the store password. Run it in
 your own terminal, or pass `--store-password`.
 
