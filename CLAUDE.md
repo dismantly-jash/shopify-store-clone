@@ -11,7 +11,7 @@ id **`158937645248`**. Update it with
 `shopify theme push --store=417motoring-zahnadke --theme=158937645248`. The live
 theme is still the default **Horizon** (`#156476473536`) until someone publishes
 417 Motoring. `theme dev` runs on its own development theme (`158904582336`).
-Last pushed to the live theme at `85956c9` (Parts and Vehicles search pages), 2026-10-06.
+Last pushed to the live theme at `6e07f16` (part page and Make an Offer), 2026-10-06.
 417 Motoring was published on 2026-10-06, so it is **live**: pushes need
 `--allow-live`, and pull-before-push applies from now on.
 
@@ -234,6 +234,7 @@ Traps hit on the home page:
   image right after its `get_design_context`.
 - Shell loops: zsh doesn't word-split `$p`, so `set -- $p` fails silently. Wrap
   such loops in `bash -c`.
+  The same applies to building a `--only` list for `theme push`: use a bash array.
 - Range settings have steps (5 on icon-with-text, 4 elsewhere). An off-step value
   makes theme dev reject the whole template ("must be a step in the range").
 - `.banner--adapt` fixes custom image banners at 850px; `base.css` pins carousel
