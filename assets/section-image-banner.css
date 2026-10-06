@@ -611,3 +611,47 @@
   min-width: 220px;
   font-weight: 600;
 }
+
+/* 417 We Buy Used Cars (Figma 18046-7130, 1440x800): white to #f4f4f4 gradient. The
+   title is 20px above the 744px-wide 18/24 #3c3c3c text, then 12px to the 744x510
+   truck, then 12px to the 215x43 Get Estimate button. */
+.banner.section-car-estimate {
+  background: linear-gradient(180deg, #ffffff 35.5%, #f4f4f4 100%);
+}
+@media screen and (min-width: 990px) {
+  /* the class sits on .banner itself; TC gave it 60px of bottom padding */
+  .banner.section-car-estimate {
+    padding-bottom: 50px;
+    height: auto; /* .banner--adapt fixes it at 850px; Figma's section is 800 */
+  }
+  .section-car-estimate .banner__content {
+    padding-top: 49px;
+    padding-bottom: 0;
+  }
+  .section-car-estimate .section-title-banner-wrap {
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+  .section-car-estimate .banner__text {
+    max-width: 744px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .section-car-estimate .banner__text p {
+    line-height: 24px;
+    color: #3c3c3c;
+  }
+  .section-car-estimate img.banner-image-custom {
+    width: 744px;
+    height: 510px;
+    object-fit: cover;
+    margin-top: 12px;
+  }
+  .section-car-estimate .banner__box > div:last-child {
+    margin-top: 12px;
+  }
+}
+.section-car-estimate .button.first_btn {
+  min-width: 215px;
+  min-height: 43px;
+}

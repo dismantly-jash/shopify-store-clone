@@ -547,8 +547,8 @@
         "buttons_tcs"
       ],
       "settings": {
-        "image": "shopify://shop_images/image0_1.png",
-        "image_asset": "we-buy-truck.png",
+        "image": "",
+        "image_asset": "417-we-buy-truck.png",
         "title_icon": "",
         "button_label": "Get Estimate",
         "button_color": "#e4332b",
