@@ -225,12 +225,48 @@
             "profile_background": "#c0d5ff",
             "profile_text": "#122368"
           }
+        },
+        "customer_review_417_4": {
+          "type": "customer_review",
+          "settings": {
+            "content_for_index": 5,
+            "review_text": "<p>“Very satisfied with my purchase. The parts are exactly as described and the service was excellent.”</p>",
+            "width": 312,
+            "customer_name": "Jessica H.",
+            "profile_background": "#e1e4ea",
+            "profile_text": "#222530"
+          }
+        },
+        "customer_review_417_5": {
+          "type": "customer_review",
+          "settings": {
+            "content_for_index": 5,
+            "review_text": "<p>“Top-notch quality and professional service. Will definitely order again in the future.”</p>",
+            "width": 312,
+            "customer_name": "David K.",
+            "profile_background": "#cac0ff",
+            "profile_text": "#351a75"
+          }
+        },
+        "customer_review_417_6": {
+          "type": "customer_review",
+          "settings": {
+            "content_for_index": 5,
+            "review_text": "<p>“Fast shipping, excellent packaging, and the parts fit perfectly. Very satisfied with my purchase.”</p>",
+            "width": 312,
+            "customer_name": "Robert M.",
+            "profile_background": "#ffc0c5",
+            "profile_text": "#681219"
+          }
         }
       },
       "block_order": [
         "customer_review_417_1",
         "customer_review_417_2",
-        "customer_review_417_3"
+        "customer_review_417_3",
+        "customer_review_417_4",
+        "customer_review_417_5",
+        "customer_review_417_6"
       ],
       "settings": {
         "heading": "What Our Clients Say About Us",
