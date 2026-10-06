@@ -217,6 +217,26 @@ store binding) was not copied.
 
 ## Still to do — theme side
 
+✅ **Home page** (`4fb5b95`…`3a03390`, 2026-10-06): every section matched to
+`18046-6572` at 1440 (positions within ~2px) and checked at 375. All images are
+committed theme assets named `417-*` (hero, tab banners, make cars, tow truck) or
+`make-*.png` (logo strip). The only things not compared yet are the **product and
+vehicle cards** (Recently Listed, tab grid, Currently Dismantling), because the
+store has no listings. Those sections read the collections `parts` and `vehicle`
+and the `custom.make`/`part_type` metafields. The make filters assume Corvette is
+stored as Chevrolet, GTR as Nissan and BMW M Sport as BMW.
+Traps hit on the home page:
+- Figma read the **Australian Auto Parts** file twice after the user touched it,
+  even from a separate window. Check every read's content for 417 (red, US) and
+  ask for the other brand files to be closed.
+- Figma's localhost asset URLs serve only the **most recent** read. Download each
+  image right after its `get_design_context`.
+- Shell loops: zsh doesn't word-split `$p`, so `set -- $p` fails silently. Wrap
+  such loops in `bash -c`.
+- Range settings have steps (5 on icon-with-text, 4 elsewhere). An off-step value
+  makes theme dev reject the whole template ("must be a step in the range").
+- `.banner--adapt` fixes custom image banners at 850px; `base.css` pins carousel
+  arrows with `left: 12px !important`.
 ✅ Header (`b894dd7`) and ✅ footer (`b117351`) done: white, matched to Figma at 1440
 and checked at 375. ✅ Cherry-picks, ✅ recolour (`357ddef`), ✅ identity and NZ→US pass (`71065c0`, `76cbd86`:
 contact details, US phone default, product Shipping/Warranty tabs, 417 logo,
