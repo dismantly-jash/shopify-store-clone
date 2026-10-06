@@ -59,8 +59,10 @@
     text-align: center;
     margin: 0px;
   }
+  /* 417 (18046-6617): the strip is 1290px of tiles; .page-width's 50px side
+     padding sat inside the old 1290 cap and squeezed each tile to 128px. */
   .logo-list-section .page-width {
-    max-width: 1290px;
+    max-width: 1390px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -101,11 +103,13 @@
      inside a box - it cannot stop the box itself from shrinking. Fixing the box
      and letting contain letterbox inside it gives every logo the same footprint
      whatever the source proportions. */
+  /* 417: the design draws each logo in a ~60px frame, not across the whole
+     tile, so wide marks (Audi, McLaren, BMW M) came out almost twice the size. */
   .logo-list-logo-item img {
     cursor: pointer;
     width: 100%;
     height: {{ section.settings.logo_max_height }}px;
-    max-width: 100%;
+    max-width: {{ section.settings.logo_max_width | default: 999 }}px;
     max-height: {{ section.settings.logo_max_height }}px;
     object-fit: contain;
   }
@@ -255,6 +259,16 @@
       "unit": "px",
       "label": "Logo Image Max Height",
       "default": 40
+    },
+    {
+      "type": "range",
+      "id": "logo_max_width",
+      "min": 20,
+      "max": 140,
+      "step": 2,
+      "unit": "px",
+      "label": "Logo Image Max Width",
+      "default": 56
     },
     {
       "type": "header",
