@@ -144,3 +144,11 @@
   }
 }
 /* my code end */
+
+/* 417 (Figma 18046-9361): the policy copy ends 60px above the divider, which is the
+   section's own bottom padding. The last list or paragraph's margin was adding
+   another 40-46px on top.
+   Specific enough to beat `.page-shipping-policy .custom-content-container .rte ul`. */
+body .page-width.custom-content-container .rte > :last-child {
+  margin-bottom: 0;
+}
