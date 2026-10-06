@@ -26,15 +26,17 @@
         </div>
       {% else %}
         <div class="card_media">
-          <div class="media media--placeholder">
-            <svg class="placeholder-svg placeholder-svg--car" viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="No image available">
-              <path d="M22 38c0-4.4 3.6-8 8-8s8 3.6 8 8h28c0-4.4 3.6-8 8-8s8 3.6 8 8h10c2.2 0 4-1.8 4-4v-6c0-2.5-1.8-4.6-4.2-5l-16.6-2.7-9.8-9.5c-1.5-1.5-3.5-2.3-5.6-2.3H36c-2.4 0-4.7 1.1-6.2 3l-7.6 9.5-8.4 2.1C11.6 23.7 10 25.8 10 28.2V34c0 2.2 1.8 4 4 4h8z" fill="#d8d8d8"/>
-              <path d="M39 13.5h9.5V22H32.3l5.2-6.9c.4-.4 1-.6 1.5-.6zm13.5 0h6.9c.8 0 1.6.3 2.2.9l7.4 7.6H52.5v-8.5z" fill="#f4f4f4"/>
-              <circle cx="30" cy="40" r="6" fill="#acacac"/>
-              <circle cx="30" cy="40" r="2.5" fill="#f4f4f4"/>
-              <circle cx="82" cy="40" r="6" fill="#acacac"/>
-              <circle cx="82" cy="40" r="2.5" fill="#f4f4f4"/>
-            </svg>
+          {%- comment -%} 417: vehicles without a photo show the store's common.png, like part cards. {%- endcomment -%}
+          <div class="media">
+            <img
+              src="{{ 'common.png' | file_img_url: '533x' }}"
+              alt="{{ product.title | escape }}"
+              class="motion-reduce"
+              loading="lazy"
+              width="533"
+              height="400"
+              onerror="this.onerror=null;this.src='{{ 'placeholder-part.svg' | asset_url }}';"
+            >
           </div>
         </div>
       {% endif %}
