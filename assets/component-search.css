@@ -393,8 +393,15 @@ input::-webkit-search-decoration {
   .template-search .banner-content .facets__disclosure[style*="order: 2"],
   .template-search .banner-content .facets__disclosure[style*="order: 3"] { flex: 0 0 200px; max-width: none; }
   .template-search .banner-content .facets__disclosure[style*="order: 4"] { flex: 0 0 204px; max-width: none; }
-  .template-search .banner-content .facets__wrapper {
-    flex-wrap: nowrap; /* 872px of dropdowns in a 870px row */
+  /* dropdowns + button form one centred group, so Find My Vehicle sits 20px after
+     Model on Vehicles (Figma x966), not pinned to the right */
+  .template-search .banner-content .facets__form {
+    justify-content: center;
+  }
+  .template-search .banner-content .facets__form > .facets__wrapper {
+    flex: 0 0 auto; /* the CLI-666 rule above grows it to fill the row */
+    width: auto;
+    flex-wrap: nowrap;
   }
   .template-search .banner-content .facets__form {
     column-gap: 20px; /* was 35px; Figma puts Find My Part 20px after Part Type */
@@ -449,4 +456,31 @@ input::-webkit-search-decoration {
   font-weight: 600;
   line-height: 23px;
   color: #000;
+}
+
+/* 417 Vehicles search (Figma 18046-9423): 60% overlay (Parts is 50%), dropdowns
+   Year 208 / Make 200 / Model 204 then the button, 20px apart. */
+/* beats the section's inline `.section-<id> .banner-content::before` */
+.template-search.template-search-vehicle .banner-content::before {
+  background: rgba(0, 0, 0, 0.6);
+}
+@media screen and (min-width: 990px) {
+  .template-search-vehicle .banner-content .facets__disclosure[style*="order: 3"] { flex: 0 0 204px; }
+}
+/* Vehicle cards (Figma 18046-9456): title 22/600 black, description 18/500 #585858,
+   content padding 20px 24px 32px, Search Part + Vehicle Details at 48px. */
+.template-search-vehicle .product-card-wrapper .card__heading {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: normal;
+  color: #000;
+}
+.template-search-vehicle .product-card-wrapper .card__information p {
+  font-size: 18px;
+  font-weight: 500;
+  color: #585858;
+}
+.product-card-wrapper .quick-add .vehicle-btns .search__btn,
+.product-card-wrapper .quick-add .vehicle-btns .vehicles_detail {
+  min-height: 48px;
 }

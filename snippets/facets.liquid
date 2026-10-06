@@ -321,7 +321,7 @@
                                     a generic mark that ships with the theme. {%- endcomment -%}
                                   {% assign value_make = value.label %}
                                   {% assign image_url = value_make | handle | append: '.png' | file_img_url: '30x30' %}
-                                  {% assign common_url = 'placeholder-make.svg' | asset_url %}
+                                  {% assign common_url = 'common.png' | file_img_url: '30x30' %}{% comment %} 417: the store's uploaded generic make image {% endcomment %}
                                   {% unless image_url contains "?v=" %}
                                     {% assign image_url = common_url %}
                                   {% endunless %}
@@ -830,7 +830,7 @@
                                         desktop Select Make list above. {%- endcomment -%}
                                       {% assign value_make = value.label | split: ',' | first %}
                                       {% assign image_url = value_make | handle | append: '.png' | file_img_url: '30x30' %}
-                                      {% assign common_url = 'placeholder-make.svg' | asset_url %}
+                                      {% assign common_url = 'common.png' | file_img_url: '30x30' %}{% comment %} 417: the store's uploaded generic make image {% endcomment %}
                                       {% unless image_url contains "?v=" %}
                                         {% assign image_url = common_url %}
                                       {% endunless %}
