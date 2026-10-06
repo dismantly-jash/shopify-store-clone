@@ -81,3 +81,14 @@
         grid-template-columns:1fr;
     }
 } */
+/* 417 (Figma 18046-6628): subheading 18/normal, 22px below the heading's top line,
+   with the icon row 29px under it (21px padding + 8px gap in the frame). */
+@media screen and (min-width: 990px) {
+  .custom-icon-with-text .logo-list-header p {
+    line-height: normal;
+    margin-top: 22px;
+  }
+  .custom-icon-with-text .custom-logo-wrapper {
+    margin-top: 29px;
+  }
+}
