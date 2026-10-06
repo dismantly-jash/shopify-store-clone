@@ -2376,3 +2376,8 @@ a.product__text {
     padding-left: 0; /* thumbnails start flush with the main image (x80) */
   }
 }
+/* "Similar Parts" heading: SemiBold 28, black (Figma 18046-7949) */
+.custom-api-feature h2.title {
+  font-weight: 600;
+  color: #000;
+}

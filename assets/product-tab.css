@@ -356,3 +356,8 @@
         margin-right: -10px;
     }
 }
+/* 417 (Figma 18046-8161): the active tab keeps the Medium weight; it differs only
+   in colour (#070302) and the 2px underline */
+.product-tab-view .tab-button.active {
+  font-weight: 500;
+}
