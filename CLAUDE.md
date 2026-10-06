@@ -320,7 +320,7 @@ The full procedure is the Linear doc **Setup Shopify store**
    header highlights them on that page (CLI-570).
    The footer reads three more menus by handle (`sections/footer-group.json`):
    - `shop`: Shop Parts, Currently Dismantling
-   - `contact-1`: Contact Us, Warranty, Shipping & Delivery
+   - `contact`: Contact Us, Warranty, Shipping & Delivery
    - `footer-legal`: Terms of Service, Privacy Policy (bottom row, beside the
      social icons). Point these at the themed pages, not `/policies/…`.
    Social icons show once the `social_*_link` theme settings are filled. The
