@@ -173,10 +173,16 @@
             {% endcomment %}
           {% else %}
             {% if product.price == 0 or product.available == false %}
-              {% unless product.selected_or_first_available_variant.available %}
+              {%- comment -%}
+                417 design (18046-8658): a part with no price gets Make an Offer. This used to
+                show only for sold-out parts, and an unpriced part in stock got Get a quote. The
+                button opens the offer form rendered under product-info in main-product, not
+                the Request Part popup.
+              {%- endcomment -%}
+              {% if product.selected_or_first_available_variant.available %}
                 {% if block.settings.offer_btn != blank %}
                   <div class="custom-offer-btn {% if product.metafields.custom.type == 'PART' %}make_an_offer_btn{% endif %} {% if product.price == 0 %}make_an_offer_btn_with_no_price{% endif %}">
-                    <a href="javascript:void(0)" class="button button--secondary">
+                    <a href="javascript:void(0)" class="button button--secondary" data-product-popup="card-product-{{ product.id }}-{{ section_id }}">
                       {{ block.settings.offer_btn -}}
                     </a>
                   </div>
@@ -187,7 +193,7 @@
                     Get a quote
                   </a>
                 </div>
-              {% endunless %}
+              {% endif %}
             {% endif %}   
           {% endif %}
 

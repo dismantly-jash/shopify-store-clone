@@ -469,15 +469,16 @@
                   </div>
                 {% else %}
                 <div class="btn-wrapper">
+                  {%- comment -%} 417: an unpriced part in stock takes offers (same as the part page). {%- endcomment -%}
                   {% if card_product.selected_or_first_available_variant.available %}
+                    <a href="javascript:void(0)" class="request_quote button" data-product-popup="card-product-{{ card_product.id }}-{{ section.id }}">
+                      Make an Offer
+                    </a>
+                  {% else %}
                     <a href="javascript:void(0)" class="request_quote button" data-product-popup="card-product-{{ card_product.id }}-{{ section.id }}">
                       Get a quote
                     </a>
-                  {% else %}  
-                    <a href="javascript:void(0)" class="request_quote button" data-product-popup="card-product-{{ card_product.id }}-{{ section.id }}">
-                      Make An Offer
-                    </a>
-                  {% endif %}  
+                  {% endif %}
                 </div>
                 {% endif %}
               </div>

@@ -917,6 +917,17 @@
   </div>
 </product-info>
 
+{%- comment -%}
+  Make an Offer form for an unpriced part (opened by data-product-popup on the button in
+  buy-buttons). It is wrapped so it isn't a sibling of product-info: the Request Part and
+  Get a quote buttons open every .product-detail__popup sibling.
+{%- endcomment -%}
+{%- if product.metafields.custom.type != 'VEHICLE' and product.price == 0 -%}
+  <div class="product-offer-popup">
+    {% render 'product-card-form', product: product, section: section %}
+  </div>
+{%- endif -%}
+
 
 {% render 'blank-request-form' %}
 

@@ -1,51 +1,62 @@
 <div class="product-detail__popup" id="card-product-{{ product.id }}-{{ section.id }}">
   <div class="product-popup-wrapper">
     <div class="product-popup-wrapper__inner">
-      <div class="popup-close">
-        <button class="btn close_btn">
-          {{ 'icon-close-small.svg' | inline_asset_content }}
-        </button>
-      </div>
       <div class="product-popup-header">
-        <h2 class="inline-richtext h2">Make an Offer</h2>
+        <div class="title-line">
+          <h2 class="section-main-title inline-richtext h2">Make an Offer</h2>
+        </div>
+        <div class="popup-close">
+          <button class="btn close_btn" aria-label="Close">
+            {{ 'icon-close-small.svg' | inline_asset_content }}
+          </button>
+        </div>
       </div>
       <div class="product-popup-content">
         <div class="product-popup-form">
           {% capture form_id %}product-form-offer-{{ section.id }}-{{ product.id }}{% endcapture %}
-          {% form 'contact', class: 'product-form', id: form_id %}
+          {% form 'contact', class: 'product-form product-offer-form', id: form_id %}
+            {% render 'form-honeypot', honeypot_id: form_id %}
             {%- capture content_for_query_string -%}{{ content_for_header }}{%- endcapture -%}
             {%- liquid
                 assign query_key = query_key | default: blank
                 assign page_url = content_for_query_string | split: '"pageurl":"' | last | split: '"' | first | split: request.host | last | replace: '\/', '/' | replace: '%20', ' ' | replace: '\u0026', '&'
+                assign offer_tag = product.metafields.custom.tag_id.value | default: product.metafields.custom.stock_id.value
             -%}
             <input type="hidden" name="contact[tags]" value="Part Offer">
             <input type="hidden" name="return_to" value="{{page_url}}{%- if page_url contains '?' -%}&{%- else -%}?{%-endif-%}contact_posted=true">
-            <div
-              class="product-form__field-wrapper"
-            >
-              <input type="hidden" name="contact[Product Name]" value="{{ product.title }}">
+            <input type="hidden" name="contact[Product Name]" value="{{ product.title | escape }}">
+            {%- comment -%}
+              417 design (18046-8903) shows Tag #, Year, Make, Model, Series and Part Type.
+              The other prefilled fields still reach the enquiry email, just not on screen.
+            {%- endcomment -%}
+            {%- if product.metafields.custom.part_number != blank -%}<input type="hidden" name="contact[Part Number]" value="{{ product.metafields.custom.part_number | escape }}">{%- endif -%}
+            {%- if product.metafields.custom.sub_model != blank -%}<input type="hidden" name="contact[Sub Model]" value="{{ product.metafields.custom.sub_model | escape }}">{%- endif -%}
+            {%- if product.metafields.custom.color != blank -%}<input type="hidden" name="contact[Color]" value="{{ product.metafields.custom.color | escape }}">{%- endif -%}
+            {%- if product.metafields.custom.vin != blank -%}<input type="hidden" name="contact[Vin]" value="{{ product.metafields.custom.vin | escape }}">{%- endif -%}
+            {%- if product.metafields.custom.engine_code != blank -%}<input type="hidden" name="contact[Engine Code]" value="{{ product.metafields.custom.engine_code | escape }}">{%- endif -%}
+            {%- if product.metafields.custom.odometer != blank -%}<input type="hidden" name="contact[Odometer]" value="{{ product.metafields.custom.odometer | escape }}">{%- endif -%}
+            <div class="product-form__field-wrapper">
               <div class="field one-half">
-                <label class="field__label" for="productForm--{{ product.id }}-name">
-                  {{ 'templates.contact.form.name' | t }}
-                </label>
+                <label class="field__label" for="productForm--{{ product.id }}-name">Name *</label>
                 <input
                   class="field__input"
                   autocomplete="name"
                   type="text"
                   id="productForm--{{ product.id }}-name"
-                  name="contact[{{ 'templates.contact.form.name' | t }}]"
+                  name="contact[Name]"
+                  maxlength="100"
                   value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
-                  placeholder="{{ 'templates.contact.form.name' | t }}"
+                  placeholder="Name"
+                  required
                 >
               </div>
               <div class="field one-half">
-                <label class="field__label" for="productForm--{{ product.id }}-email">
-                  {{ 'newsletter.label' | t }}
-                </label>
+                <label class="field__label" for="productForm--{{ product.id }}-email">Email *</label>
                 <input
                   id="productForm--{{ product.id }}-email"
                   type="email"
                   name="contact[email]"
+                  maxlength="254"
                   class="field__input"
                   value="{{ form.email }}"
                   aria-required="true"
@@ -59,236 +70,83 @@
                   {% elsif form.posted_successfully? %}
                     aria-describedby="product-success--{{ product.id }}-{{ section.id }}"
                   {% endif %}
-                  placeholder="{{ 'newsletter.label' | t }}"
+                  placeholder="you@email.com"
                   required
                 >
               </div>
               <div class="field">
-                <label class="field__label" for="productForm--{{ product.id }}-phone">
-                  {{ 'templates.contact.form.phone' | t }}
-                </label>
-                <input
-                  type="tel"
-                  id="productForm--{{ product.id }}-phone"
-                  class="field__input"
-                  autocomplete="tel"
-                  name="contact[{{ 'templates.contact.form.phone' | t }}]"
-                  {%- comment -%} CLI-654: the old pattern rejected spaces and "+", so a number typed the way our own placeholder shows it blocked the submit with no useful message. {%- endcomment -%}
-                  pattern="\+?[0-9\s\(\)\.\-]*"
-                  title="Digits, spaces and + ( ) - only"
-                  value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
-                  placeholder="{{ 'templates.contact.form.phone' | t }}"
-                >
+                <label class="field__label" for="productForm--{{ product.id }}-phone">Phone number</label>
+                <div class="feild-input_wrapper">
+                  <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                      <span class="emoji">US</span>
+                      <span class="caret">
+                        <span class="svg-wrapper">
+                          <svg height="512" viewBox="0 0 24 24" width="512" xmlns="http://www.w3.org/2000/svg"><path d="m12 16a1 1 0 0 1 -.71-.29l-6-6a1 1 0 0 1 1.42-1.42l5.29 5.3 5.29-5.29a1 1 0 0 1 1.41 1.41l-6 6a1 1 0 0 1 -.7.29z"></path></svg>
+                        </span>
+                      </span>
+                    </button>
+                    <ul class="dropdown-menu scrollable-menu">
+                      {% render 'country-code-list' %}
+                    </ul>
+                  </div>
+                  <input
+                    type="tel"
+                    id="productForm--{{ product.id }}-phone"
+                    class="field__input phone__input"
+                    autocomplete="tel"
+                    name="contact[Phone number]"
+                    maxlength="20"
+                    {%- comment -%} CLI-654: the old pattern rejected spaces and "+", so a number typed the way our own placeholder shows it blocked the submit with no useful message. {%- endcomment -%}
+                    pattern="\+?[0-9\s\(\)\.\-]*"
+                    title="Digits, spaces and + ( ) - only"
+                    value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+                    placeholder="+1 (417) 123-4567"
+                  >
+                </div>
               </div>
-              {% assign count = 0 %}
-                {% unless product.metafields.custom.type == 'VEHICLE' %}
-                  {% if product.metafields.custom.tag_id != blank %} 
-                    <div class="field one-half">
-                      <label class="field__label" for="ProductForm-{{ product.id }}-tag-id">
-                        Tag Number
-                      </label>
-                      <input
-                        type="text"
-                        id="ProductForm-{{ product.id }}-tag-id"
-                        class="field__input"
-                        autocomplete="tel"
-                        name="contact[Tag Number]"
-                        pattern="[0-9\-]*"
-                        value="{{ product.metafields.custom.tag_id }}"
-                        placeholder="Tag Number"
-                        readonly
-                      >
-                    </div>
-                  {% endif %}
-                {% endunless %}
-                {% if product.metafields.custom.year != blank %}
+            </div>
+            <div class="product-form__field-wrapper product-part__field-wrapper">
+              {%- comment -%} CLI-677: readonly fields drop out when their metafield is empty. {%- endcomment -%}
+              {%- if offer_tag != blank -%}
                 <div class="field one-half">
-                  <label class="field__label" for="ProductForm-{{ product.id }}-year-range">
-                    Year
-                  </label>
-                  <input
-                    type="text"
-                    id="ProductForm-{{ product.id }}-year-range"
-                    class="field__input"
-                    name="contact[Year Range]"
-                    value="{{ product.metafields.custom.year }}"
-                    placeholder="Year Range"
-                    readonly
-                  >
+                  <label class="field__label" for="ProductForm-{{ product.id }}-tag-id">Tag #</label>
+                  <input type="text" id="ProductForm-{{ product.id }}-tag-id" class="field__input" name="contact[Tag Number]" value="{{ offer_tag | escape }}" readonly>
                 </div>
-                {% endif %}
-                {% if product.metafields.custom.make != blank %}
+              {%- endif -%}
+              {%- if product.metafields.custom.year != blank -%}
                 <div class="field one-half">
-                  <label class="field__label" for="ProductForm-{{ product.id }}-make">
-                    Make
-                  </label>
-                  <input
-                    type="text"
-                    id="ProductForm-{{ product.id }}-make"
-                    class="field__input"
-                    name="contact[Make]"
-                    value="{{ product.metafields.custom.make }}"
-                    placeholder="Make"
-                    readonly
-                  >
+                  <label class="field__label" for="ProductForm-{{ product.id }}-year-range">Year</label>
+                  <input type="text" id="ProductForm-{{ product.id }}-year-range" class="field__input" name="contact[Year Range]" value="{{ product.metafields.custom.year | escape }}" readonly>
                 </div>
-                {% endif %}
-                {% if product.metafields.custom.model != blank %}
+              {%- endif -%}
+              {%- if product.metafields.custom.make != blank -%}
                 <div class="field one-half">
-                  <label class="field__label" for="ProductForm-{{ product.id }}-model">
-                    Model
-                  </label>
-                  <input
-                    type="text"
-                    id="ProductForm-{{ product.id }}-model"
-                    class="field__input"
-                    name="contact[Model]"
-                    value="{{ product.metafields.custom.model }}"
-                    placeholder="Model"
-                    readonly
-                  >
+                  <label class="field__label" for="ProductForm-{{ product.id }}-make">Make</label>
+                  <input type="text" id="ProductForm-{{ product.id }}-make" class="field__input" name="contact[Make]" value="{{ product.metafields.custom.make | escape }}" readonly>
                 </div>
-                {% endif %}
-                {%# if product.metafields.custom.part_type != blank %}
-                  {%# unless product.metafields.custom.type == 'VEHICLE' %}
-                    <div class="field one-half">
-                      <label class="field__label" for="ProductForm-{{ product.id }}-part-type">
-                        Part Type
-                      </label>
-                      <input
-                        type="text"
-                        id="ProductForm-{{ product.id }}-part-type"
-                        class="field__input"
-                        name="contact[Part Type]"
-                        value="{{ product.metafields.custom.part_type }}"
-                        placeholder="Part Type"
-                        readonly
-                      >
-                    </div>
-                  {%# endunless %}
-                {%# endif %}
-                {% if product.metafields.custom.stock_id != blank %}
-                  {% unless product.metafields.custom.type == 'PART' %}
-                  <div class="field one-half">
-                    <label class="field__label" for="ProductForm-{{ product.id }}-stock-id">
-                      Stock #
-                    </label>
-                    <input
-                      type="text"
-                      id="ProductForm-{{ product.id }}-stock-id"
-                      class="field__input"
-                      autocomplete="tel"
-                      name="contact[Stock Id]"
-                      pattern="[0-9\-]*"
-                      value="{{ product.metafields.custom.stock_id }}"
-                      placeholder="Stock Id"
-                      readonly
-                    >
-                  </div>
-                  {% endunless %}
-                {% endif %}
-                {% if product.metafields.custom.sub_model != blank %}
+              {%- endif -%}
+              {%- if product.metafields.custom.model != blank -%}
                 <div class="field one-half">
-                  <label class="field__label" for="ProductForm-{{ product.id }}-sub-model">
-                    Sub Model
-                  </label>
-                  <input
-                    type="text"
-                    id="ProductForm-{{ product.id }}-sub-model"
-                    class="field__input"
-                    name="contact[Sub Model]"
-                    value="{{ product.metafields.custom.sub_model }}"
-                    placeholder="Sub Model"
-                    readonly
-                  >
+                  <label class="field__label" for="ProductForm-{{ product.id }}-model">Model</label>
+                  <input type="text" id="ProductForm-{{ product.id }}-model" class="field__input" name="contact[Model]" value="{{ product.metafields.custom.model | escape }}" readonly>
                 </div>
-                {% endif %}
-                {% if product.metafields.custom.part_number != blank %}
-                  {% unless product.metafields.custom.type == 'VEHICLE' %}
-                    <div class="field one-half">
-                      <label class="field__label" for="ProductForm-{{ product.id }}-part-number">
-                        Part Number
-                      </label>
-                      <input
-                        type="text"
-                        id="ProductForm-{{ product.id }}-part-number"
-                        class="field__input"
-                        autocomplete="tel"
-                        name="contact[Part Number]"
-                        pattern="[0-9\-]*"
-                        value="{{ product.metafields.custom.part_number }}"
-                        placeholder="Part Number"
-                        readonly
-                      >
-                    </div>
-                  {% endunless %}
-                {% endif %}
-                {% if product.metafields.custom.color != blank %}
-                  <div class="field one-half">
-                    <label class="field__label" for="ProductForm-{{ product.id }}-color">
-                      Color
-                    </label>
-                    <input
-                      type="text"
-                      id="ProductForm-{{ product.id }}-color"
-                      class="field__input"
-                      name="contact[Color]"
-                      value="{{ product.metafields.custom.color }}"
-                      placeholder="Color"
-                      readonly
-                    >
-                  </div>
-                {% endif %}
-                {% if product.metafields.custom.vin != blank %}
-                  <div class="field one-half">
-                    <label class="field__label" for="ProductForm-{{ product.id }}-vin">
-                      VIN
-                    </label>
-                    <input
-                      type="text"
-                      id="ProductForm-{{ product.id }}-vin"
-                      class="field__input"
-                      name="contact[Vin]"
-                      value="{{ product.metafields.custom.vin }}"
-                      placeholder="Vin"
-                      readonly
-                    >
-                  </div>
-                {% endif %}
-                {% if product.metafields.custom.engine_code != blank %}
-                  <div class="field one-half">
-                    <label class="field__label" for="ProductForm-{{ product.id }}-engine-code">
-                      Engine #
-                    </label>
-                    <input
-                      type="text"
-                      id="ProductForm-{{ product.id }}-engine-code"
-                      class="field__input"
-                      name="contact[Engine Code]"
-                      value="{{ product.metafields.custom.engine_code }}"
-                      placeholder="Engine Code"
-                      readonly
-                    >
-                  </div>
-                {% endif %}
-                {% if product.metafields.custom.odometer != blank %}
-                  <div class="field one-half">
-                    <label class="field__label" for="ProductForm-{{ product.id }}-odometer">
-                      Odometer
-                    </label>
-                    <input
-                      type="text"
-                      id="ProductForm-{{ product.id }}-odometer"
-                      class="field__input"
-                      name="contact[Odometer]"
-                      value="{{ product.metafields.custom.odometer }}"
-                      placeholder="Odometer"
-                      readonly
-                    >
-                  </div>
-                {% endif %}
-              {% assign even_number = count | modulo: 2 %}
-              <div class="field {% if even_number != 0 %}one-half{% endif %}">
+              {%- endif -%}
+              {%- if product.metafields.custom.series != blank -%}
+                <div class="field one-half">
+                  <label class="field__label" for="ProductForm-{{ product.id }}-series">Series</label>
+                  <input type="text" id="ProductForm-{{ product.id }}-series" class="field__input" name="contact[Series]" value="{{ product.metafields.custom.series | escape }}" readonly>
+                </div>
+              {%- endif -%}
+              {%- if product.metafields.custom.part_type != blank -%}
+                <div class="field one-half">
+                  <label class="field__label" for="ProductForm-{{ product.id }}-part-type">Part Type</label>
+                  <input type="text" id="ProductForm-{{ product.id }}-part-type" class="field__input" name="contact[Part Type]" value="{{ product.metafields.custom.part_type | escape }}" readonly>
+                </div>
+              {%- endif -%}
+            </div>
+            <div class="product-form__field-wrapper product-offer__amount">
+              <div class="field">
                 <label class="field__label" for="ProductForm-{{ product.id }}-offer-amount">
                   {{ 'templates.contact.form.amount' | t }}
                 </label>
@@ -296,25 +154,15 @@
                   type="number"
                   id="ProductForm-{{ product.id }}-offer-amount"
                   class="field__input"
-                  autocomplete="number"
                   name="contact[{{ 'templates.contact.form.amount' | t }}]"
+                  min="1"
+                  step="any"
+                  inputmode="decimal"
                   value="{{ form.amount }}"
-                  placeholder="{{ 'templates.contact.form.amount' | t }}"
+                  placeholder="$"
+                  required
                 >
               </div>
-              {% comment %}
-                <div class="field">
-                    <textarea
-                      rows="10"
-                      id="ContactForm-body"
-                      class="text-area field__input"
-                      name="contact[{{ 'templates.contact.form.item_information' | t }}]"
-                      placeholder="{{ 'templates.contact.form.item_information' | t }}"
-                    >
-                      {{- form.body -}}
-                    </textarea>
-                </div>
-              {% endcomment %}
               <div class="field">
                 <button
                   type="submit"

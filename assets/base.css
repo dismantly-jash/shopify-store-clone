@@ -4081,6 +4081,16 @@ line-height:normal;
   font-family: var(--font-body-family);
   font-size:14px;
 }
+/* 417: the picker shows the country name ("United States"), not the ISO code. */
+.feild-input_wrapper .input-group-btn button span.emoji {
+  font-size: 16px;
+  font-weight: 500;
+  white-space: nowrap;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 4px;
+}
 .feild-input_wrapper .scrollable-menu {
   height: auto;
   max-height: 18rem;
@@ -4186,6 +4196,16 @@ line-height:normal;
      than only under 480px. Get Estimate already renders its phone as a plain
      full-width `.field`, which is why that form never showed the bug; this
      brings Returns into line without reflowing the desktop pairs. */
+  /* 417: "United States" leaves the number too little room on a phone. */
+  .feild-input_wrapper .input-group-btn button span.emoji{
+    font-size:14px;
+    max-width:96px;
+  }
+  .product-popup-content .product-form .field .feild-input_wrapper input.phone__input,
+  .product-popup-content .product-form .field .feild-input_wrapper input.phone__input:focus{
+    padding-left:10px;
+    padding-right:0;
+  }
   .product-popup-content .product-form .field.one-half.field--phone{
     max-width:100%;
     flex:0 0 100%;
@@ -4354,6 +4374,27 @@ max-width: 100%;
     border-top: 1px solid #D8D8D8;
     margin-top: 10px;
     padding-top: 20px;
+}
+/* 417 Make an Offer (18046-8903): contact rows run straight into the read-only
+   rows, and the only divider is the one above Offer Amount (from
+   .product-part__field-wrapper). */
+.product-popup-content .product-offer-form .product-form__field-wrapper + .product-form__field-wrapper {
+  border-top: 0;
+  margin-top: 0;
+  padding-top: 0;
+}
+/* The last read-only row's 18px margin already sits above the divider: 32px in all. */
+.product-popup-content .product-offer-form .product-part__field-wrapper {
+  padding-bottom: 14px;
+}
+.product-popup-content .product-offer-form .field label {
+  line-height: 17px;
+}
+.product-popup-content .product-offer-form .product-form__button {
+  min-height: 43px;
+  font-size: 16px;
+  text-transform: none;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 }
 
 .shopify-section .onst-registration-form h2.title {

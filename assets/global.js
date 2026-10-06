@@ -1648,7 +1648,7 @@ $(document).on('keydown', function (event) {
   cleanURL();
 });
 
-$(document).on('click', '.custom-offer-btn a', function(){
+$(document).on('click', '.custom-offer-btn a:not([data-product-popup])', function(){
   $(this).parents('product-info,.empty-search-wrapper').siblings('.product-detail__popup').addClass('is-active');
   $('.theme-overlay').addClass('is-active');
   $('body').addClass('overflow-hidden');
@@ -1692,7 +1692,7 @@ $(document).on('click', '.link[href="#returns"], [data-modal="returns"], #Header
      
   }
 });
-$(document).on('click', '.request_quote', function() {
+$(document).on('click', '.request_quote, .custom-offer-btn a[data-product-popup]', function() {
   var $cardWrapperpopup = $(this).data('product-popup');
   $(`#${$cardWrapperpopup}`).addClass('is-active');
   $('.theme-overlay').addClass('is-active');
@@ -1770,7 +1770,8 @@ $(document).on('click', '.feild-input_wrapper .dropdown-menu li a', function (ev
   var inputGroupInput = inputGroup.find('.phone__input');
 
   var selectedCountry = $(this).closest('li');
-  var selectedEmoji = selectedCountry.find('.country-code').html();
+  // 417: the button shows the country name ("United States"), as in every form frame.
+  var selectedEmoji = selectedCountry.find('.country-name').html() || selectedCountry.find('.country-code').html();
   var selectedDialCode = selectedCountry.find('.dial-code').html();
   var selectedExampleNumber = selectedCountry.find('.example-number').html();
   var selectedCountryCode = selectedCountry.find('.country-code').html();
@@ -1806,7 +1807,7 @@ function applyDefaultCountryCode(wrapper) {
   }
   if (!defaultItem) return;
 
-  var emojiEl = defaultItem.querySelector('.country-code');
+  var emojiEl = defaultItem.querySelector('.country-name') || defaultItem.querySelector('.country-code');
   var dialEl = defaultItem.querySelector('.dial-code');
   var exampleEl = defaultItem.querySelector('.example-number');
   var selectedEmoji = emojiEl ? emojiEl.textContent.trim() : '';
