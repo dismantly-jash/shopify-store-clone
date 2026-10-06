@@ -57,3 +57,12 @@
         padding: 0 0 15px;
     }
 }
+/* 417 (Figma 18046-7136): the dark bar runs 20px in from the page edges, 1400px wide
+   at 1440, rather than sitting inside the 1280 page width. */
+@media screen and (min-width: 990px) {
+  .section-benefit-bar .page-width {
+    max-width: none;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
