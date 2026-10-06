@@ -286,9 +286,9 @@
         "tab_tcs_1": {
           "type": "tab",
           "settings": {
-            "main_image_tab": "shopify://shop_images/engine-toyota-hilux-toyota-revo-car-png-favpng-fZTVybNAtjU24qkFZUPCt30fB.jpg",
-            "main_image_asset": "banner-engines.jpg",
-            "tab_left_subheading": "",
+            "main_image_tab": "",
+            "main_image_asset": "417-tab-engines.jpg",
+            "tab_left_subheading": "Good quality tested engines",
             "tab_left_description": "",
             "button_label": "View All",
             "button_link": "/search?q=*&options%5Bprefix%5D=last&filter.p.m.custom.type=PART&filter.p.m.custom.part_type=Engine",
@@ -301,9 +301,9 @@
         "tab_tcs_2": {
           "type": "tab",
           "settings": {
-            "main_image_tab": "shopify://shop_images/images.jpg",
-            "main_image_asset": "",
-            "tab_left_subheading": "",
+            "main_image_tab": "",
+            "main_image_asset": "417-tab-transmissions.jpg",
+            "tab_left_subheading": "Good quality tested transmissions",
             "tab_left_description": "",
             "button_label": "View All",
             "button_link": "/search?q=*&options%5Bprefix%5D=last&filter.p.m.custom.type=PART&filter.p.m.custom.part_type=Transmission",
@@ -316,23 +316,24 @@
         "tab_tcs_3": {
           "type": "tab",
           "settings": {
-            "main_image_asset": "banner-headlights.jpg",
-            "tab_left_subheading": "",
+            "main_image_asset": "417-tab-headlights.jpg",
+            "tab_left_subheading": "Good quality tested lights",
             "tab_left_description": "",
             "button_label": "View All",
             "button_link": "/search?q=*&options%5Bprefix%5D=last&filter.p.m.custom.type=PART&filter.p.m.custom.part_type=Left%20Headlight&filter.p.m.custom.part_type=Right%20Headlight&filter.p.m.custom.part_type=Left%20Taillight&filter.p.m.custom.part_type=Right%20Taillight&filter.p.m.custom.part_type=High%20Level%20Stoplight",
             "tab_name": "Headlights & Taillights",
             "match_keyword": "light",
             "collection_product_list": "",
-            "product_list": []
+            "product_list": [],
+            "main_image_tab": ""
           }
         },
         "tab_tcs_4": {
           "type": "tab",
           "settings": {
-            "main_image_tab": "shopify://shop_images/car-engine-computer-inside.jpg",
-            "main_image_asset": "",
-            "tab_left_subheading": "",
+            "main_image_tab": "",
+            "main_image_asset": "417-tab-ecus.jpg",
+            "tab_left_subheading": "Good quality tested ECUs",
             "tab_left_description": "",
             "button_label": "View All",
             "button_link": "/search?q=*&options%5Bprefix%5D=last&filter.p.m.custom.type=PART&filter.p.m.custom.part_type=ECU",
@@ -345,9 +346,9 @@
         "tab_tcs_5": {
           "type": "tab",
           "settings": {
-            "main_image_tab": "shopify://shop_images/8F34D020-1193-4D24-9AA0-09E07C043388.png",
-            "main_image_asset": "",
-            "tab_left_subheading": "",
+            "main_image_tab": "",
+            "main_image_asset": "417-tab-exterior.jpg",
+            "tab_left_subheading": "Good quality exterior parts",
             "tab_left_description": "",
             "button_label": "View All",
             "button_link": "/search?q=*&options%5Bprefix%5D=last&filter.p.m.custom.type=PART&filter.p.m.custom.part_type=Front%20Bumper&filter.p.m.custom.part_type=Bumper%20Grille&filter.p.m.custom.part_type=Rear%20Bumper%20Step%20Cover&filter.p.m.custom.part_type=Left%20Door%20Mirror&filter.p.m.custom.part_type=Right%20Door%20Mirror&filter.p.m.custom.part_type=Right%20Front%20Door%20Shell&filter.p.m.custom.part_type=Right%20Front%20Exterior%20Door%20Handle&filter.p.m.custom.part_type=Tailgate%20Glass&filter.p.m.custom.part_type=Right%20Bonnet%20Strut",

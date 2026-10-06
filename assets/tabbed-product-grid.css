@@ -242,3 +242,12 @@
 .tabbed-product-grid .tab-left-content {
   z-index: 1;
 }
+
+/* 417 (Figma 22012-4977): each tab carries 5px of side padding, so the row is 50px
+   wider and starts at x229.5 rather than 256. The active underline spans the padding. */
+@media screen and (min-width: 990px) {
+  .tabs .tab-btn {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
