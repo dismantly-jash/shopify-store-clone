@@ -22,6 +22,7 @@
     "main": {
       "type": "main-page",
       "settings": {
+        "default_copy": "warranty",
         "show_title": false,
         "padding_top": 60,
         "padding_bottom": 60

@@ -21,7 +21,20 @@
     </h1>
   {% endunless %}
   <div class="rte{% if settings.animations_reveal_on_scroll %} {% endif %}">
-    {{ page.content }}
+    {%- comment -%} 417: the page's admin Content wins. While it is empty, the template's
+      built-in copy (snippets/page-copy-*.liquid, from the Figma frames) shows instead, so a
+      new page is complete as soon as its template is chosen. {%- endcomment -%}
+    {%- if page.content != blank -%}
+      {{ page.content }}
+    {%- else -%}
+      {%- case section.settings.default_copy -%}
+        {%- when 'shipping' -%}{% render 'page-copy-shipping' %}
+        {%- when 'returns' -%}{% render 'page-copy-returns' %}
+        {%- when 'warranty' -%}{% render 'page-copy-warranty' %}
+        {%- when 'privacy' -%}{% render 'page-copy-privacy' %}
+        {%- when 'terms' -%}{% render 'page-copy-terms' %}
+      {%- endcase -%}
+    {%- endif -%}
   </div>
 </div>
 
@@ -31,6 +44,21 @@
   "tag": "section",
   "class": "section",
   "settings": [
+    {
+      "type": "select",
+      "id": "default_copy",
+      "label": "Built-in copy",
+      "info": "Shown only while the page's own content is empty.",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "shipping", "label": "Shipping & Delivery" },
+        { "value": "returns", "label": "Returns" },
+        { "value": "warranty", "label": "Warranty" },
+        { "value": "privacy", "label": "Privacy Policy" },
+        { "value": "terms", "label": "Terms of Service" }
+      ],
+      "default": "none"
+    },
     {
       "type": "checkbox",
       "id": "show_title",

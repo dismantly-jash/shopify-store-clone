@@ -13,6 +13,7 @@
     "main": {
       "type": "main-page",
       "settings": {
+        "default_copy": "terms",
         "padding_top": 60,
         "padding_bottom": 60,
         "show_title": false

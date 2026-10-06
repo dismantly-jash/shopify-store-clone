@@ -478,10 +478,16 @@
   color: #000;
   line-height: 1.556;
 }
+/* 417: "Quality Parts, Ready When You Are!" is one colour, near-black, on every
+   policy page (Figma 18046-9414). Total Commercial picked out "Quality Parts" in the accent. */
 .page-service-policy .image-with-text .image-with-text__content .image-with-text__heading strong,
 .page-guarantee-after-sales .image-with-text .image-with-text__content .image-with-text__heading strong,
-.page-shipping-policy .image-with-text .image-with-text__content .image-with-text__heading strong{
-  color: var(--brand-green, #e4332b);
+.page-shipping-policy .image-with-text .image-with-text__content .image-with-text__heading strong,
+.page-returns-policy .image-with-text .image-with-text__content .image-with-text__heading strong,
+.page-privacy-policy .image-with-text .image-with-text__content .image-with-text__heading strong,
+.page-terms-of-service .image-with-text .image-with-text__content .image-with-text__heading strong{
+  color: var(--main-heading-color, #070302);
+  font-weight: inherit;
 }
 /* responsive */
 @media screen and (max-width: 1280px){

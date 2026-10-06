@@ -390,7 +390,10 @@
     </script>
   </head>
 
-  <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}  page-{{ template.suffix }} template-{{ template.suffix }} template__{{ template.name }}">
+  {%- comment -%} 417: the policy-page layout (1120px body, Figma-sized CTA) is keyed to
+    .page-shipping-policy in section-main-page / image-with-text / rich-text CSS. Returns,
+    Privacy and Terms share that layout in the design, so they carry the class too. {%- endcomment -%}
+  <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}  page-{{ template.suffix }}{% if template.suffix == 'returns-policy' or template.suffix == 'privacy-policy' or template.suffix == 'terms-of-service' %} page-shipping-policy{% endif %} template-{{ template.suffix }} template__{{ template.name }}">
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
     </a>

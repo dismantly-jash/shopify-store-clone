@@ -1,10 +1,15 @@
 # Admin page content (from Figma)
 
-The policy templates render a photo hero, then the page's admin **Content**, then
-the "Quality Parts, Ready When You Are!" CTA. Paste the copy below into each
-page's Content field in Shopify admin (Online Store → Pages). Use **Heading 2**
-for the uppercase section titles and **Heading 3** for the sub-titles; the
-template styles them.
+**You don't need to paste anything.** Each policy template has the 417 copy built in
+(`snippets/page-copy-*.liquid`, chosen by the "Built-in copy" setting on the template's
+main section). It shows whenever the page's own Content field in admin is empty. To
+change the wording for one store, paste edited text into the page's Content field;
+admin content always wins over the built-in copy. Edit the snippet instead to change
+the default.
+
+The text below is the same copy, kept here as the readable source. If you edit it,
+update the matching snippet too. Use **Heading 2** for the uppercase section titles
+and **Heading 3** for the sub-titles; the templates style them.
 
 All copy is from the 417 Motoring Figma file (fileKey `jiBJEOIgREJEpHSD8QtWVp`).
 The node ids are given per page.

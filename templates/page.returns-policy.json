@@ -13,8 +13,9 @@
     "main": {
       "type": "main-page",
       "settings": {
+        "default_copy": "returns",
         "padding_top": 60,
-        "padding_bottom": 32,
+        "padding_bottom": 0,
         "show_title": false
       }
     },
@@ -72,7 +73,7 @@
     "file_a_return": {
       "type": "custom-liquid",
       "settings": {
-        "custom_liquid": "{%- comment -%} 417 (Figma 22038-3820): opens the Returns form. The form is rendered on every page from layout/theme.liquid, and global.js binds [data-modal=\"returns\"] on document. {%- endcomment -%}\n<div class=\"page-width page-width--narrow returns-file-cta\">\n  <a href=\"#returns\" class=\"button\" data-modal=\"returns\" role=\"button\">File a Return</a>\n</div>",
+        "custom_liquid": "{%- comment -%} 417 (Figma 22038-3820): opens the Returns form. The form is rendered on every page from layout/theme.liquid, and global.js binds [data-modal=\"returns\"] on document. {%- endcomment -%}\n<div class=\"page-width page-width--narrow custom-content-container returns-file-cta\">\n  <a href=\"#returns\" class=\"button\" data-modal=\"returns\" role=\"button\">File a Return</a>\n</div>",
         "color_scheme": "scheme-9a153970-6b13-4d7d-a853-4259c033f4be",
         "padding_top": 0,
         "padding_bottom": 60
