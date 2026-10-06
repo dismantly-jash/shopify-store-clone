@@ -655,3 +655,11 @@
   min-width: 215px;
   min-height: 43px;
 }
+@media screen and (max-width: 989px) {
+  /* below desktop the fixed .banner--adapt height clipped the button against the
+     benefit strip */
+  .banner.section-car-estimate {
+    height: auto;
+    padding-bottom: 0; /* .banner__content already pads 60px */
+  }
+}
