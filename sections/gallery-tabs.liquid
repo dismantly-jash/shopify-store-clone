@@ -54,6 +54,9 @@
                     width=""
                     height=""
                   >
+                {%- elsif block.settings.tab_image_asset != blank -%}
+                  {%- comment -%} 417: a committed theme asset, so the carousel works without Files uploads. {%- endcomment -%}
+                  <img src="{{ block.settings.tab_image_asset | asset_url }}" alt="{{ block.settings.tab_label | escape }}" class="motion-reduce" loading="lazy">
                 {%- else -%}
                   {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
                 {%- endif -%}
@@ -191,6 +194,12 @@
           "type": "image_picker",
           "id": "tab_image",
           "label": "Tab Image"
+        },
+        {
+          "type": "text",
+          "id": "tab_image_asset",
+          "label": "Tab image theme asset",
+          "info": "Used when no image is picked, e.g. 417-make-acura.png"
         },
         {
           "type": "url",

@@ -171,3 +171,25 @@
     height: 45px;
   }
 }
+/* 417 Shop Parts By Makes (Figma 22012-4290). The active make is red SemiBold, not
+   black Bold. The make name under the car is Medium 24/30 in #031f42. The two 60px
+   arrows sit in a 1002px-wide band centred on the car (x219 and x1161 at 1440), not
+   at the page edges. */
+.section-gallery-tabs .tab-btn.active {
+  color: var(--accent-color, #e4332b);
+  font-weight: 600;
+}
+.section-gallery-tabs .tab-slide-title {
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 500;
+  color: #031f42;
+}
+@media screen and (min-width: 1100px) {
+  .section-gallery-tabs .swiper-button-prev {
+    left: calc(50% - 501px) !important; /* base.css pins all arrows at 12px !important */
+  }
+  .section-gallery-tabs .swiper-button-next {
+    right: calc(50% - 501px) !important;
+  }
+}
