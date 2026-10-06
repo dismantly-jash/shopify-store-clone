@@ -6,9 +6,11 @@ Store: **`417motoring-zahnadke`** (`417motoring-zahnadke.myshopify.com`)
 shopify theme dev --store=417motoring-zahnadke
 ```
 
-Nothing has been pushed to this store yet and no theme id is bound. The first
-`theme dev` / `theme push` will ask which theme to use. The store's only theme
-is the default **Horizon** (`#156476473536`, live). The storefront is
+First pushed 2026-10-06 (at `b74ed8b`) as the unpublished theme **"417 Motoring"**,
+id **`158937645248`**. Update it with
+`shopify theme push --store=417motoring-zahnadke --theme=158937645248`. The live
+theme is still the default **Horizon** (`#156476473536`) until someone publishes
+417 Motoring. `theme dev` runs on its own development theme (`158904582336`). The storefront is
 password-protected, so `theme dev` prompts for the store password. Run it in
 your own terminal, or pass `--store-password`.
 
