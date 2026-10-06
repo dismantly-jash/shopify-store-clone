@@ -59,80 +59,72 @@
     "logo_list_zt7Ryd": {
       "type": "logo-list",
       "blocks": {
-        "logo_tcs_1": {
+        "logo_417_1": {
           "type": "logo",
           "settings": {
-            "logo_asset": "make-ford.png",
-            "logo_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Ford&filter.p.m.custom.type=PART"
+            "logo_asset": "make-acura.png",
+            "logo_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Acura&filter.p.m.custom.type=PART"
           }
         },
-        "logo_tcs_2": {
+        "logo_417_2": {
           "type": "logo",
           "settings": {
-            "logo_asset": "make-gwm.png",
-            "logo_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=GWM&filter.p.m.custom.type=PART"
+            "logo_asset": "make-audi.png",
+            "logo_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Audi&filter.p.m.custom.type=PART"
           }
         },
-        "logo_tcs_3": {
+        "logo_417_3": {
           "type": "logo",
           "settings": {
-            "logo_asset": "make-holden.png",
-            "logo_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Holden&filter.p.m.custom.type=PART"
+            "logo_asset": "make-bentley.png",
+            "logo_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Bentley&filter.p.m.custom.type=PART"
           }
         },
-        "logo_tcs_4": {
+        "logo_417_4": {
           "type": "logo",
           "settings": {
-            "logo_asset": "make-isuzu.png",
-            "logo_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Isuzu&filter.p.m.custom.type=PART"
+            "logo_asset": "make-bmw-m.png",
+            "logo_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=BMW&filter.p.m.custom.type=PART"
           }
         },
-        "logo_tcs_5": {
+        "logo_417_5": {
           "type": "logo",
           "settings": {
-            "logo_asset": "make-mazda.png",
-            "logo_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Mazda&filter.p.m.custom.type=PART"
+            "logo_asset": "make-corvette.png",
+            "logo_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Chevrolet&filter.p.m.custom.type=PART"
           }
         },
-        "logo_tcs_6": {
+        "logo_417_6": {
           "type": "logo",
           "settings": {
-            "logo_asset": "make-mitsubishi.svg",
-            "logo_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Mitsubishi&filter.p.m.custom.type=PART"
+            "logo_asset": "make-ferrari.png",
+            "logo_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Ferrari&filter.p.m.custom.type=PART"
           }
         },
-        "logo_tcs_7": {
+        "logo_417_7": {
           "type": "logo",
           "settings": {
-            "logo_asset": "make-nissan.png",
+            "logo_asset": "make-gtr.png",
             "logo_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Nissan&filter.p.m.custom.type=PART"
           }
         },
-        "logo_tcs_8": {
+        "logo_417_8": {
           "type": "logo",
           "settings": {
-            "logo_asset": "make-suzuki.png",
-            "logo_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Suzuki&filter.p.m.custom.type=PART"
-          }
-        },
-        "logo_tcs_9": {
-          "type": "logo",
-          "settings": {
-            "logo_asset": "make-toyota.png",
-            "logo_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=Toyota&filter.p.m.custom.type=PART"
+            "logo_asset": "make-mclaren.png",
+            "logo_link": "/search?q=*&options%5Bprefix%5D=last&type=product&filter.p.m.custom.make=McLaren&filter.p.m.custom.type=PART"
           }
         }
       },
       "block_order": [
-        "logo_tcs_1",
-        "logo_tcs_2",
-        "logo_tcs_3",
-        "logo_tcs_4",
-        "logo_tcs_5",
-        "logo_tcs_6",
-        "logo_tcs_7",
-        "logo_tcs_8",
-        "logo_tcs_9"
+        "logo_417_1",
+        "logo_417_2",
+        "logo_417_3",
+        "logo_417_4",
+        "logo_417_5",
+        "logo_417_6",
+        "logo_417_7",
+        "logo_417_8"
       ],
       "settings": {
         "logo_text": "",
