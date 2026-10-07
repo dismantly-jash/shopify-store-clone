@@ -1577,3 +1577,32 @@ span.active-facets__button-inner svg {
   height: 30px;
   object-fit: contain;
 }
+@media screen and (max-width: 749px) {
+  /* 417: "Filter and sort" took the scheme's white link colour and vanished on the
+     white results area; it is the only way into the filters on a phone */
+  .mobile-facets__wrapper .mobile-facets__open-wrapper .mobile-facets__open,
+  .mobile-facets__wrapper .mobile-facets__open-wrapper .mobile-facets__open span {
+    color: var(--main-heading-color, #070302);
+    font-weight: 600;
+  }
+  .mobile-facets__wrapper .mobile-facets__open-wrapper .mobile-facets__open path {
+    fill: var(--main-heading-color, #070302);
+  }
+}
+/* 417: the mobile filter drawer kept the section's dark colour scheme (near-black
+   panel and footer under dark-navy labels, unreadable). White panel, 417 text, red Apply. */
+.mobile-facets__inner.gradient,
+.mobile-facets__inner .mobile-facets__footer {
+  background: #fff;
+}
+.mobile-facets__inner .mobile-facets__heading,
+.mobile-facets__inner .mobile-facets__summary,
+.mobile-facets__inner .mobile-facets__summary span,
+.mobile-facets__inner .mobile-facets__sort {
+  color: var(--main-heading-color, #070302);
+}
+.mobile-facets__inner .mobile-facets__footer .button--primary,
+.mobile-facets__inner .mobile-facets__footer .button:not(.button--secondary) {
+  background: var(--main-color, #e4332b);
+  color: var(--text-on-main-color, #fff);
+}
