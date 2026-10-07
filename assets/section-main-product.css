@@ -2428,3 +2428,21 @@ a.product__text {
     max-width: 430px;
   }
 }
+
+/* 417 mobile: the three badges (166+78+117px) don't fit 345px, so the row squeezed
+   them and "Grade" broke to "Grad/e". Wrap the row; keep each badge on one line. */
+.product__info-wrapper .product-badge {
+  flex-wrap: wrap;
+  row-gap: 8px;
+}
+.product__info-wrapper .product-badge .badge {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+@media screen and (max-width: 749px) {
+  /* Request Part kept its 210px desktop width above a full-width Search Parts */
+  .product .product-form__buttons .custom-offer-btn.custom-request-part-btn {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
