@@ -233,9 +233,6 @@ If you have any questions about this Privacy Policy or our privacy practices, pl
 Nixa, MO 65714<br>
 [(417) 374-7733](tel:+14173747733)
 
-*(The Figma frame writes "825 N Gerald **Dr**" here. Every other frame, and the
-map, say **St**, so St is used. Confirm with the client.)*
-
 ---
 
 ## Page: Terms of Service
