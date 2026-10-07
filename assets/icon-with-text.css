@@ -92,3 +92,10 @@
     margin-top: 29px;
   }
 }
+@media screen and (max-width: 767px) {
+    /* two columns on a phone: the divider belongs between the columns only, not on
+       the left edge of the second row */
+    .custom-logo-item:nth-child(odd) {
+        border-left: none;
+    }
+}

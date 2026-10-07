@@ -4801,3 +4801,17 @@ a.request_quote.button {
   object-fit: contain;
   background-color: #f4f4f4;
 }
+
+/* 417: the search modal inherits the header's old dark colour scheme, which hid its
+   black close icon on mobile. The 417 header is white, so the modal is too. */
+.header .search-modal.modal__content {
+  background: #fff;
+}
+@media screen and (max-width: 749px) {
+  /* a mobile slide stacks two cards, so 50% put the arrows on the first card's
+     buttons; centre them on its photo instead */
+  .section-featured-collection .collection-swiper-button-next,
+  .section-featured-collection .collection-swiper-button-prev {
+    top: 223px !important;
+  }
+}

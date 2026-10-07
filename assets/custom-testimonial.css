@@ -169,3 +169,23 @@
 .testimonial-section .customer-profile__verified {
   display: none;
 }
+@media screen and (max-width: 749px) {
+  /* the 60px desktop arrows covered the review text on a phone: 36px, at the
+     screen edges, clear of the copy (which starts ~40px in) */
+  .testimonial-section .swiper-button-prev,
+  .testimonial-section .swiper-button-next {
+    width: 36px;
+    height: 36px;
+  }
+  .testimonial-section .swiper-button-prev svg,
+  .testimonial-section .swiper-button-next svg {
+    width: 14px;
+    height: 14px;
+  }
+  .testimonial-section .swiper-button-prev.swiper-button-prev {
+    left: 2px !important;
+  }
+  .testimonial-section .swiper-button-next.swiper-button-next {
+    right: 2px !important;
+  }
+}

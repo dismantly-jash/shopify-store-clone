@@ -276,3 +276,10 @@
     min-height: 500px;
   }
 }
+@media screen and (max-width: 989px) {
+  /* the fixed 500px beat the per-breakpoint min-heights above (440..225px), so the
+     tile filled a phone screen before any parts */
+  .tabbed-product-grid .tab-inner .tab-left {
+    height: auto;
+  }
+}
