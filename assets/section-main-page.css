@@ -236,3 +236,18 @@ body.template-privacy-policy .page-width.custom-content-container .rte > p + p:h
 body.template-privacy-policy .page-width.custom-content-container .rte > p + p:last-child:has(br) {
   margin-top: 0;
 }
+/* mobile: a small-screen rule set the bullets "inside", so wrapped lines ran back
+   under the bullet; keep them hanging, and use 16/26 copy on a phone */
+.page-width.custom-content-container .rte ul li {
+  list-style-position: outside;
+}
+@media screen and (max-width: 749px) {
+  .page-width.custom-content-container .rte ul {
+    padding-left: 20px;
+  }
+  .page-width.custom-content-container .rte ul li,
+  .page-width.custom-content-container .rte p {
+    font-size: 16px;
+    line-height: 26px;
+  }
+}
