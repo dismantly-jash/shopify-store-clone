@@ -20,7 +20,7 @@
         </div>
       <div class="product-popup-content">
         <div class="product-popup-form">
-          {% form 'contact', class: 'product-form' %}
+          {% form 'contact', class: 'product-form product-request-form' %}
           {% render 'form-honeypot', honeypot_id: 'part-request' %}
             {%- unless form.posted_successfully? -%}
             <input type="hidden" name="contact[tags]" value="Part Request">
@@ -42,7 +42,7 @@
             <div class="product-form__field-wrapper">
               <input type="hidden" name="contact[Product Name]" value="{{ product.title | escape }}">
               <div class="field one-half">
-                <label class="field__label" for="productForm--custom-request-name"> Name<span>*</span> </label>
+                <label class="field__label" for="productForm--custom-request-name">Full Name *</label>
                 <input
                   class="field__input"
                   type="text"
@@ -50,12 +50,12 @@
                   name="contact[Name]"
                   maxlength="100"
                   value=""
-                  placeholder="Name"
+                  placeholder="Full Name"
                   required=""
                 >
               </div>
               <div class="field one-half">
-                <label class="field__label" for="productForm--custom-request-email"> Email<span>*</span> </label>
+                <label class="field__label" for="productForm--custom-request-email">Contact Email *</label>
                 <input
                   id="productForm--custom-request-email"
                   type="email"
@@ -66,14 +66,14 @@
                   aria-required="true"
                   autocorrect="off"
                   autocapitalize="off"
-                  placeholder="you@company.com"
+                  placeholder="you@email.com"
                   pattern="[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}"
                   title="Please enter a valid email address."
                   required=""
                 >
               </div>
               <div class="field">
-                <label class="field__label" for="productForm--custom-request-phone"> Phone number </label>
+                <label class="field__label" for="productForm--custom-request-phone">Contact Number</label>
                 <div class="feild-input_wrapper">
                   <div class="input-group-btn">
                     <button
@@ -222,7 +222,7 @@
               {%- endif -%}
             </div>
             <div class="">
-              <label class="field__label" for="ProductForm-custom-request-part-type"> Part Type<span>*</span> </label>
+              <label class="field__label" for="ProductForm-custom-request-part-type">Part Category *</label>
               <input
                 type="text"
                 id="ProductForm-custom-request-part-type"
@@ -230,7 +230,7 @@
                 name="contact[Part Type]"
                 maxlength="60"
                 value="{{ product.metafields.custom.part_type.value | escape }}"
-                placeholder="Part Type"
+                placeholder="Part Category"
                 required
               >
             </div>

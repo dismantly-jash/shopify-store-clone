@@ -1614,6 +1614,8 @@ a.product__text {
 }
 .product-info-description{
   flex-grow: 1;
+  min-width: 0;
+  overflow-wrap: anywhere; /* a 17-character VIN pushed the page wider than a phone */
   color:  #000;
   font-size: 18px;
   font-weight: 400;

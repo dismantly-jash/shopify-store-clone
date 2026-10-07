@@ -4378,22 +4378,30 @@ max-width: 100%;
     margin-top: 10px;
     padding-top: 20px;
 }
-/* 417 Make an Offer (18046-8903): contact rows run straight into the read-only
+/* 417 Make an Offer (18046-8903) and Request Part (18046-9684): contact rows run straight into the read-only
    rows, and the only divider is the one above Offer Amount (from
    .product-part__field-wrapper). */
-.product-popup-content .product-offer-form .product-form__field-wrapper + .product-form__field-wrapper {
+.product-popup-content .product-offer-form .product-form__field-wrapper + .product-form__field-wrapper,
+.product-popup-content .product-request-form .product-form__field-wrapper + .product-form__field-wrapper {
   border-top: 0;
   margin-top: 0;
   padding-top: 0;
 }
 /* The last read-only row's 18px margin already sits above the divider: 32px in all. */
-.product-popup-content .product-offer-form .product-part__field-wrapper {
+.product-popup-content .product-offer-form .product-part__field-wrapper,
+.product-popup-content .product-request-form .product-part__field-wrapper {
   padding-bottom: 14px;
 }
-.product-popup-content .product-offer-form .field label {
+.product-popup-content .product-offer-form .field label,
+.product-popup-content .product-request-form label {
   line-height: 17px;
 }
-.product-popup-content .product-offer-form .product-form__button {
+/* Part Category isn't a .field, so it has no 18px bottom margin to add to the 14 */
+.product-popup-content .product-request-form .product-form__button {
+  margin-top: 32px;
+}
+.product-popup-content .product-offer-form .product-form__button,
+.product-popup-content .product-request-form .product-form__button {
   min-height: 43px;
   font-size: 16px;
   text-transform: none;
