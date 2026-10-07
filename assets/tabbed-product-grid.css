@@ -251,3 +251,28 @@
     padding-right: 5px;
   }
 }
+
+/* 417 tab grid cards (Figma 20020-3520): 326px cards with a 270px photo, the
+   "Only 1 Left" badge 16px down and 19px in, and a 20/28 price */
+@media screen and (min-width: 990px) {
+  /* outranks the sitewide 3:2 rule in component-card.css, which is !important */
+  .tab-inner .product-card-wrapper .card--standard .card__inner.ratio::before {
+    padding-bottom: 270px !important;
+  }
+  .tab-inner .product-card-wrapper .card-product__badge {
+    top: 16px;
+    right: 18px;
+  }
+}
+.tab-inner .product-card-wrapper .price .price-item {
+  font-size: 20px;
+  line-height: 28px;
+}
+@media screen and (min-width: 990px) {
+  /* the tile is as tall as the row of three cards beside it (Figma: both 579px) */
+  .tabbed-product-grid .tab-inner .tab-left {
+    align-self: stretch;
+    height: auto;
+    min-height: 500px;
+  }
+}

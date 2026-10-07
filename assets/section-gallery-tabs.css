@@ -193,3 +193,35 @@
     right: calc(50% - 501px) !important;
   }
 }
+/* 417: every make's car sits in the same 684x343 box (Figma 18048-6954), so the
+   name, button and arrows don't move as the photo proportions change per make */
+@media screen and (min-width: 750px) {
+  .section-gallery-tabs .tab-image_and_title {
+    max-width: 684px;
+  }
+  .section-gallery-tabs .tab-slide img {
+    width: 684px;
+    height: 343px;
+    object-fit: contain;
+  }
+}
+/* the make tabs start 24px under the title label (the shared wrap gives 40) */
+@media screen and (min-width: 750px) {
+  .section-gallery-tabs .section-title-banner-wrap {
+    margin-bottom: 24px;
+  }
+}
+@media screen and (min-width: 1100px) {
+  /* arrows centred on the car (y383 at 1440), 15px lower than the shared -22px offset puts them */
+  .section-gallery-tabs .swiper-button-next,
+  .section-gallery-tabs .swiper-button-prev {
+    margin-top: -7px;
+  }
+}
+/* 215x43 Shop Parts button (Figma 18046-7454) */
+.section-gallery-tabs .tab-slide .btn.button {
+  box-sizing: border-box;
+  height: 43px;
+  min-height: 43px;
+  min-width: 215px;
+}
