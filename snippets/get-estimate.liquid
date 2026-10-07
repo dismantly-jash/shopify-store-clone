@@ -2,8 +2,10 @@
   <div class="product-popup-wrapper">
     <div class="product-popup-wrapper__inner">
       <div class="product-popup-header">
-        {% render 'section-title', title: 'Get a Quote' %}
-          
+        {%- comment -%} 417 (18046-7214): the 48px popup title, as on the other modals {%- endcomment -%}
+        <div class="title-line">
+          <h2 class="section-main-title inline-richtext h2">Get a Quote</h2>
+        </div>
         <div class="popup-close">
           <button class="btn close_btn">
             {{ 'icon-close-small.svg' | inline_asset_content }}
@@ -13,7 +15,7 @@
       <div class="product-popup-content">
         <div class="product-popup-form">
           {% capture form_id %}product-form--get-estimate{% endcapture %}
-          {% form 'contact', class: 'product-form', id: form_id %}
+          {% form 'contact', class: 'product-form product-estimate-form', id: form_id %}
           {% render 'form-honeypot', honeypot_id: 'get-estimate' %}
             {%- capture content_for_query_string -%}{{ content_for_header }}{%- endcapture -%}
           {%- liquid
@@ -33,7 +35,7 @@
               <input type="hidden" name="contact[Enquiry Page]" value="{{ product.title }}">
               <div class="field one-half">
                 <label class="field__label" for="productForm--get-estimate-name">
-                  {{ 'templates.contact.form.name' | t }}<span>*</span>
+                  Your Name *
                 </label>
                 <input
                   class="field__input"
@@ -42,13 +44,13 @@
                   name="contact[{{ 'templates.contact.form.name' | t }}]"
                   maxlength="100"
                   value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
-                  placeholder="{{ 'templates.contact.form.name' | t }}"
+                  placeholder="Your Name"
                   required
                 >
               </div>
               <div class="field one-half">
                 <label class="field__label" for="productForm--get-estimate-email">
-                  {{ 'newsletter.label' | t }}<span>*</span>
+                  {{ 'newsletter.label' | t }} *
                 </label>
                 <input
                   id="productForm--get-estimate-email"
@@ -75,7 +77,7 @@
               </div>
               <div class="field">
                 <label class="field__label" for="productForm--get-estimate-phone">
-                  {{ 'templates.contact.form.phone' | t }}
+                  Phone Number
                 </label>
                 <div class="feild-input_wrapper">
                   <div class="input-group-btn">
@@ -111,7 +113,7 @@
             >
               <div class="field">
                 <label class="field__label" for="productEstimateForm--get-estimate-year-range">
-                  {{ 'general.get_estimate.year_make_model' | t }}<span>*</span>
+                  {{ 'general.get_estimate.year_make_model' | t }} *
                 </label>
                 <input
                   type="text"
@@ -162,7 +164,7 @@
             >
               <div class="field">
                 <label class="field__label" for="productEstimateForm--get-estimate-offer-amount">
-                  {{ 'general.get_estimate.desired_price' | t }}<span>*</span>
+                  {{ 'general.get_estimate.desired_price' | t }} *
                 </label>
                 <input
                   type="number"
@@ -181,7 +183,7 @@
               </div>
               <div class="field">
                 <label class="form__label field__label" for="ContactForm-body">
-                  {{ 'general.get_estimate.description' | t }}<span>*</span>
+                  {{ 'general.get_estimate.description' | t }} *
                 </label>
                 <textarea
                   rows="10"

@@ -4393,15 +4393,27 @@ max-width: 100%;
   padding-bottom: 14px;
 }
 .product-popup-content .product-offer-form .field label,
-.product-popup-content .product-request-form label {
+.product-popup-content .product-request-form label,
+.product-popup-content .product-estimate-form .field label {
   line-height: 17px;
+}
+/* 417 Get a Quote (18046-7214): 32px either side of each divider (18px of it is
+   the last row's margin), and a 75px Vehicle Condition box. */
+.product-popup-content .product-estimate-form .product-form__field-wrapper + .product-form__field-wrapper {
+  margin-top: 14px;
+  padding-top: 32px;
+}
+.product-popup-content .product-estimate-form .field textarea {
+  height: 75px;
+  min-height: 75px;
 }
 /* Part Category isn't a .field, so it has no 18px bottom margin to add to the 14 */
 .product-popup-content .product-request-form .product-form__button {
   margin-top: 32px;
 }
 .product-popup-content .product-offer-form .product-form__button,
-.product-popup-content .product-request-form .product-form__button {
+.product-popup-content .product-request-form .product-form__button,
+.product-popup-content .product-estimate-form .product-form__button {
   min-height: 43px;
   font-size: 16px;
   text-transform: none;

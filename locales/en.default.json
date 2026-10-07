@@ -43,15 +43,15 @@
       "plate_number": "VIN Number",
       "address": "Pickup Location / Address",
       "phone_placeholder": "+1 (555) 000-0000",
-      "email_placeholder": "you@company.com",
+      "email_placeholder": "email@example.com",
       "year_make_model_placeholder": "2020 BMW 5 Series",
       "plate_number_placeholder": "WVWZZZ1JZ3W386752",
       "address_placeholder": "123 Main Street",
       "submit_button": "Get a quote",
-      "desired_price": "Desired Price",
-      "desired_price_placeholder": "$2400",
-      "description": "Description",
-      "description_placeholder": "Tell us about your vehicle"
+      "desired_price": "Price Expectation",
+      "desired_price_placeholder": "$5,000",
+      "description": "Vehicle Condition",
+      "description_placeholder": "Tell us about any damage or special features."
     },
     "continue_shopping": "Continue shopping",
     "pagination": {
