@@ -247,9 +247,11 @@ and `assets/tcs-hero.jpg`, which the home hero still uses. Next →
 the frames, one at a time (header/footer first, since every frame shares them).
 
 **Colours: done in `357ddef`.** The table below is the mapping that was applied. Still
-Total Commercial: the black header and white/lime nav CSS (CLI-873/898), and the
-benefit icons (`assets/icon-benefit-*.svg`, now red, but black outline icons in
-Figma). The brand variables are in [layout/theme.liquid](layout/theme.liquid), around line 303:
+Total Commercial: the black header and white/lime nav CSS (CLI-873/898). The benefit
+icons render from the inline `svg-icon` block settings of `icon_with_text_PK6rDF` in
+`templates/index.json` and `templates/product.json`, which are black like Figma
+(`18046:7845`). `assets/icon-benefit-*.svg` are unused copies of the same Figma
+exports. The brand variables are in [layout/theme.liquid](layout/theme.liquid), around line 303:
 
 ```
 variable              TC now    → 417        role
