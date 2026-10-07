@@ -1,6 +1,6 @@
 <product-info
   id="MainProduct-{{ section.id }}"
-  class="main-product-section section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}"
+  class="main-product-section{% if product.metafields.custom.type == 'VEHICLE' %} main-product-section--vehicle{% endif %} section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}"
   data-section="{{ section.id }}"
   data-product-id="{{ product.id }}"
   data-update-url="true"
@@ -221,8 +221,8 @@
                   {%- endif -%}
                 </p>
               {%- when 'description' -%}
-                
-                {%- if product.description != blank -%}
+                {%- comment -%} 417 vehicle frame (18046-9498) has no description under the title. {%- endcomment -%}
+                {%- if product.description != blank and product.metafields.custom.type != 'VEHICLE' -%}
                   <div class="product__description rte quick-add-hidden" {{ block.shopify_attributes }}>
                     {{ product.description }}
                   </div>
@@ -752,7 +752,11 @@
                         {% when 'Series' %}
                           {% assign vehicle_detail_value = product.metafields.custom.series.value | default: product.metafields.custom.series %}
                         {% when 'Sub-Model' %}
-                          {% assign vehicle_detail_value = product.metafields.custom.donor_vehicle_veh_submodel.value | default: product.metafields.custom.donor_vehicle_veh_submodel %}
+                          {%- comment -%} Dismantly writes custom.sub_model on vehicles; the donor_vehicle key is a part-side name. {%- endcomment -%}
+                          {% assign vehicle_detail_value = product.metafields.custom.sub_model.value | default: product.metafields.custom.sub_model %}
+                          {% if vehicle_detail_value == blank %}
+                            {% assign vehicle_detail_value = product.metafields.custom.donor_vehicle_veh_submodel.value | default: product.metafields.custom.donor_vehicle_veh_submodel %}
+                          {% endif %}
                         {% when 'Color' %}
                           {% assign vehicle_detail_value = product.metafields.custom.color.value | default: product.metafields.custom.color %}
                         {% when 'Chassis #' %}
@@ -770,6 +774,8 @@
                         {% when 'Odometer' %}
                           {% assign vehicle_detail_value = product.metafields.custom.odometer.value | default: product.metafields.custom.odometer %}
                       {% endcase %}
+                      {%- comment -%} An empty row is dead space, so skip it, as the part rows do. {%- endcomment -%}
+                      {% if vehicle_detail_value != blank %}
                       <div class="product-info-details">
                         <div class="product-info-title">
                           {{ vehicle_detail_label }} :
@@ -778,6 +784,7 @@
                           {{ vehicle_detail_value }}
                         </div>
                       </div>
+                      {% endif %}
                     {% endfor %}
                   {% else %}
                     {% for i in (1..18) %}

@@ -1603,12 +1603,13 @@ a.product__text {
   border: none;
 }
 
+/* 417 Details rows (18046-7707, 18046-9498): 123px label, 20px gap, 28px lines */
 .product-info-title{
-  flex-basis: 140px;
+  flex-basis: 123px;
   flex-shrink: 0;
   font-size: 18px;
   font-weight: 500;
-  line-height: 1.6;
+  line-height: 28px;
   color: #000;
 }
 .product-info-description{
@@ -1616,6 +1617,7 @@ a.product__text {
   color:  #000;
   font-size: 18px;
   font-weight: 400;
+  line-height: 28px;
 }
 .product-info-description * {
     margin: 0;
@@ -2383,4 +2385,44 @@ a.product__text {
 .custom-api-feature h2.title {
   font-weight: 600;
   color: #000;
+}
+
+/* 417 vehicle page (Figma 18046-9498): same layout as the part page, but the car
+   photo fills the rounded box, the arrows are 60px and hang half outside it, the
+   thumbnails are 134x125, and Request Part (209px) sits 16px from a 430px Search
+   Parts button. */
+@media screen and (min-width: 990px) {
+  .main-product-section--vehicle .product__media-list .product-media-container .media img {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 16px;
+  }
+  .main-product-section--vehicle .product__media-wrapper .slider-button {
+    width: 60px;
+    height: 60px;
+  }
+  .main-product-section--vehicle .product--thumbnail_slider .slider-mobile-gutter .slider-button.slider-button--prev {
+    left: -30px;
+  }
+  .main-product-section--vehicle .product--thumbnail_slider .slider-mobile-gutter .slider-button.slider-button--next {
+    right: -29px;
+  }
+  .main-product-section--vehicle .thumbnail-list.slider--tablet-up .thumbnail-list__item.slider__slide {
+    height: 125px;
+  }
+  .main-product-section--vehicle .product-form__buttons {
+    gap: 16px;
+  }
+  .main-product-section--vehicle .product-form__buttons .custom-offer-btn.custom-request-part-btn {
+    flex: 0 0 209px;
+    max-width: 209px;
+  }
+  /* the column is 654.55px, so a fixed 430 wraps; take the rest of the row */
+  .main-product-section--vehicle .product-form__buttons .custom-search-btn {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 430px;
+  }
 }
