@@ -8,7 +8,7 @@
   - filter_type: {String} Type of filter
   - paginate: {Object}
   - show_search_cta: {Boolean} (optional) Render the design's red "Find My Part" /
-      "Find My Vehicle" submit button after the last dropdown. Opt-in because
+      "Search Part" (vehicles) submit button after the last dropdown. Opt-in because
       collection pages render this same snippet and must not get a parts CTA.
   - scope_type: {String} (optional) 'part' or 'vehicle'. Echoed back as a hidden
       input so the scope survives the AJAX re-render that sorting triggers - the
@@ -27,7 +27,10 @@
   assign facets_search_cta = 'Find My Part'
   if facets_page_url contains 'type=VEHICLE' or facets_page_url contains 'type=vehicle'
     assign facets_hide_price_sort = true
-    assign facets_search_cta = 'Find My Vehicle'
+    comment
+      417: the Vehicles frame (18046-9423) labels this button "Search Part"
+    endcomment
+    assign facets_search_cta = 'Search Part'
   endif
 -%}
 
