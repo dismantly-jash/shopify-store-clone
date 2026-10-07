@@ -26,16 +26,16 @@
         </div>
       {% else %}
         <div class="card_media">
-          {%- comment -%} 417: vehicles without a photo show the store's common.png, like part cards. {%- endcomment -%}
+          {%- comment -%} 417: Shopify's "No image" graphic, like every other card (card_no_image is never assigned) {%- endcomment -%}
           <div class="media">
             <img
-              src="{{ 'common.png' | file_img_url: '533x' }}"
+              src="{{ card_no_image | img_url: '533x' }}"
               alt="{{ product.title | escape }}"
               class="motion-reduce"
               loading="lazy"
               width="533"
               height="400"
-              onerror="this.onerror=null;this.src='{{ 'placeholder-part.svg' | asset_url }}';"
+
             >
           </div>
         </div>

@@ -548,7 +548,8 @@ function redirectCheckout(id, quantity = 1) {
         // પહેલી પ્રોડક્ટ મળતા જ લોડર કાઢી નાખવું
         if (totalCount === 0 && loader) loader.remove();
 
-        const imgSrc = product.images.edges[0]?.node?.url || "{{ settings.logo | img_url: 'master' }}";
+        {%- comment -%} Shopify's "No image" graphic, as on every card. It used settings.logo, which only drew this because the fork cleared the logo; card_no_image is never assigned. {%- endcomment -%}
+        const imgSrc = product.images.edges[0]?.node?.url || "{{ card_no_image | img_url: '533x' }}";
         const imgAlt = product.images.edges[0]?.node?.altText || product.title;
         const price = product.priceRange?.minVariantPrice?.amount || "0.0";
         const firstVariant = product.variants.edges[0]?.node || null;

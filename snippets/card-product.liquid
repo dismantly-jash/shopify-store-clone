@@ -43,10 +43,11 @@
     # never uploaded here, so a failed product image fell through to a second 404
     # and rendered the browser's broken-image icon. last_resort_image ships with
     # the theme, so it resolves on any store.
-    # 417: common.png is uploaded on this store, so a product with no photo shows
-    # it, and last_resort_image only catches it failing to load.
-    assign fallback_product_image_url = 'common.png' | file_img_url: '533x'
-    assign last_resort_image = 'placeholder-part.svg' | asset_url
+    # 417: every card uses Shopify's own "No image" graphic as its placeholder, for a
+    # product with no photo and for a photo that fails to load. img_url on an image
+    # that doesn't exist returns it (card_no_image is never assigned, so it is nil).
+    assign fallback_product_image_url = card_no_image | img_url: '533x'
+    assign last_resort_image = fallback_product_image_url
     assign has_product_card_image = true
   -%}
   <div class="card-wrapper product-card-wrapper">
