@@ -353,6 +353,66 @@ The full procedure is the Linear doc **Setup Shopify store**
 5. **Dismantly connection**: section 4 of the Setup doc. Use the trimmed scope list, and
    the API host `api.dev.dismantly.ai` / `api.dismantly.ai`, not the frontend host.
 
+## Mobile check (no Figma for it)
+
+The Figma frames are desktop only, so mobile is an independent check. Do it after
+each frame is matched at 1440, and again before handover. Use the browser pane at
+**375×812** (and spot-check 390 and 414). For every page and state:
+
+- **Home**: every section, top to bottom.
+- **Search**: Parts and Vehicles, including a filtered result and the filter drawer.
+- **Product pages**: a priced part, a no-price part, and a vehicle.
+- **Cart drawer**: with two items in it. Empty the cart afterwards with
+  `fetch('/cart/clear.js',{method:'POST'})`.
+- **Every modal**: Make an Offer, Request Part, Sell My Car, Returns and the Returns
+  success screen.
+- **Menu and search**: the hamburger menu, and the search modal with a typed query.
+- **Policy pages and Contact Us**.
+
+Check each for:
+
+1. **Sideways scroll.** `scrollWidth` must equal the viewport width. If not, find the
+   culprit: walk every element whose `getBoundingClientRect().right` exceeds the
+   width, and skip anything inside an `overflow` ancestor, the drawers and the hidden
+   popups.
+2. **Overlap.** Carousel arrows over buttons or text, badges over titles.
+3. **Invisible or clipped controls.** Icons the same colour as their background, close
+   buttons, and placeholders cut off in narrow inputs.
+4. **Tap targets** at least 24px, and buttons 44px tall.
+5. **Proportions.** Desktop-sized blocks that eat a phone screen.
+
+Take screenshots with `window.scrollTo(…)` then `screenshot`. One taken straight after
+a reload can still show the top of the page.
+
+✅ **Done 2026-10-07** (`c0f531f`, `cc5c4ba`, `db5585f` and the policy commit). Fixed:
+
+- **Recently Listed:** a mobile slide stacks two cards, so the arrows sat on the first
+  card's buttons. They are now centred on its photo.
+- **Reviews:** the 60px desktop arrows covered the copy. Now 36px at the screen edges
+  below 750.
+- **Benefit icons:** there was a stray divider on the left of the second row.
+- **Tab grid tile:** the fixed 500px beat the mobile min-heights. Now 225px at 375.
+- **Mobile menu account icon:** `assets/icon-account.svg` had `fill="white"`, from TC's
+  black header. Now `currentColor`.
+- **Search modal:** it kept the header's dark scheme, so its black close icon was
+  invisible. It now has a white background.
+- **"Filter and sort" link:** it took the scheme's white link colour.
+- **Filter drawer:** near-black panel under navy labels. Now white, with the 417 text
+  colour and a red Apply button.
+- **Two-up result cards:** the side-by-side buttons wrapped to three lines. Now stacked
+  full width.
+- **Vehicle card titles:** 22px split words mid-word. Now 17px below 750.
+- **Part badges:** they broke mid-word ("Grad/e"). The row now wraps.
+- **Request Part:** it kept its 210px desktop width on the vehicle page. Now full width.
+- **Similar Parts empty message (CLI-665):** it was white text on white.
+- **Policy lists:** the bullets sat inside the text, so wrapped lines ran back under the
+  bullet. Now hanging bullets, with 16/26 copy on phones.
+
+The Make an Offer, Request Part, Sell My Car and Returns modals and the cart drawer were
+fine at 375. Pattern behind most of these: **Total Commercial's dark colour schemes are
+still on sections whose 417 design is white.** Anything that renders inside those
+schemes (popups, drawers, empty states) comes out white-on-white or black-on-black.
+
 ## Testing
 
 The shared Playwright suite is at `../store-tests`. Copy
