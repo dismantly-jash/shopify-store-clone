@@ -3749,8 +3749,10 @@ h2.has-border {
 }
 
 /* Popup */
+/* 417: the Returns modal is ~830px tall, so 85vh scrolled it on a 900px-high
+   window; keep 50px clear above and below instead */
 .product-popup-wrapper {
-  max-height: 85vh;
+  max-height: calc(100vh - 100px);
   overflow: hidden;
   overflow-y: auto;
   scrollbar-width: thin;
@@ -4407,13 +4409,100 @@ max-width: 100%;
   height: 75px;
   min-height: 75px;
 }
+/* 417 Returns (18046-7288): 846 wide with 33px sides like the other modals, a 14px
+   subtitle 13px under the title, then the form 13px under that. Below the divider
+   every field is 32px from the next. */
+@media screen and (min-width: 750px) {
+  .product-detail__popup.return-main-popup {
+    padding: 29px 33px;
+  }
+}
+@media screen and (max-width: 749px) {
+  /* 24px sides like the other modals, so "+1 (417) 123-4567" fits the phone field */
+  .product-detail__popup.return-main-popup {
+    padding: 29px 24px;
+  }
+}
+.return-main-popup .product-popup-header {
+  margin-bottom: 13px;
+}
+.return-main-popup .product-popup-header .title-line + p {
+  margin: 13px 0 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 17px;
+  color: #414651;
+}
+.product-popup-content .product-return-form .field label {
+  line-height: 17px;
+}
+.product-popup-content .product-return-form .product-form__field-wrapper + .product-form__field-wrapper {
+  margin-top: 14px;
+  padding-top: 32px;
+}
+.product-popup-content .product-return-form .product-form__field-wrapper + .product-form__field-wrapper .field {
+  margin-bottom: 32px;
+}
+.product-popup-content .product-return-form .product-form__field-wrapper + .product-form__field-wrapper .field:last-child {
+  margin-bottom: 0;
+}
+.product-popup-content .product-return-form .field textarea {
+  height: 75px;
+  min-height: 75px;
+}
+.product-popup-content .product-return-form .product-form__button {
+  margin-top: 32px;
+}
+/* 91px upload area: the icon sits 21.5px from the top in the frame */
+.product-popup-content .product-return-form .field label.return-file-upload {
+  padding: 21px 32px;
+}
+/* 417 Return Request Submitted (18046-7378): square 519px box; a 20px-padded
+   content block (66px tick, 20px gap, 20/24 heading, 16px gap, 14px grey copy),
+   then a 44px outlined Back to Home 24px below it. */
+.product-detail__popup.return-main-popup.is-active.return-success-form {
+  border-radius: 0;
+}
+.return-main-popup.return-success-form .success-wrapper {
+  padding: 20px 20px 0;
+  text-align: center;
+}
+.return-main-popup.return-success-form .success-wrapper svg {
+  display: block;
+  margin: 0 auto 20px;
+}
+.product-detail__popup.return-main-popup.is-active.return-success-form .success-wrapper h3 {
+  margin: 0 0 16px;
+  font-size: 20px;
+  line-height: 24px;
+  color: #0a090d;
+}
+.product-detail__popup.return-main-popup.is-active.return-success-form .success-wrapper .rte,
+.product-detail__popup.return-main-popup.is-active.return-success-form .success-wrapper .rte p {
+  margin: 0;
+  color: #525866;
+}
+.return-main-popup.return-success-form .product-popup-wrapper__inner .popup-close.back-to-home-btn {
+  margin: 44px -20px 0;
+  padding: 0;
+  border: 1px solid #dde5dc;
+}
+.return-main-popup.return-success-form .back-to-home-btn .btn.close_btn {
+  width: 100%;
+  min-height: 42px;
+  font-family: var(--font-body-family);
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f251f;
+}
 /* Part Category isn't a .field, so it has no 18px bottom margin to add to the 14 */
 .product-popup-content .product-request-form .product-form__button {
   margin-top: 32px;
 }
 .product-popup-content .product-offer-form .product-form__button,
 .product-popup-content .product-request-form .product-form__button,
-.product-popup-content .product-estimate-form .product-form__button {
+.product-popup-content .product-estimate-form .product-form__button,
+.product-popup-content .product-return-form .product-form__button {
   min-height: 43px;
   font-size: 16px;
   text-transform: none;

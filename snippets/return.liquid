@@ -5,7 +5,10 @@
       <div style="margin:0 auto;" class="pxFormGenerator" id="yCugPDEjCvTv7_VPKDOqzA"></div>
       {% endcomment %}
         <div class="product-popup-header">
-          {% render 'section-title', title: 'Returns' %}
+          {%- comment -%} 417 (18046-7288): the 48px popup title; global.js hides .title-line + p on success {%- endcomment -%}
+          <div class="title-line">
+            <h2 class="section-main-title inline-richtext h2">Returns</h2>
+          </div>
           <p>Submit a return request and we'll get back to you with next steps.</p>
           <div class="popup-close">
             <button class="btn close_btn">
@@ -17,7 +20,7 @@
         </div>
         <div class="product-popup-content">
           <div class="product-popup-form">
-            {% form 'contact', class: 'product-form', id: 'return-contact-form' %}
+            {% form 'contact', class: 'product-form product-return-form', id: 'return-contact-form' %}
             {% render 'form-honeypot', honeypot_id: 'returns' %}
               {% unless form.posted_successfully? %}
                 <input type="hidden" name="contact[tags]" value="Return Request">
