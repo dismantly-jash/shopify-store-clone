@@ -127,6 +127,14 @@
       {{ body_font_italic | font_face: font_display: 'swap' }}
       {{ body_font_bold_italic | font_face: font_display: 'swap' }}
       {{ settings.type_header_font | font_face: font_display: 'swap' }}
+      /* 417: Jost Medium is used only for the "Quality Parts, Ready When You Are!" CTA heading (Figma 18046-9380); self-hosted latin subset, OFL */
+      @font-face {
+        font-family: 'Jost';
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url({{ 'jost-500-latin.woff2' | asset_url }}) format('woff2');
+      }
 
       {% for scheme in settings.color_schemes -%}
         {% assign scheme_classes = scheme_classes | append: ', .color-' | append: scheme.id %}

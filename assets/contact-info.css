@@ -306,3 +306,46 @@
 .contact-info-section .contact-info-wrapper {
   background: #f4f4f4;
 }
+
+/* 417 Contact Us (Figma 18046-9248) */
+.contact-info-section .contact-info-wrapper {
+  background: #f9f9f9; /* BG/Light BG */
+}
+@media screen and (min-width: 990px) {
+  /* the panel is 706px with Follow Us; keep that height while the social links are unset */
+  .contact-info-section .contact-info-wrapper {
+    min-height: 706px;
+  }
+}
+.contact-heading {
+  color: #000;
+  line-height: 19px;
+}
+.contact-heading:after {
+  background: var(--main-heading-color, #070302);
+}
+.contact-info-section .contact-item h5 {
+  color: #000;
+  line-height: 19.44px;
+}
+/* About copy: centred 18/28 #303030, a blank line between paragraphs, 60px under the panel */
+.contact-info-section .desc-text {
+  max-width: 1114px;
+  margin: 60px auto 0;
+  text-align: center;
+}
+@media screen and (min-width: 990px) {
+  /* the old 40px/160px padding squeezed the copy into 794px of the 1114 */
+  .contact-info-section .desc-text {
+    padding: 0;
+  }
+}
+.contact-info-section .desc-text p {
+  font-size: 18px;
+  line-height: 28px;
+  color: #303030;
+  margin: 0;
+}
+.contact-info-section .desc-text p + p {
+  margin-top: 28px;
+}

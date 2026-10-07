@@ -152,3 +152,87 @@
 body .page-width.custom-content-container .rte > :last-child {
   margin-bottom: 0;
 }
+
+/* 417 policy pages (18046-9356 and siblings): bullets in a 27px indent, and the
+   24px section headings in #070302 on a 30px line */
+.page-width.custom-content-container .rte ul {
+  padding-left: 27px;
+  margin: 20px 0 46px;
+}
+/* the 18/28 #535353 list text was scoped to the Shipping page only, so Warranty's
+   lists fell back to 16px regular black */
+.page-width.custom-content-container .rte ul li {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 28px;
+  color: #535353;
+}
+.page-width.custom-content-container .rte h2 {
+  color: var(--main-heading-color, #070302);
+  line-height: 30px;
+}
+/* consecutive paragraphs (Warranty's General Requirements) are a 28px line apart */
+.page-width.custom-content-container .rte > p + p,
+.page-width.custom-content-container .rte > p + p:last-child {
+  margin-top: 28px;
+}
+.page-width.custom-content-container .rte > p:has(+ p) {
+  margin-bottom: 0;
+}
+/* 417 Returns page (22038-3808): the list sits 32px under the heading (20 on the
+   other policy pages), then a 174x42 File a Return button 32px under the list */
+.template-returns-policy .page-width.custom-content-container .rte h2 + ul {
+  margin-top: 32px;
+}
+.returns-file-cta .button {
+  min-width: 174px;
+  min-height: 42px;
+  padding: 0 24px;
+}
+/* 417 Privacy Policy / Terms of Service (22039-4206, 22038-3967): within a section
+   the paragraphs and lists run on with no gaps; 32px under a heading, 46px between
+   sections, and 20/30 grey uppercase sub-headings with 32px above and 16px below. */
+body.template-privacy-policy .page-width.custom-content-container .rte > p,
+body.template-privacy-policy .page-width.custom-content-container .rte > p + p,
+body.template-privacy-policy .page-width.custom-content-container .rte > p + p:last-child,
+body.template-privacy-policy .page-width.custom-content-container .rte > p:last-child,
+body.template-privacy-policy .page-width.custom-content-container .rte > ul,
+body.template-terms-of-service .page-width.custom-content-container .rte > p,
+body.template-terms-of-service .page-width.custom-content-container .rte > p + p,
+body.template-terms-of-service .page-width.custom-content-container .rte > p + p:last-child,
+body.template-terms-of-service .page-width.custom-content-container .rte > p:last-child,
+body.template-terms-of-service .page-width.custom-content-container .rte > ul {
+  margin: 0;
+}
+body.template-privacy-policy .page-width.custom-content-container .rte > h2,
+body.template-terms-of-service .page-width.custom-content-container .rte > h2 {
+  margin: 46px 0 0;
+}
+body.template-privacy-policy .page-width.custom-content-container .rte > h2:first-child,
+body.template-terms-of-service .page-width.custom-content-container .rte > h2:first-child {
+  margin-top: 0;
+}
+body.template-privacy-policy .page-width.custom-content-container .rte > h2 + *,
+body.template-privacy-policy .page-width.custom-content-container .rte > h2 + p:last-child,
+body.template-terms-of-service .page-width.custom-content-container .rte > h2 + *,
+body.template-terms-of-service .page-width.custom-content-container .rte > h2 + p:last-child {
+  margin-top: 32px;
+}
+body.template-privacy-policy .page-width.custom-content-container .rte > h3 {
+  margin: 32px 0 16px;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 30px;
+  color: #585858;
+  text-transform: uppercase;
+}
+/* ...but separate paragraphs keep a 28px blank line between them (Cookies), except
+   the Contact Us address, which is one <p> of lines straight under its intro */
+body.template-privacy-policy .page-width.custom-content-container .rte > p + p,
+body.template-privacy-policy .page-width.custom-content-container .rte > p + p:last-child {
+  margin-top: 28px;
+}
+body.template-privacy-policy .page-width.custom-content-container .rte > p + p:has(br),
+body.template-privacy-policy .page-width.custom-content-container .rte > p + p:last-child:has(br) {
+  margin-top: 0;
+}

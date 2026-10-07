@@ -453,6 +453,12 @@
   line-height: 1.4445;
   color: #000000;
 }
+/* 417 CTA heading is Jost Medium 36 (Figma 18046-9380) */
+.page-service-policy .image-with-text .image-with-text__content .image-with-text__heading,
+.page-guarantee-after-sales .image-with-text .image-with-text__content .image-with-text__heading,
+.page-shipping-policy .image-with-text .image-with-text__content .image-with-text__heading {
+  font-family: 'Jost', var(--font-heading-family);
+}
 .page-service-policy .image-with-text .image-with-text__content .image-with-text__text,
 .page-guarantee-after-sales .image-with-text .image-with-text__content .image-with-text__text, 
 .page-service-policy .image-with-text .image-with-text__content .button,
