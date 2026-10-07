@@ -55,6 +55,36 @@
     font-weight: 500;
     line-height: 1.5;
 }
+/* 417 Shipping / Warranty tabs (18046-8205, 18046-8432): 20/26 bold heading, then
+   18/28 #535353 copy, bullets in a 27px indent, 20px between the blocks. */
+@media screen and (min-width: 750px) {
+  .product-tab-view .product-view-details .rte ul li,
+  .product-tab-view .product-view-details .rte p {
+      line-height: 28px;
+  }
+}
+.product-tab-view .product-view-details .rte > p,
+.product-tab-view .product-view-details .rte > ul {
+    margin: 20px 0 0;
+}
+.product-tab-view .product-view-details .rte > :first-child {
+    margin-top: 0;
+}
+.product-tab-view .product-view-details .rte ul {
+    padding-left: 27px;
+    list-style: disc;
+}
+.product-tab-view .product-view-details .rte ul li {
+    margin: 0;
+}
+.product-tab-view .product-view-details .rte p strong {
+    font-weight: 700;
+    line-height: 26px;
+}
+/* the heading line is the <strong> alone in its <p>: 26px tall, not 28 */
+.product-tab-view .product-view-details .rte > p:has(> strong:only-child) {
+    line-height: 26px;
+}
 
 /* ========= table css ========= */
 .product-tab-view .table_layout{
