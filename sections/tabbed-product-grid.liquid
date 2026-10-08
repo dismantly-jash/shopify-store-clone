@@ -32,7 +32,7 @@
         assign products_source = collections.all.products
       endif
 
-      assign match_keyword = block.settings.match_keyword | default: block.settings.tab_name | downcase
+      assign match_keywords = block.settings.match_keyword | default: block.settings.tab_name | downcase | split: ','
       assign has_match = false
       for product in products_source
         if block.settings.tab_name == blank
@@ -44,8 +44,16 @@
         endif
         assign tab_probe = product.title | downcase
         assign tab_pt = product.metafields.custom.part_type.value | downcase
-        if tab_probe contains match_keyword or tab_pt contains match_keyword
-          assign has_match = true
+        for kw_raw in match_keywords
+          assign kw = kw_raw | strip
+          if kw != blank
+            if tab_probe contains kw or tab_pt contains kw
+              assign has_match = true
+              break
+            endif
+          endif
+        endfor
+        if has_match
           break
         endif
       endfor
@@ -82,7 +90,7 @@
           assign products_source = collections.all.products
         endif
 
-        assign match_keyword = block.settings.match_keyword | default: block.settings.tab_name | downcase
+        assign match_keywords = block.settings.match_keyword | default: block.settings.tab_name | downcase | split: ','
         assign has_match = false
         for product in products_source
           if block.settings.tab_name == blank
@@ -94,8 +102,16 @@
           endif
           assign tab_probe = product.title | downcase
           assign tab_pt = product.metafields.custom.part_type.value | downcase
-          if tab_probe contains match_keyword or tab_pt contains match_keyword
-            assign has_match = true
+          for kw_raw in match_keywords
+            assign kw = kw_raw | strip
+            if kw != blank
+              if tab_probe contains kw or tab_pt contains kw
+                assign has_match = true
+                break
+              endif
+            endif
+          endfor
+          if has_match
             break
           endif
         endfor
@@ -170,9 +186,19 @@
                 {%- liquid
                   assign loop_probe = product_tab.title | downcase
                   assign loop_pt = product_tab.metafields.custom.part_type.value | downcase
+                  assign card_match = false
+                  for kw_raw in match_keywords
+                    assign kw = kw_raw | strip
+                    if kw != blank
+                      if loop_probe contains kw or loop_pt contains kw
+                        assign card_match = true
+                        break
+                      endif
+                    endif
+                  endfor
                 -%}
                 {% if block.settings.tab_name != blank %}
-                  {% if loop_probe contains match_keyword or loop_pt contains match_keyword %}
+                  {% if card_match %}
                     {% assign shown = shown | plus: 1 %}
                     {% assign skip_card_product_styles = true %}
                     <li>
@@ -446,8 +472,8 @@
         {
           "type": "text",
           "id": "match_keyword",
-          "label": "Product match keyword",
-          "info": "Products whose title or Part Type metafield contains this (case-insensitive) appear in the tab. Defaults to the tab name, e.g. Engine"
+          "label": "Product match keywords",
+          "info": "Comma-separated, e.g. Engine, Motor, Long Block. Products whose title or Part Type contains any of these (case-insensitive) appear in the tab. Defaults to the tab name"
         },
         {
           "type": "collection",
