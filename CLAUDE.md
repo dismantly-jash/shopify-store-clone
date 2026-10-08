@@ -11,7 +11,7 @@ id **`158937645248`**. Update it with
 `shopify theme push --store=417motoring-zahnadke --theme=158937645248`. The live
 theme is still the default **Horizon** (`#156476473536`) until someone publishes
 417 Motoring. `theme dev` runs on its own development theme (`158904582336`).
-Last pushed to the live theme at `5b0dc94` (black benefit icon assets), 2026-10-07.
+Last pushed to the live theme at `2b2a817` (tab grid keyword lists), 2026-10-08.
 417 Motoring was published on 2026-10-06, so it is **live**: pushes need
 `--allow-live`, and pull-before-push applies from now on.
 
@@ -226,6 +226,14 @@ vehicle cards** (Recently Listed, tab grid, Currently Dismantling), because the
 store has no listings. Those sections read the collections `parts` and `vehicle`
 and the `custom.make`/`part_type` metafields. The make filters assume Corvette is
 stored as Chevrolet, GTR as Nissan and BMW M Sport as BMW.
+**Tab grid keywords** (`2b2a817`): each tab's "Product match keywords" field
+(theme editor → Home page → Tabbed product grid → the tab) takes a comma-separated
+list, e.g. `Engine, Motor, Long Block`. A part shows if its title or `custom.part_type`
+contains any of the words, ignoring case. The current values are `Engine`,
+`Transmission`, `light`, `ECU` and `Exterior`. The client edits these. Limit:
+without a collection picked, each tab scans `collections.all.products`, which Liquid
+caps at the first 50 products. Once there are real listings, give each tab an
+automated collection (rule: Part type contains …) in admin.
 Traps hit on the home page:
 - Figma read the **Australian Auto Parts** file twice after the user touched it,
   even from a separate window. Check every read's content for 417 (red, US) and
