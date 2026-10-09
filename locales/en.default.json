@@ -273,6 +273,7 @@
         "one": "{{ count }} Product",
         "other": "1 - {{ count }} Products"
       },
+      "results_with_count_zero": "0 Products",
       "results_with_count_and_term": {
         "one": "{{ count }} result found for “{{ terms }}”",
         "other": "{{ count }} results found for “{{ terms }}”"

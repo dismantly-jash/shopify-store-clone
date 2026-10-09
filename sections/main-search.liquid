@@ -608,7 +608,9 @@
                   <span id="ProductCountDesktop">
                     {%- if page_out_of_range -%}
                       Page {{ paginate.current_page }} is past the end of these results
-                    {%- elsif search.results_count -%}
+                    {%- elsif search.results_count == 0 -%}
+                      Showing {{ 'templates.search.results_with_count_zero' | t }}
+                    {%- elsif search.results_count > 0 -%}
                       Showing
                       {{ 'templates.search.results_with_count' | t: terms: search.terms, count: search.results_count }}
                     {%- elsif search.products_count == search.all_products_count -%}

@@ -612,7 +612,11 @@
           <div class="product-count light" role="status">
             <h2 class="product-count__text text-body">
               <span id="ProductCountDesktop">
-                {%- if results.results_count -%}
+                {%- comment -%} 417: Liquid treats 0 as true, so a bare `if results_count`
+                  printed "1 - 0 Products" on an empty search. {%- endcomment -%}
+                {%- if results.results_count == 0 -%}
+                  {{ 'templates.search.results_with_count_zero' | t }}
+                {%- elsif results.results_count > 0 -%}
                   {{ 'templates.search.results_with_count' | t: terms: results.terms, count: results.results_count }}
                 {%- elsif results.products_count == results.all_products_count -%}
                   {{ 'products.facets.product_count_simple' | t: count: results.products_count }}
@@ -691,7 +695,11 @@
                   {%- endif -%}
                 </h2>
                 <p class="mobile-facets__count">
-                  {%- if results.results_count -%}
+                  {%- comment -%} 417: Liquid treats 0 as true, so a bare `if results_count`
+                    printed "1 - 0 Products" on an empty search. {%- endcomment -%}
+                  {%- if results.results_count == 0 -%}
+                    {{ 'templates.search.results_with_count_zero' | t }}
+                  {%- elsif results.results_count > 0 -%}
                     {{ 'templates.search.results_with_count' | t: terms: results.terms, count: results.results_count }}
                   {%- elsif results.products_count == results.all_products_count -%}
                     {{ 'products.facets.product_count_simple' | t: count: results.products_count }}
@@ -1115,7 +1123,11 @@
   >
     <h2 class="product-count__text text-body">
       <span id="ProductCount">
-        {%- if results.results_count -%}
+        {%- comment -%} 417: Liquid treats 0 as true, so a bare `if results_count`
+          printed "1 - 0 Products" on an empty search. {%- endcomment -%}
+        {%- if results.results_count == 0 -%}
+          {{ 'templates.search.results_with_count_zero' | t }}
+        {%- elsif results.results_count > 0 -%}
           {{ 'templates.search.results_with_count' | t: terms: results.terms, count: results.results_count }}
         {%- elsif results.products_count == results.all_products_count -%}
           {{ 'products.facets.product_count_simple' | t: count: results.products_count }}
