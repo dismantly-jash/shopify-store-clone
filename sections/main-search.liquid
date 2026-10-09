@@ -400,7 +400,40 @@
             assign active_filter_count = active_filter_count | plus: search_filter.active_values.size
           endfor
         -%}
-        {%- if active_filter_count > 0 -%}
+        {%- comment -%} Spares Plus (CLI-927): Shopify only returns a filter value,
+          and so an active chip, when at least one product carries it. A make
+          link for a make with no stock yet (BMW on the test catalogue) is
+          applied - that is why it finds nothing - but Shopify sends no chip for
+          it, so the customer can't see or drop what they searched. Read the
+          make(s) from the URL and add a chip for any Shopify didn't return. Once
+          that make has stock, Shopify's own chip appears and this adds nothing.
+          query_pairs and url_path come from the page-size block above. {%- endcomment -%}
+        {%- liquid
+          assign make_param = 'filter.p.m.custom.make'
+          assign make_filter_label = 'Select Make'
+          assign shopify_makes = '|'
+          for search_filter in search.filters
+            if search_filter.param_name == make_param
+              assign make_filter_label = search_filter.label
+              for value in search_filter.active_values
+                assign shopify_makes = shopify_makes | append: value.value | downcase | append: '|'
+              endfor
+            endif
+          endfor
+          assign url_only_makes = ''
+          for pair in query_pairs
+            assign pair_key = pair | split: '=' | first
+            if pair_key == make_param
+              assign pair_value = pair | split: '=' | last | url_decode
+              assign pair_probe = '|' | append: pair_value | downcase | append: '|'
+              unless pair_value == blank or shopify_makes contains pair_probe
+                assign url_only_makes = url_only_makes | append: pair | append: '||'
+              endunless
+            endif
+          endfor
+          assign url_only_make_pairs = url_only_makes | split: '||'
+        -%}
+        {%- if active_filter_count > 0 or url_only_make_pairs.size > 0 -%}
           {%- comment -%} Built with `assign`, not `capture`: a captured URL picks
             up the template's own newlines and indentation, and `strip` only
             trims the ends, so the href ends up with a literal newline inside
@@ -415,6 +448,32 @@
             endif
           -%}
           <div class="active-facets active-facets--empty-state">
+            {%- for make_pair in url_only_make_pairs -%}
+              {%- liquid
+                assign make_label = make_pair | split: '=' | last | url_decode
+                assign make_kept = ''
+                for pair in query_pairs
+                  assign pair_key = pair | split: '=' | first
+                  unless pair == make_pair or pair_key == 'page' or pair_key == 'page_size' or pair_key == '_fd' or pair_key == 'pb'
+                    if make_kept == ''
+                      assign make_kept = pair
+                    else
+                      assign make_kept = make_kept | append: '&' | append: pair
+                    endif
+                  endunless
+                endfor
+                assign make_remove_url = url_path | append: '?' | append: make_kept
+              -%}
+              <a href="{{ make_remove_url }}" class="active-facets__button active-facets__button--light">
+                <span class="active-facets__button-inner button button--tertiary">
+                  {{ make_filter_label | escape }}: {{ make_label | escape }}
+                  <span class="svg-wrapper">
+                    {{- 'icon-close-small.svg' | inline_asset_content -}}
+                  </span>
+                  <span class="visually-hidden">{{ 'products.facets.clear_filter' | t }}</span>
+                </span>
+              </a>
+            {%- endfor -%}
             {%- for search_filter in search.filters -%}
               {%- for value in search_filter.active_values -%}
                 {%- liquid
