@@ -890,3 +890,25 @@
     font-size: 15px;
   }
 }
+
+/* 417 card pass (Figma 18046:6972 Recently Listed, 22012:5017 tab grid, 18046:7951
+   Similar Parts): 28px amber badge 16px from the top, description at normal line
+   height, and a borderless 48px red Buy Now with a 2px shadow. The buy button is an
+   <a>, which stayed content-box outside the tab grid, so its padding and border
+   made it 174x50 next to a 157px Add to Cart. */
+.product-card-wrapper .card-product__badge {
+  top: 14px;
+  right: 11px;
+}
+.product-card-wrapper .card-product__badge .badge {
+  border: 0;
+  line-height: 24px;
+}
+.product-grid .card__information .card-custom-description {
+  line-height: 1.2;
+}
+.product-card-wrapper .quick-add .custom_buy_it_now_btn {
+  box-sizing: border-box;
+  border: 0;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+}

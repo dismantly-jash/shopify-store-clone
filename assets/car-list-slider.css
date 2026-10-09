@@ -257,3 +257,34 @@
   font-size: 16px;
   line-height: 1.5;
 }
+
+/* 417 (Figma 18046:7074): 400x270 photo, hairline border with a 0 4px 6px shadow,
+   18px grey description flush under the title, 40px between the two rows (the
+   card keeps its 10px bottom margin so the shadow isn't clipped). */
+.product-card-list__slider .card_media {
+  padding-bottom: 67.5%;
+}
+.product-card-list__slider .card__inner {
+  border: 1px solid #eaeaea;
+  box-shadow: 0 4px 6px rgba(40, 55, 0, 0.2);
+}
+@media screen and (min-width: 990px) {
+  .product-card-list__slider .car_detail_list .featured-car-slide-inner {
+    gap: 30px;
+  }
+}
+.product-card-list__slider .card__inner .desc_text,
+.product-card-list__slider .card__inner .desc_text * {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #585858;
+}
+@media screen and (max-width: 580px) {
+  .product-card-list__slider .card__inner .desc_text,
+  .product-card-list__slider .card__inner .desc_text * {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+}

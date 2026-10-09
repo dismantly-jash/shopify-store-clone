@@ -221,9 +221,13 @@ store binding) was not copied.
 ✅ **Home page** (`4fb5b95`…`3a03390`, 2026-10-06): every section matched to
 `18046-6572` at 1440 (positions within ~2px) and checked at 375. All images are
 committed theme assets named `417-*` (hero, tab banners, make cars, tow truck) or
-`make-*.png` (logo strip). The only things not compared yet are the **product and
-vehicle cards** (Recently Listed, tab grid, Currently Dismantling), because the
-store has no listings. Those sections read the collections `parts` and `vehicle`
+`make-*.png` (logo strip). ✅ **Cards** (2026-10-09, styling only, against test
+listings): part cards (`18046:6972` Recently Listed, `22012:5017` tab grid, same
+component in search, Similar Parts and Available Parts) and the vehicle card
+(`18046:7074` Currently Dismantling) match at 1440 and were checked at 375. Card
+buttons read **"Buy Now"** (the part page's own button stays "Buy It Now", as in
+`18046-7707`). Photos that `cover` would over-crop are letterboxed on purpose
+(CLI-655). Those sections read the collections `parts` and `vehicle`
 and the `custom.make`/`part_type` metafields. The make filters assume Corvette is
 stored as Chevrolet, GTR as Nissan and BMW M Sport as BMW.
 **Tab grid keywords** (`2b2a817`): each tab's "Product match keywords" field
