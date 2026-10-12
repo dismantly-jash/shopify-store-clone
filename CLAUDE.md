@@ -11,7 +11,7 @@ id **`158937645248`**. Update it with
 `shopify theme push --store=417motoring-zahnadke --theme=158937645248`. The live
 theme is still the default **Horizon** (`#156476473536`) until someone publishes
 417 Motoring. `theme dev` runs on its own development theme (`158904582336`).
-Last pushed to the live theme at `8a7fe68` (make chip on no-results searches, SparesPlus e9f985d), 2026-10-09.
+Last pushed to the live theme at `a00829d` (cards to Figma, 0 Products count, CLI-942 Description row, CLI-943 Returns nav), 2026-10-12.
 417 Motoring was published on 2026-10-06, so it is **live**: pushes need
 `--allow-live`, and pull-before-push applies from now on.
 
