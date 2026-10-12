@@ -1678,10 +1678,11 @@ setInterval(function () {
       .addClass('is-submited');
   }
 }, 300);
-// Spares Plus: see the [data-modal] note above. Returns matters most here - its menu
-// URL is a real page, so a failed match navigates instead of opening the modal and
-// the breakage is invisible.
-$(document).on('click', '.link[href="#returns"], [data-modal="returns"], #HeaderMenu-returns, #HeaderDrawer-returns', function(e){
+// 417 (CLI-943): the nav Returns item is a link to the Returns & Refunds page, so it
+// is not bound here any more (no #HeaderMenu-returns / #HeaderDrawer-returns / href
+// fallbacks). Only an explicit [data-modal="returns"] trigger opens the form, which is
+// the File a Return button on that page (templates/page.returns-policy.json).
+$(document).on('click', '[data-modal="returns"]', function(e){
   e.preventDefault();
   $('#product-return__popup').addClass('is-active');
   $('.theme-overlay').addClass('is-active');

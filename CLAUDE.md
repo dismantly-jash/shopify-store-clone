@@ -352,8 +352,10 @@ The full procedure is the Linear doc **Setup Shopify store**
    `custom.model`, `custom.year`, `custom.part_type` and `custom.type`. Without it,
    every `filter.p.m.custom.*` URL is inert.
 3. **Navigation**: Home / Parts / Vehicles / Contact Us / Sell My Car / Returns. Sell My
-   Car and Returns are modal triggers: give them `#` as the URL, never a page, or the
-   header highlights them on that page (CLI-570).
+   Car is a modal trigger: give it `#` as the URL, never a page, or the header
+   highlights it on that page (CLI-570). **Returns is a page** (CLI-943, the client's
+   call): point the menu item at the Returns & Refunds page; its File a Return button
+   opens the form. The header no longer binds the Returns item to the modal.
    The footer reads three more menus by handle (`sections/footer-group.json`):
    - `shop`: Shop Parts, Currently Dismantling
    - `contact`: Contact Us, Warranty, Shipping & Delivery

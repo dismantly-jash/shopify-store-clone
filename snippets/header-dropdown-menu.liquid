@@ -62,15 +62,32 @@
           data-modal is emitted here instead, so the binding travels with the markup. The
           URL sentinel (#returns / #sell-my-car) is the stable identifier - a title can be
           renamed freely, a URL is set deliberately. Handle matching is kept as a fallback
-          so nothing breaks before the menu URLs are updated in admin. {%- endcomment -%}
+          so nothing breaks before the menu URLs are updated in admin.
+
+          417 (CLI-943): Returns is a destination here, not a modal. The nav item points
+          at the Returns & Refunds page, and that page's File a Return button
+          (data-modal="returns") opens the form. So Returns is no longer matched as a
+          modal and takes the active state like any other page; only Sell My Car is. If the
+          menu item still carries the old bare `#`, the href falls back to the page with
+          handle `returns`, so the link works before the admin menu is updated. {%- endcomment -%}
         {%- liquid
           assign link_modal = ''
-          if link.url contains '#returns' or link.handle == 'returns'
-            assign link_modal = 'returns'
-          elsif link.url contains '#sell-my-car' or link.handle == 'sell-my-car'
+          if link.url contains '#sell-my-car' or link.handle == 'sell-my-car'
             assign link_modal = 'estimate'
           endif
+          assign link_href = link.url
+          if link.handle == 'returns' or link.url contains '#returns'
+            if link.url == '#' or link.url contains '#returns'
+              assign returns_page = pages['returns']
+              if returns_page.url != blank
+                assign link_href = returns_page.url
+              endif
+            endif
+          endif
           assign link_current = link.current
+          if link_href == request.path
+            assign link_current = true
+          endif
           if link_modal != ''
             assign link_current = false
           endif
@@ -149,7 +166,7 @@
         {%- else -%}
           <a
             id="HeaderMenu-{{ link.handle }}"
-            href="{{ link.url }}"
+            href="{{ link_href }}"
             {% if link_modal != '' %}data-modal="{{ link_modal }}"{% endif %}
             class="header__menu-item list-menu__item link link--text focus-inset"
             {% if link_current or is_part_link and part_filter_active %}
