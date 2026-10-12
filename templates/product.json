@@ -87,8 +87,8 @@
             "table_details_description_16": "{{ product.metafields.custom.fuel_type.value }}",
             "table_detail_title_17": "Transmission Number",
             "table_details_description_17": "",
-            "table_detail_title_18": "Description",
-            "table_details_description_18": "{{ product.description }}"
+            "table_detail_title_18": "",
+            "table_details_description_18": ""
           }
         },
         "seller_details_awPMTe": {
