@@ -1889,38 +1889,6 @@ document.addEventListener('click', function (event) {
 });
 document.addEventListener('DOMContentLoaded', syncProductGalleryArrows);
 
-// Spares Plus (CLI-655): card photos fill a fixed 4:3 band with object-fit: cover.
-// That suits the usual landscape shot, but a portrait photo loses ~44% of its
-// height top and bottom, and a panorama as much from its sides. Letterbox only
-// those: when cover would trim more than a fifth of the photo, show all of it.
-//
-// Decided per image on load rather than in Liquid because card photos render
-// three ways (card-product, card-car-product, and the API-built Similar Parts),
-// and a capturing load listener also reaches cards added later - facet
-// re-renders, Similar Parts, hidden tab panes.
-var CARD_IMAGE_SELECTOR = '.card__media .media img, .card_media .media img';
-var CARD_IMAGE_MAX_CROP = 0.2;
-
-function fitCardImage(img) {
-  if (!img.naturalWidth || !img.naturalHeight) return;
-  var box = img.parentElement.getBoundingClientRect();
-  // Images in a hidden tab pane measure 0x0; both card grids use a 4:3 band.
-  var frame = box.width && box.height ? box.width / box.height : 4 / 3;
-  var photo = img.naturalWidth / img.naturalHeight;
-  var cropped = 1 - Math.min(photo / frame, frame / photo);
-  img.classList.toggle('card-image--letterbox', cropped > CARD_IMAGE_MAX_CROP);
-}
-
-document.addEventListener('load', function (event) {
-  var img = event.target;
-  if (img.tagName === 'IMG' && img.matches(CARD_IMAGE_SELECTOR)) fitCardImage(img);
-}, true);
-document.addEventListener('DOMContentLoaded', function () {
-  document.querySelectorAll(CARD_IMAGE_SELECTOR).forEach(function (img) {
-    if (img.complete) fitCardImage(img);
-  });
-});
-
 // $(document).on('click', '.header-cart__icon', function(e) {
 //   e.preventDefault();
 //   const event = new MouseEvent('click', { bubbles: true, cancelable: true });

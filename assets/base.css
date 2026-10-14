@@ -4792,16 +4792,6 @@ a.request_quote.button {
   overflow: hidden !important;
 }
 
-/* Spares Plus (CLI-655): set by fitCardImage() in global.js on card photos that
-   object-fit: cover would crop by more than a fifth. The ground is on the image
-   itself, not the .media wrapper, because the wrappers differ - transparent on
-   product cards, 10% grey on vehicle cards - and the bars should match. */
-.card__media .media img.card-image--letterbox,
-.card_media .media img.card-image--letterbox {
-  object-fit: contain;
-  background-color: #f4f4f4;
-}
-
 /* 417: the search modal inherits the header's old dark colour scheme, which hid its
    black close icon on mobile. The 417 header is white, so the modal is too. */
 .header .search-modal.modal__content {
