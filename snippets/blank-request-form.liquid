@@ -223,12 +223,25 @@
               {%- comment -%} CLI-953 (Spares Plus 64a6404, CLI-952): opened from a search
                 with no results there is no product, so every prefilled field above drops
                 out and the form asked only for a part category - a lead nobody could act
-                on. Ask for the vehicle instead. Same contact[] names as the prefilled
-                fields, so both kinds of request arrive in the same shape. Make and Model
-                are required: without them the request can't be matched to anything. {%- endcomment -%}
+                on. Ask for the vehicle instead: the same six fields as the Figma modal
+                (18046-9751), editable, with its labels and placeholders. Same contact[]
+                names as the prefilled fields, so both kinds of request arrive in the same
+                shape. Brand and Model Name are required: without them the request can't
+                be matched to anything. {%- endcomment -%}
               {%- if product == blank -%}
               <div class="field one-half">
-                <label class="field__label" for="ProductForm-custom-request-year">Year</label>
+                <label class="field__label" for="ProductForm-custom-request-part-number">Part Number</label>
+                <input
+                  type="text"
+                  id="ProductForm-custom-request-part-number"
+                  class="field__input"
+                  name="contact[Part Number]"
+                  maxlength="60"
+                  placeholder="AUZ-1298"
+                >
+              </div>
+              <div class="field one-half">
+                <label class="field__label" for="ProductForm-custom-request-year">Manufacture Year</label>
                 <input
                   type="text"
                   id="ProductForm-custom-request-year"
@@ -237,32 +250,54 @@
                   maxlength="4"
                   inputmode="numeric"
                   pattern="[0-9]{4}"
-                  title="A four-digit year, e.g. 2020"
-                  placeholder="2020"
+                  title="A four-digit year, e.g. 2018"
+                  placeholder="2018"
                 >
               </div>
               <div class="field one-half">
-                <label class="field__label" for="ProductForm-custom-request-make">Make *</label>
+                <label class="field__label" for="ProductForm-custom-request-make">Brand *</label>
                 <input
                   type="text"
                   id="ProductForm-custom-request-make"
                   class="field__input"
                   name="contact[Make]"
                   maxlength="60"
-                  placeholder="BMW"
+                  placeholder="Audi"
                   required
                 >
               </div>
               <div class="field one-half">
-                <label class="field__label" for="ProductForm-custom-request-model">Model *</label>
+                <label class="field__label" for="ProductForm-custom-request-model">Model Name *</label>
                 <input
                   type="text"
                   id="ProductForm-custom-request-model"
                   class="field__input"
                   name="contact[Model]"
                   maxlength="60"
-                  placeholder="5 Series"
+                  placeholder="A3"
                   required
+                >
+              </div>
+              <div class="field one-half">
+                <label class="field__label" for="ProductForm-custom-request-series">Model Series</label>
+                <input
+                  type="text"
+                  id="ProductForm-custom-request-series"
+                  class="field__input"
+                  name="contact[Series]"
+                  maxlength="60"
+                  placeholder="Premium Plus"
+                >
+              </div>
+              <div class="field one-half">
+                <label class="field__label" for="ProductForm-custom-request-vin">Vehicle Identification Number (VIN)</label>
+                <input
+                  type="text"
+                  id="ProductForm-custom-request-vin"
+                  class="field__input"
+                  name="contact[VIN]"
+                  maxlength="17"
+                  placeholder="AUZ0987654321AA"
                 >
               </div>
               {%- endif -%}
