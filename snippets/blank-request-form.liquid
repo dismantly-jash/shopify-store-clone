@@ -220,6 +220,52 @@
                 >
               </div>
               {%- endif -%}
+              {%- comment -%} CLI-953 (Spares Plus 64a6404, CLI-952): opened from a search
+                with no results there is no product, so every prefilled field above drops
+                out and the form asked only for a part category - a lead nobody could act
+                on. Ask for the vehicle instead. Same contact[] names as the prefilled
+                fields, so both kinds of request arrive in the same shape. Make and Model
+                are required: without them the request can't be matched to anything. {%- endcomment -%}
+              {%- if product == blank -%}
+              <div class="field one-half">
+                <label class="field__label" for="ProductForm-custom-request-year">Year</label>
+                <input
+                  type="text"
+                  id="ProductForm-custom-request-year"
+                  class="field__input"
+                  name="contact[Year]"
+                  maxlength="4"
+                  inputmode="numeric"
+                  pattern="[0-9]{4}"
+                  title="A four-digit year, e.g. 2020"
+                  placeholder="2020"
+                >
+              </div>
+              <div class="field one-half">
+                <label class="field__label" for="ProductForm-custom-request-make">Make *</label>
+                <input
+                  type="text"
+                  id="ProductForm-custom-request-make"
+                  class="field__input"
+                  name="contact[Make]"
+                  maxlength="60"
+                  placeholder="BMW"
+                  required
+                >
+              </div>
+              <div class="field one-half">
+                <label class="field__label" for="ProductForm-custom-request-model">Model *</label>
+                <input
+                  type="text"
+                  id="ProductForm-custom-request-model"
+                  class="field__input"
+                  name="contact[Model]"
+                  maxlength="60"
+                  placeholder="5 Series"
+                  required
+                >
+              </div>
+              {%- endif -%}
             </div>
             <div class="">
               <label class="field__label" for="ProductForm-custom-request-part-type">Part Category *</label>
