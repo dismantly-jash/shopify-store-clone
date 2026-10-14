@@ -42,7 +42,7 @@ Shopify silently drops that setting.
 
 ## As the store-builder source
 
-[store-builder](https://github.com/Dismantly-Engineering/store-builder) builds a new client
+[store-builder](https://github.com/dismantly-jash/store-builder) builds a new client
 store by copying this repo, rebranding it from a config file (colours, images, contact details,
 country, home page lists, page copy, menus, SEO) and pushing the result as an unpublished theme.
 It clones this repo into a folder named `417-motors` and refers to it as `source = "417-motors"`
