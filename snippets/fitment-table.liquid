@@ -1,0 +1,100 @@
+{%- comment -%}
+  INV-5512: the part's fitment list, one row per compatible vehicle.
+
+  Reads `product.metafields.custom.fitment_json` (type json), which the Dismantly
+  backend writes as an array of entries with exactly these keys:
+    is_exact_fitment (true / false / null), make, model, series, sub_model,
+    year_from, month_from, year_to, month_to, year_to_is_now (true = "to Now"),
+    applicable_years (sorted ints), is_donor_vehicle_fitment.
+  The backend never writes `custom.fitment`: this section printed that key raw,
+  so JSON written there showed as plain text on the product page.
+
+  Markup uses the `.fitment_contents` card styles already in product-tab.css.
+
+  Usage: {% render 'fitment-table', entries: product.metafields.custom.fitment_json.value %}
+{%- endcomment -%}
+{%- assign month_names = 'Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec' | split: ',' -%}
+<div class="tab-view-detail">
+  <div class="fitment_contents">
+    {%- for fit in entries -%}
+      {%- liquid
+        assign period_from = ''
+        if fit.year_from
+          assign period_from = fit.year_from | append: ''
+          if fit.month_from
+            assign month_index = fit.month_from | minus: 1
+            assign period_from = month_names[month_index] | append: ' ' | append: fit.year_from
+          endif
+        endif
+
+        assign period_to = ''
+        if fit.year_to_is_now
+          assign period_to = 'Now'
+        elsif fit.year_to
+          assign period_to = fit.year_to | append: ''
+          if fit.month_to
+            assign month_index = fit.month_to | minus: 1
+            assign period_to = month_names[month_index] | append: ' ' | append: fit.year_to
+          endif
+        endif
+
+        if period_from == '' and period_to == '' and fit.applicable_years.size > 0
+          assign period_from = fit.applicable_years.first | append: ''
+          assign period_to = fit.applicable_years.last | append: ''
+        endif
+
+        assign period = period_from
+        if period_to != '' and period_to != period_from
+          if period == ''
+            assign period = period_to
+          else
+            assign period = period | append: ' – ' | append: period_to
+          endif
+        endif
+      -%}
+      <div class="product-tab_flex">
+        <div class="product-tab_details">
+          {%- if fit.make and fit.make != blank -%}
+            <div class="product-details_flex">
+              <p class="product_details_heading">Make</p>
+              <p class="product_details_text">{{ fit.make | escape }}</p>
+            </div>
+          {%- endif -%}
+          {%- if fit.model and fit.model != blank -%}
+            <div class="product-details_flex">
+              <p class="product_details_heading">Model</p>
+              <p class="product_details_text">{{ fit.model | escape }}</p>
+            </div>
+          {%- endif -%}
+          {%- if fit.series and fit.series != blank -%}
+            <div class="product-details_flex">
+              <p class="product_details_heading">Series</p>
+              <p class="product_details_text">{{ fit.series | escape }}</p>
+            </div>
+          {%- endif -%}
+          {%- if fit.sub_model and fit.sub_model != blank -%}
+            <div class="product-details_flex">
+              <p class="product_details_heading">Sub Model</p>
+              <p class="product_details_text">{{ fit.sub_model | escape }}</p>
+            </div>
+          {%- endif -%}
+          {%- if period != '' -%}
+            <div class="product-details_flex">
+              <p class="product_details_heading">Years</p>
+              <p class="product_details_text">{{ period | escape }}</p>
+            </div>
+          {%- endif -%}
+          {%- if fit.is_exact_fitment == true or fit.is_exact_fitment == false -%}
+            <div class="product-details_flex">
+              <p class="product_details_heading">Exact Fitment</p>
+              <p class="product_details_text">{% if fit.is_exact_fitment %}Yes{% else %}No{% endif %}</p>
+            </div>
+          {%- endif -%}
+        </div>
+        {%- if fit.is_donor_vehicle_fitment -%}
+          <span class="donor_vehicle_label">Donor Vehicle</span>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</div>

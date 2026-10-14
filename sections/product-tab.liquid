@@ -71,12 +71,24 @@
                 <p class="fitment-note__caveat">
                   {{ block.settings.fitment_caveat | default: 'Fitment may vary. Please call us with your VIN to confirm compatibility before purchase.' }}
                 </p>
-                {%- if product.metafields.custom.fitment != blank and block.settings.fitment_intro != blank -%}
-                  <p class="fitment-note__intro">{{ block.settings.fitment_intro }}</p>
+                {%- if block.settings.fitment_intro != blank -%}
+                  {%- if product.metafields.custom.fitment_json != blank or product.metafields.custom.fitment != blank -%}
+                    <p class="fitment-note__intro">{{ block.settings.fitment_intro }}</p>
+                  {%- endif -%}
                 {%- endif -%}
               </div>
             {%- endif -%}
-            {% if pages[block.settings.page].content != blank %}
+            {%- comment -%} INV-5512: the fitment list from the Dismantly backend, rendered as
+              a table. It lives in `custom.fitment_json` (json), NOT `custom.fitment`: the
+              generic branch below prints `custom[tab_html]` raw, which would show the JSON
+              as text. With no fitment_json the tab behaves exactly as before. {%- endcomment -%}
+            {%- assign fitment_entries = blank -%}
+            {%- if block.settings.tab_html == 'fitment' -%}
+              {%- assign fitment_entries = product.metafields.custom.fitment_json.value -%}
+            {%- endif -%}
+            {% if fitment_entries != blank %}
+              {% render 'fitment-table', entries: fitment_entries %}
+            {% elsif pages[block.settings.page].content != blank %}
               <div class="tab-view-detail">
                 {{ pages[block.settings.page].content }}
               </div>
