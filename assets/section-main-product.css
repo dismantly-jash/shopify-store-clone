@@ -1836,7 +1836,9 @@ a.product__text {
   border-radius: 0;
 }
 .product .thumbnail[aria-current] {
-  border-color: #c62934;
+  /* the store's accent, not a fixed red: the rebrand can only recolour what
+     follows the theme's colour variables */
+  border-color: var(--accent-color, #c62934);
   padding: 2px;
   border-radius: 0;
   box-shadow: none;
