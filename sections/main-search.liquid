@@ -142,17 +142,21 @@
   }
 
   .section-{{ section.id }} .banner-content{
-    {% if get_part_type == 'part' %}
-      {% if section.settings.image_banner_part != blank %}
-        background-image: url('{{ section.settings.image_banner_part | img_url: 'master' }}');
-      {% else %}
-        background-image: url('{{ 'hero-search-parts.jpg' | asset_url }}');
-      {% endif %}
-    {% elsif get_part_type == 'vehicle' %}
+    {%- comment -%} CLI-956: a typed search with no results has nothing to sniff a
+      scope from, so get_part_type stays blank and neither banner was set: the hero
+      lost its photo. The page already falls back to Parts for the heading
+      (scope_label), so the banner falls back to the parts photo too. {%- endcomment -%}
+    {% if get_part_type == 'vehicle' %}
       {% if section.settings.image_banner_vehicle != blank %}
         background-image: url('{{ section.settings.image_banner_vehicle | img_url: 'master' }}');
       {% else %}
         background-image: url('{{ 'hero-search-vehicles.jpg' | asset_url }}');
+      {% endif %}
+    {% else %}
+      {% if section.settings.image_banner_part != blank %}
+        background-image: url('{{ section.settings.image_banner_part | img_url: 'master' }}');
+      {% else %}
+        background-image: url('{{ 'hero-search-parts.jpg' | asset_url }}');
       {% endif %}
     {% endif %}
     background-position: center;
