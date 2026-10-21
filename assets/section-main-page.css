@@ -251,3 +251,48 @@ body.template-privacy-policy .page-width.custom-content-container .rte > p + p:l
     line-height: 26px;
   }
 }
+/* A table in the page copy (Goldwing's shipping rates, 18046-9356): no vertical
+   rules or fills, a 1px grey rule under every row, 18px black text with the header
+   row and the first column semibold, 12px in from the copy's edges. Narrow screens
+   scroll it sideways rather than squeezing five columns into the phone's width. */
+.page-width.custom-content-container .rte table {
+  width: calc(100% - 24px);
+  margin: 0 12px 46px;
+  table-layout: auto;
+  border-collapse: collapse;
+  border-style: none;
+  box-shadow: none;
+  font-size: 18px;
+  line-height: normal;
+  color: #000;
+}
+.page-width.custom-content-container .rte table th,
+.page-width.custom-content-container .rte table td {
+  padding: 12px 12px 24px 0;
+  border: none;
+  border-bottom: 1px solid #d8d8d8;
+  text-align: left;
+  vertical-align: top;
+  font-weight: 400;
+}
+/* the table's top row (the header, or the first body row when there's none) sits flush */
+.page-width.custom-content-container .rte table > :first-child > tr:first-child > * {
+  padding-top: 0;
+}
+.page-width.custom-content-container .rte table th,
+.page-width.custom-content-container .rte table tr > :first-child {
+  font-weight: 600;
+}
+@media screen and (max-width: 749px) {
+  .page-width.custom-content-container .rte table {
+    display: block;
+    width: 100%;
+    margin: 0 0 40px;
+    overflow-x: auto;
+    font-size: 16px;
+  }
+  .page-width.custom-content-container .rte table th,
+  .page-width.custom-content-container .rte table td {
+    min-width: 140px;
+  }
+}
