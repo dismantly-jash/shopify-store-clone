@@ -189,3 +189,29 @@
     right: 2px !important;
   }
 }
+/* Store Builder reviews (INV-5671): a blank line starts a paragraph and "- " lines a
+   bulleted list. The list is a left-aligned block centred in the card, in the
+   paragraph's type. */
+.testimonial-section .review_text p + p,
+.testimonial-section .review_text p + ul,
+.testimonial-section .review_text ul + p {
+    margin-top: 12px;
+}
+.testimonial-section .review_text ul {
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.2em;
+    list-style: disc;
+    text-align: left;
+}
+.testimonial-section .review_text li {
+    font-size: 18px;
+    line-height: 1.56;
+}
+@media screen and (max-width:749px){
+    .testimonial-section .review_text li {
+        font-size: 16px;
+        line-height: 1.4;
+    }
+}
