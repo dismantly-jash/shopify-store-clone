@@ -7,6 +7,8 @@
   - enable_sorting: {Boolean} Show sorting when true
   - filter_type: {String} Type of filter
   - paginate: {Object}
+  - search_facets_only: {Boolean} (optional) Show only the parts finder's filters
+    (search_facet_params below), whatever else the store's Search & Discovery has
   - show_search_cta: {Boolean} (optional) Render the design's red "Find My Part" /
       "Search Part" (vehicles) submit button after the last dropdown. Opt-in because
       collection pages render this same snippet and must not get a parts CTA.
@@ -25,6 +27,13 @@
   assign facets_page_url = facets_url_probe | split: '"pageurl":"' | last | split: '"' | first
   assign facets_hide_price_sort = false
   assign facets_search_cta = 'Find My Part'
+  comment
+    The search page shows only the parts finder's filters: Year, Make, Model and
+    Part Type, plus the hidden Type that keeps Parts and Vehicles apart. Shopify's
+    Search & Discovery app adds Price and Availability to a new store by default,
+    and they turned up as extra dropdowns in the hero (Goldwing).
+  endcomment
+  assign search_facet_params = 'filter.p.m.custom.year,filter.p.m.custom.make,filter.p.m.custom.model,filter.p.m.custom.part_type,filter.p.m.custom.type' | split: ','
   if facets_page_url contains 'type=VEHICLE' or facets_page_url contains 'type=vehicle'
     assign facets_hide_price_sort = true
     comment
@@ -146,6 +155,7 @@
             <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script>
             {% comment %} Filters for both horizontal and vertical filter {% endcomment %}
             {%- for filter in results.filters -%}
+              {%- if search_facets_only -%}{%- unless search_facet_params contains filter.param_name -%}{%- continue -%}{%- endunless -%}{%- endif -%}
               {% liquid
                 assign total_active_values = total_active_values | plus: filter.active_values.size
                 assign presentation = filter.presentation | default: default_presentation
@@ -718,6 +728,7 @@
             >
               {%- if enable_filtering -%}
                 {%- for filter in results.filters -%}
+                  {%- if search_facets_only -%}{%- unless search_facet_params contains filter.param_name -%}{%- continue -%}{%- endunless -%}{%- endif -%}
                   {% liquid
                     assign presentation = filter.presentation | default: default_presentation
                     if presentation == 'image'
