@@ -1,9 +1,12 @@
+/* 3px either side keeps the cards' borders clear of the slider's overflow: hidden.
+   It sits on the slider, not the track: Swiper sizes slides from the slider's width
+   less its padding, so a padded track pushed the last card 3px past the edge and
+   cut off its right border (Goldwing INV-5764). */
 .featured-collection-slider {
     padding-top: 16px;
     padding-bottom: 40px;
-}
-.featured-collection-slider .product-grid {
     padding-left: 3px;
+    padding-right: 3px;
 }
 .featured-collection-slider .product-grid .featured-slide-inner {
     display: flex;
@@ -54,11 +57,6 @@
         margin-top:20px;
     }
 }
-@media screen and (max-width:1200px){
-    .featured-collection-slider .product-grid {
-        padding-left: 2px;
-    }   
-}
 @media screen and (max-width:749px){
     .featured-collection-slider .product-grid .featured-slide-inner {
         gap: 15px;
@@ -68,9 +66,6 @@
     }
     .section-featured-collection .swiper-button-prev{
         left:12px !important;
-    }
-    .featured-collection-slider .product-grid {
-        padding-left: 3px;
     }
 }
 /* Total Spares rebrand: Swiper grid sizes slides as 50% of an undefined container height,
