@@ -131,7 +131,7 @@
     text-align:left;
 }
 .tabbed-product-grid .product-grid .card-wrapper {
-    box-shadow: 0 0 0 1px #EAEAEA;
+    border-color: #EAEAEA;
 }
 @media screen and (min-width:1081px){
     @media screen and (max-width:1281px){

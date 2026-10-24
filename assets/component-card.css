@@ -584,9 +584,12 @@
 
 
 /* Custom css start  */
+/* A border, not a 1px box-shadow: the shadow sat outside the card, so a slider's
+   overflow: hidden cut it off wherever a card touched the edge, and the bottom
+   row in Recently Listed Parts lost its bottom line (INV-5764). */
 .product-grid .card-wrapper {
   background: #fff;
-  box-shadow: 0 0 0 1px #e1e4ea;
+  border: 1px solid #e1e4ea;
 }
 .product-grid .card-wrapper .card__content{
   padding:20px 32px 32px;
