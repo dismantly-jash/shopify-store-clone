@@ -86,3 +86,9 @@
 .featured-collection-slider .swiper-slide .card-wrapper {
   flex: 1 1 0;
 }
+
+/* Each card ends 2px below its slide (its 1px top and bottom borders), and the slider is
+   overflow: hidden, so the bottom row's bottom border was cut off (INV-5764). */
+.featured-collection-slider .swiper-wrapper {
+    margin-bottom: 2px;
+}
