@@ -69,7 +69,8 @@
           (data-modal="returns") opens the form. So Returns is no longer matched as a
           modal and takes the active state like any other page; only Sell My Car is. If the
           menu item still carries the old bare `#`, the href falls back to the page with
-          handle `returns`, so the link works before the admin menu is updated. {%- endcomment -%}
+          handle `returns`, so the link works before the admin menu is updated. A store with no
+          Returns page at all opens the return form from the menu instead. {%- endcomment -%}
         {%- liquid
           assign link_modal = ''
           if link.url contains '#sell-my-car' or link.handle == 'sell-my-car'
@@ -81,6 +82,12 @@
               assign returns_page = pages['returns']
               if returns_page.url != blank
                 assign link_href = returns_page.url
+              else
+                comment
+                  No Returns page (a Store Builder store gets none): open the return form
+                  itself, or the item goes nowhere (Goldwing).
+                endcomment
+                assign link_modal = 'returns'
               endif
             endif
           endif
