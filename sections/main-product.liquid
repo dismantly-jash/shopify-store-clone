@@ -827,9 +827,11 @@
                     {%- capture superseded_numbers -%}
                       {%- render 'part-number-list', field: product.metafields.custom.superseded_part_numbers -%}
                     {%- endcapture -%}
+                    {%- assign superseded_numbers = superseded_numbers | strip -%}
                     {%- capture interchangeable_numbers -%}
                       {%- render 'part-number-list', field: product.metafields.custom.interchangeable_part_numbers -%}
                     {%- endcapture -%}
+                    {%- assign interchangeable_numbers = interchangeable_numbers | strip -%}
                     {% if superseded_numbers != blank %}
                       <div class="product-info-details">
                         <div class="product-info-title">Supersedes :</div>
@@ -953,9 +955,11 @@
     {%- capture superseded_numbers -%}
       {%- render 'part-number-list', field: product.metafields.custom.superseded_part_numbers -%}
     {%- endcapture -%}
+    {%- assign superseded_numbers = superseded_numbers | strip -%}
     {%- capture interchangeable_numbers -%}
       {%- render 'part-number-list', field: product.metafields.custom.interchangeable_part_numbers -%}
     {%- endcapture -%}
+    {%- assign interchangeable_numbers = interchangeable_numbers | strip -%}
     {%- if superseded_numbers != blank or interchangeable_numbers != blank -%}
       {%- capture part_number_properties -%}
         {%- assign numbers = superseded_numbers | split: ', ' -%}

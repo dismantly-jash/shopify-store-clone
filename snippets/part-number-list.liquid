@@ -1,4 +1,4 @@
-{% comment %}
+{%- comment -%}
   Prints the numbers of a part-number list metafield as "A, B, C", unescaped,
   or nothing. Capture it, then escape for HTML or `json` for JSON-LD.
 
@@ -11,7 +11,7 @@
 
   Accepts:
   - field: {Object} A product metafield
-{% endcomment %}
+{%- endcomment -%}
 {%- liquid
   case field.type
     when 'list.single_line_text_field'
