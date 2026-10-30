@@ -818,6 +818,30 @@
                         {% endif %}
                       {% endif %}
                     {% endfor %}
+                    {%- comment -%}
+                      The numbers this part supersedes or interchanges with (INV-6002). They are
+                      printed on the page so Google and AI search find the part by an old number;
+                      tags and metafields are not crawled. Fixed rows, not settings: a setting
+                      bound to a metafield takes no filters, and a list can't fill a text setting.
+                    {%- endcomment -%}
+                    {%- capture superseded_numbers -%}
+                      {%- render 'part-number-list', field: product.metafields.custom.superseded_part_numbers -%}
+                    {%- endcapture -%}
+                    {%- capture interchangeable_numbers -%}
+                      {%- render 'part-number-list', field: product.metafields.custom.interchangeable_part_numbers -%}
+                    {%- endcapture -%}
+                    {% if superseded_numbers != blank %}
+                      <div class="product-info-details">
+                        <div class="product-info-title">Supersedes :</div>
+                        <div class="product-info-description">{{ superseded_numbers | escape }}</div>
+                      </div>
+                    {% endif %}
+                    {% if interchangeable_numbers != blank %}
+                      <div class="product-info-details">
+                        <div class="product-info-title">Interchangeable with :</div>
+                        <div class="product-info-description">{{ interchangeable_numbers | escape }}</div>
+                      </div>
+                    {% endif %}
                   {% endif %}
                 </div>
               {% when 'product-short-info' %}
@@ -921,6 +945,37 @@
     <script type="application/ld+json">
       {{ product | structured_data }}
     </script>
+    {%- comment -%}
+      The part numbers this part supersedes or interchanges with, on the same product
+      node as structured_data above (same @id and @type), so search engines and AI search
+      read them as the part's own identifiers (INV-6002).
+    {%- endcomment -%}
+    {%- capture superseded_numbers -%}
+      {%- render 'part-number-list', field: product.metafields.custom.superseded_part_numbers -%}
+    {%- endcapture -%}
+    {%- capture interchangeable_numbers -%}
+      {%- render 'part-number-list', field: product.metafields.custom.interchangeable_part_numbers -%}
+    {%- endcapture -%}
+    {%- if superseded_numbers != blank or interchangeable_numbers != blank -%}
+      {%- capture part_number_properties -%}
+        {%- assign numbers = superseded_numbers | split: ', ' -%}
+        {%- for number in numbers -%}
+          {"@type":"PropertyValue","name":"Supersedes part number","value":{{ number | json }}},
+        {%- endfor -%}
+        {%- assign numbers = interchangeable_numbers | split: ', ' -%}
+        {%- for number in numbers -%}
+          {"@type":"PropertyValue","name":"Interchangeable part number","value":{{ number | json }}},
+        {%- endfor -%}
+      {%- endcapture -%}
+      <script type="application/ld+json">
+        {
+          "@context": "http://schema.org/",
+          "@id": {{ product.url | append: '#product' | json }},
+          "@type": {% if product.has_only_default_variant %}"Product"{% else %}"ProductGroup"{% endif %},
+          "additionalProperty": [{{ part_number_properties | remove_last: ',' }}]
+        }
+      </script>
+    {%- endif -%}
   </div>
 </product-info>
 

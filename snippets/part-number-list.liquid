@@ -1,0 +1,37 @@
+{% comment %}
+  Prints the numbers of a part-number list metafield as "A, B, C", unescaped,
+  or nothing. Capture it, then escape for HTML or `json` for JSON-LD.
+
+  Dismantly publishes custom.superseded_part_numbers and
+  custom.interchangeable_part_numbers as a list.single_line_text_field of bare
+  numbers (INV-6002). A store that defined either key as text gets the numbers
+  as text: comma-separated, or one per line. A product last pushed before
+  INV-6002 still holds a JSON dump of {part_number, part_number_clean} entries,
+  which prints nothing rather than raw JSON.
+
+  Accepts:
+  - field: {Object} A product metafield
+{% endcomment %}
+{%- liquid
+  case field.type
+    when 'list.single_line_text_field'
+      echo field.value | join: ', '
+    when 'single_line_text_field', 'multi_line_text_field'
+      assign text = field.value | strip
+      assign first_character = text | slice: 0
+      unless first_character == '[' or first_character == '{'
+        assign entries = text | newline_to_br | replace: '<br />', ',' | strip_newlines | split: ','
+        assign numbers = ''
+        for entry in entries
+          assign number = entry | strip
+          if number != blank
+            if numbers != blank
+              assign numbers = numbers | append: ', '
+            endif
+            assign numbers = numbers | append: number
+          endif
+        endfor
+        echo numbers
+      endunless
+  endcase
+-%}
