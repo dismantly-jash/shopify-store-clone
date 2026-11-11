@@ -312,7 +312,7 @@
       assign first_page_url = base_query_url
     endif
   -%}
-  <div class="template-search {{ class_name }} {% unless search.performed and search.results_count > 0 %} template-search--empty{% endunless %} section-{{ section.id }} section-{{ section.id }}-padding">
+  <div class="template-search {{ class_name }} {% unless search.performed and search.results_count > 0 %} template-search--empty{% endunless %}{% if search.filters == empty %} template-search--no-filters{% endif %} section-{{ section.id }} section-{{ section.id }}-padding">
     <div class="banner-content">
       <div class="content">
         <div class="content_inner">

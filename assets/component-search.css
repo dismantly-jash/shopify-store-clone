@@ -484,3 +484,14 @@ input::-webkit-search-decoration {
 .product-card-wrapper .quick-add .vehicle-btns .vehicles_detail {
   min-height: 48px;
 }
+
+/* No Search & Discovery filters: the results heading bar above (count and sort) is
+   not rendered, and it was the only spacing between the hero and the first card. */
+.template-search--no-filters #ProductGridContainer {
+  padding-top: 24px;
+}
+@media screen and (min-width: 750px) {
+  .template-search--no-filters #ProductGridContainer {
+    padding-top: 40px;
+  }
+}
